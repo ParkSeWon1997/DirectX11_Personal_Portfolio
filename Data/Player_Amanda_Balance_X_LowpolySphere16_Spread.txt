@@ -1,0 +1,50 @@
+MeshName :
+LowpolySphere16
+Instance :
+6
+OffsetPos.x :
+0.877
+OffsetPos.y :
+3.509
+OffsetPos.z :
+2.609
+PivotPos.x :
+0
+PivotPos.y :
+6.14
+PivotPos.z :
+0
+Range.x :
+2.632
+Range.y :
+3.509
+Range.z :
+2.609
+Size.x :
+3.371
+Size.y :
+3.571
+Speed.x :
+3.812
+Speed.y :
+4.505
+LifeTime.x :
+0.774
+LifeTime.y :
+1.318
+IsLoop :
+0
+TargetPos.x :
+0
+TargetPos.y :
+0
+TargetPos.z :
+0
+TypeIndex :
+0
+X_Size :
+0
+Y_Size :
+0
+Z_Size :
+0

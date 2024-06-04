@@ -1,0 +1,44 @@
+MeshName :
+hitRing.001
+Instance :
+1
+OffsetPos.x :
+0
+OffsetPos.y :
+0
+OffsetPos.z :
+0
+PivotPos.x :
+0
+PivotPos.y :
+0
+PivotPos.z :
+0
+Range.x :
+0
+Range.y :
+0
+Range.z :
+0
+Size.x :
+1.602
+Size.y :
+1.868
+Speed.x :
+1.436
+Speed.y :
+1.814
+LifeTime.x :
+1.326
+LifeTime.y :
+1.374
+IsLoop :
+0
+TargetPos.x :
+25.438
+TargetPos.y :
+0
+TargetPos.z :
+0.87
+TypeIndex :
+0

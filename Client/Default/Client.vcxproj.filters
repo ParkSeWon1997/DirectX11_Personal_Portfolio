@@ -1,0 +1,646 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="99.Headers">
+      <UniqueIdentifier>{b8bca424-35b4-43ec-8635-e62e80472507}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Default">
+      <UniqueIdentifier>{8b85b4d8-c4ab-4401-96d1-ed34d20c6803}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.MainApp">
+      <UniqueIdentifier>{138242b2-210b-4f34-9eb9-275124a4094b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels">
+      <UniqueIdentifier>{01a9bdb9-d9a2-4e3f-9b3c-0c632c312f6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\99.Loading">
+      <UniqueIdentifier>{c7b3dfd9-bd5f-44c2-98e8-6085c55c01e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\01.Logo">
+      <UniqueIdentifier>{11331aa0-1a11-4059-855d-11e2d11cc393}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\02.GamePlay">
+      <UniqueIdentifier>{28055c07-1ad6-4ca6-a135-140a4e2964e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\99.Loading\Loader">
+      <UniqueIdentifier>{ca0383b7-34cd-40b6-9c51-87a7545db2d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects">
+      <UniqueIdentifier>{b7203fcb-fbf5-4f2c-9aee-e21ba549be68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\00.BackGround">
+      <UniqueIdentifier>{118212d2-88e2-4e51-9900-8d7afeabd6e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.ShaderFiles">
+      <UniqueIdentifier>{958f698f-dd90-41d7-bb5c-9f21a8916356}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.Camers">
+      <UniqueIdentifier>{76ad73bb-b076-4596-bcf9-4cd613663360}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.Camers\Free">
+      <UniqueIdentifier>{0c037ddb-f937-42d8-bd6d-e3d8f1af58f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject">
+      <UniqueIdentifier>{3860bd37-f39f-4eb4-8ef7-351a92b6bce3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\02.Monster%28for_Anim%29">
+      <UniqueIdentifier>{40ee4771-469c-4e3f-8fbb-f5b0e0a5f6fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\03. Monster%28for_NonAnim%29">
+      <UniqueIdentifier>{6ef548e3-d9ae-4be5-a535-424db2fdedaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\03. Player">
+      <UniqueIdentifier>{0043cd23-b363-44a7-be23-b75388a3c91d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="80. FSM">
+      <UniqueIdentifier>{685355b0-3c1c-4a68-b21c-00ac2fdb10fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="80. FSM\01.State">
+      <UniqueIdentifier>{1e0538c1-c586-4950-bac9-7d10462bdb55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="81.Behavior">
+      <UniqueIdentifier>{cf969cc4-4846-4fba-bc7c-df6bffb6bdef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="81.Behavior\01.Node">
+      <UniqueIdentifier>{4680e49e-d7b3-4b22-b8b8-efe0308e7b4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\01.Stage">
+      <UniqueIdentifier>{1c6b6f89-0d9e-4115-a5c9-11d02ba44381}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\03.Terrain">
+      <UniqueIdentifier>{ed2dbd76-33a5-4980-9df3-580a42d076cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.Camers\PlayerCamera">
+      <UniqueIdentifier>{ae3ac36c-9169-48a7-b0fe-51667814acab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\03. Monster%28for_NonAnim%29\ForkLift">
+      <UniqueIdentifier>{d537bc94-1696-4739-a810-b1a415a302b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\03. Monster%28for_NonAnim%29\Environment_Object">
+      <UniqueIdentifier>{a102cea5-38a4-4bf5-a05d-47fc47ce3ad3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\01. BossMonster">
+      <UniqueIdentifier>{0c1d895b-ce92-4739-92eb-123b0688c44f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\02. NormalMonster">
+      <UniqueIdentifier>{a89d8da2-170b-450c-a984-224f2579bd8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\04. Sky">
+      <UniqueIdentifier>{a1f0abc7-d9fb-479b-9d86-c80f1ee3ebf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\PartObject">
+      <UniqueIdentifier>{a80d6fd1-7cb1-4418-a4ae-51a9b0cef5e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\03. Player\Body">
+      <UniqueIdentifier>{687f4edf-5bf2-4bdd-80e2-d256ec034985}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\PartObject\01. Player">
+      <UniqueIdentifier>{a9fbfe6d-351b-473e-867f-effb20c608aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\PartObject\01. Player\Weapon">
+      <UniqueIdentifier>{db44d7fa-79e9-45ce-8cc1-c302b6ea121a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\PartObject\02. Monster">
+      <UniqueIdentifier>{1cfbe97e-fe4d-42a2-8cb4-bc812be7c74a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\PartObject\02. Monster\Deco">
+      <UniqueIdentifier>{8219a752-ffb1-4f0d-a439-9cf594b90a66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\PartObject\02. Monster\BoneCollider">
+      <UniqueIdentifier>{b107cb20-dcea-4753-b04e-563c6eaac0a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\03. Monster%28for_NonAnim%29\Environment_Object\Interaction">
+      <UniqueIdentifier>{eb1cbb08-2c80-4636-98e9-0280412ca866}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. Time">
+      <UniqueIdentifier>{ee53f5a0-9ec3-445b-8c92-c8dd57e71f2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\02. NormalMonster\NewMoldMobile">
+      <UniqueIdentifier>{4d7e7d4c-edb7-43b1-b328-baece39eddc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\02. NormalMonster\NewMoldMobile\MiniBoss">
+      <UniqueIdentifier>{48cbb14e-d7ab-45ce-8cdb-93073830d342}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\02. NormalMonster\NewMoldMobile\NewMold">
+      <UniqueIdentifier>{b7114f74-c6ca-4968-8614-c5dc3201b1f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\02. NormalMonster\NewMoldMobile\NewMold\01. NewMold_C">
+      <UniqueIdentifier>{c70d7fd2-8954-49f4-b0ae-a684e15b3942}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\02. NormalMonster\NewMoldMobile\NewMold\02. NewMold_D">
+      <UniqueIdentifier>{cc253470-dfe6-49d9-b8cc-fc7ed330f436}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\02. NormalMonster\NewMoldMobile\MiniBoss\01. MiniBoss_B">
+      <UniqueIdentifier>{55f2df89-80b4-49a4-afd8-42d155b924ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\01. BossMonster\01. Boss_B">
+      <UniqueIdentifier>{0ea88ce2-95df-4b35-8d6a-3183e72920e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\01. BossMonster\02. Boss_D">
+      <UniqueIdentifier>{11ef7322-f2ae-427f-8b16-d3c1a7f39e09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\01. BossMonster\03. Boss_C">
+      <UniqueIdentifier>{d182534b-05e6-4cb9-a333-03bebe656a76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\06. Effect">
+      <UniqueIdentifier>{5eb9a759-f861-419b-a836-ec58b0d8df2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\01. BossMonster\01. Boss_B\Bullet">
+      <UniqueIdentifier>{4de67cfe-165f-4dfe-84bf-a25b010fa9d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\01. BossMonster\03. Boss_C\Bullet">
+      <UniqueIdentifier>{777cb94e-2cdd-46cc-a148-14a64c4bee65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\02. NormalMonster\NewMoldMobile\NewMold\Bullet">
+      <UniqueIdentifier>{cc70a440-0a46-4ea5-93dc-0e94940a966c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\Bullet">
+      <UniqueIdentifier>{94473376-7080-4d10-bce8-a68398949399}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\03. Player\Bullet">
+      <UniqueIdentifier>{ca5e035d-8209-485b-8d5a-0e2134fa302b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\03. Player\Bullet\Throw">
+      <UniqueIdentifier>{83f285f9-9bb9-47c5-8649-732ca67c64fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\03. Player\Bullet\Throw\swordThorw">
+      <UniqueIdentifier>{a6df512d-e760-479b-960b-69efbe6c96dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\02. NormalMonster\NewMoldMobile\NewMold\01. NewMold_C\Bullet">
+      <UniqueIdentifier>{694052d9-338a-4128-8ac5-67fc177302fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\03.Stage_1">
+      <UniqueIdentifier>{9509715b-b034-4514-b932-ba6b89b2f8cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\999.Segment">
+      <UniqueIdentifier>{9d52d132-f699-4261-93ed-b070c3a02e41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.ShaderFiles\Particle">
+      <UniqueIdentifier>{8928b77d-0288-4c57-a45d-4d16bfaa1b17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.ShaderFiles\Particle\Category">
+      <UniqueIdentifier>{c12bc651-8564-44b9-8479-f58249779689}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\04.Stage_Change">
+      <UniqueIdentifier>{9440fbc7-3af7-4776-bfa3-db38f81b5784}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\03. Monster%28for_NonAnim%29\Environment_Object\Upgrade">
+      <UniqueIdentifier>{19603b8f-3de0-46ea-a9c0-7d18a59920f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.ShaderFiles\Player">
+      <UniqueIdentifier>{557362c6-80ae-4f7d-afbf-b5b8c7335b45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.ShaderFiles\Stage">
+      <UniqueIdentifier>{a03878b6-cd2e-4528-9d8b-14857a3a390e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.ShaderFiles\Segment">
+      <UniqueIdentifier>{0b40446c-7b56-4d1e-b6d0-613acffe659c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\03. Player\Bullet\Mine">
+      <UniqueIdentifier>{acc0c3d9-0182-4ec1-8bf9-57f26d5cf257}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Client.h">
+      <Filter>98.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>98.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>98.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>98.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Client_Defines.h">
+      <Filter>99.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\MainApp.h">
+      <Filter>00.MainApp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Level_Logo.h">
+      <Filter>01.Levels\01.Logo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_GamePlay.h">
+      <Filter>01.Levels\02.GamePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Loading.h">
+      <Filter>01.Levels\99.Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Loader.h">
+      <Filter>01.Levels\99.Loading\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\BackGround.h">
+      <Filter>02.GameObjects\00.BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Terrain.h">
+      <Filter>02.GameObjects\03.Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\FreeCamera.h">
+      <Filter>02.GameObjects\99.Camers\Free</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Monster.h">
+      <Filter>02.GameObjects\02.LandObject\02.Monster%28for_Anim%29</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player.h">
+      <Filter>02.GameObjects\02.LandObject\03. Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PartObject.h">
+      <Filter>02.GameObjects\02.LandObject\PartObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Weapon.h">
+      <Filter>02.GameObjects\02.LandObject\PartObject\01. Player\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LandObject.h">
+      <Filter>02.GameObjects\02.LandObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CFsm_Anim.h">
+      <Filter>80. FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AnimationState.h">
+      <Filter>80. FSM\01.State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CActionNode.h">
+      <Filter>81.Behavior\01.Node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CInverter.h">
+      <Filter>81.Behavior\01.Node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CNode.h">
+      <Filter>81.Behavior\01.Node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CSelector.h">
+      <Filter>81.Behavior\01.Node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CSequence.h">
+      <Filter>81.Behavior\01.Node</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CStage.h">
+      <Filter>02.GameObjects\01.Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PlayerCamera.h">
+      <Filter>02.GameObjects\99.Camers\PlayerCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ForkLift.h">
+      <Filter>02.GameObjects\02.LandObject\03. Monster%28for_NonAnim%29\ForkLift</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EnvironmentObj.h">
+      <Filter>02.GameObjects\02.LandObject\03. Monster%28for_NonAnim%29\Environment_Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CBoss_D.h">
+      <Filter>02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\01. BossMonster\02. Boss_D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CBoss_D_Picker.h">
+      <Filter>02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\01. BossMonster\02. Boss_D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Sky.h">
+      <Filter>02.GameObjects\04. Sky</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CNewMold.h">
+      <Filter>02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\02. NormalMonster\NewMoldMobile\NewMold</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CDecorationParts.h">
+      <Filter>02.GameObjects\02.LandObject\PartObject\02. Monster\Deco</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CHandBoss.h">
+      <Filter>02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\01. BossMonster\03. Boss_C</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CBoneCollider.h">
+      <Filter>02.GameObjects\02.LandObject\PartObject\02. Monster\BoneCollider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CMyNode.h" />
+    <ClInclude Include="..\Public\Matilda_Body_Player.h">
+      <Filter>02.GameObjects\02.LandObject\03. Player\Body</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Amanda_Body_Player.h">
+      <Filter>02.GameObjects\02.LandObject\03. Player\Body</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CInteraction.h">
+      <Filter>02.GameObjects\02.LandObject\03. Monster%28for_NonAnim%29\Environment_Object\Interaction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Timer.h">
+      <Filter>96. Time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CNewMold_C.h">
+      <Filter>02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\02. NormalMonster\NewMoldMobile\NewMold\01. NewMold_C</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CNewMold_D.h">
+      <Filter>02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\02. NormalMonster\NewMoldMobile\NewMold\02. NewMold_D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CMiniBoss.h">
+      <Filter>02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\02. NormalMonster\NewMoldMobile\MiniBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CBoss_B.h">
+      <Filter>02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\01. BossMonster\01. Boss_B</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CDrone.h">
+      <Filter>02.GameObjects\02.LandObject\PartObject\01. Player\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CSwordThow.h">
+      <Filter>02.GameObjects\02.LandObject\03. Player\Bullet\Throw\swordThorw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Particle_Mesh.h">
+      <Filter>02.GameObjects\06. Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CHandBullet.h">
+      <Filter>02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\01. BossMonster\03. Boss_C\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CBoss_B_Bullet.h">
+      <Filter>02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\01. BossMonster\01. Boss_B\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CNoneTexBullet.h">
+      <Filter>02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\02. NormalMonster\NewMoldMobile\NewMold\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CBullet.h">
+      <Filter>02.GameObjects\02.LandObject\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CMold_CBullet.h">
+      <Filter>02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\02. NormalMonster\NewMoldMobile\NewMold\01. NewMold_C\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CPlayerBullet.h">
+      <Filter>02.GameObjects\02.LandObject\03. Player\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Stage_1.h">
+      <Filter>01.Levels\03.Stage_1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Segment.h">
+      <Filter>02.GameObjects\999.Segment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SegmentLine.h">
+      <Filter>02.GameObjects\999.Segment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Stage_Change.h">
+      <Filter>01.Levels\04.Stage_Change</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UpgradeMachine.h">
+      <Filter>02.GameObjects\02.LandObject\03. Monster%28for_NonAnim%29\Environment_Object\Upgrade</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UpgradeMachineTop.h">
+      <Filter>02.GameObjects\02.LandObject\03. Monster%28for_NonAnim%29\Environment_Object\Upgrade</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Segment_SM.h">
+      <Filter>02.GameObjects\999.Segment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CStage_SM.h">
+      <Filter>02.GameObjects\01.Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CPlayerBullet_Mine.h">
+      <Filter>02.GameObjects\02.LandObject\03. Player\Bullet\Mine</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Client.cpp">
+      <Filter>98.Default</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>98.Default</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\MainApp.cpp">
+      <Filter>00.MainApp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_Logo.cpp">
+      <Filter>01.Levels\01.Logo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_GamePlay.cpp">
+      <Filter>01.Levels\02.GamePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Loading.cpp">
+      <Filter>01.Levels\99.Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Loader.cpp">
+      <Filter>01.Levels\99.Loading\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BackGround.cpp">
+      <Filter>02.GameObjects\00.BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Terrain.cpp">
+      <Filter>02.GameObjects\03.Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\FreeCamera.cpp">
+      <Filter>02.GameObjects\99.Camers\Free</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Monster.cpp">
+      <Filter>02.GameObjects\02.LandObject\02.Monster%28for_Anim%29</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player.cpp">
+      <Filter>02.GameObjects\02.LandObject\03. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PartObject.cpp">
+      <Filter>02.GameObjects\02.LandObject\PartObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Weapon.cpp">
+      <Filter>02.GameObjects\02.LandObject\PartObject\01. Player\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LandObject.cpp">
+      <Filter>02.GameObjects\02.LandObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CFsm_Anim.cpp">
+      <Filter>80. FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AnimationState.cpp">
+      <Filter>80. FSM\01.State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CActionNode.cpp">
+      <Filter>81.Behavior\01.Node</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CInverter.cpp">
+      <Filter>81.Behavior\01.Node</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CNode.cpp">
+      <Filter>81.Behavior\01.Node</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CSelector.cpp">
+      <Filter>81.Behavior\01.Node</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CSequence.cpp">
+      <Filter>81.Behavior\01.Node</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CStage.cpp">
+      <Filter>02.GameObjects\01.Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PlayerCamera.cpp">
+      <Filter>02.GameObjects\99.Camers\PlayerCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ForkLift.cpp">
+      <Filter>02.GameObjects\02.LandObject\03. Monster%28for_NonAnim%29\ForkLift</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnvironmentObj.cpp">
+      <Filter>02.GameObjects\02.LandObject\03. Monster%28for_NonAnim%29\Environment_Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CBoss_D.cpp">
+      <Filter>02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\01. BossMonster\02. Boss_D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CBoss_D_Picker.cpp">
+      <Filter>02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\01. BossMonster\02. Boss_D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Sky.cpp">
+      <Filter>02.GameObjects\04. Sky</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CNewMold.cpp">
+      <Filter>02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\02. NormalMonster\NewMoldMobile\NewMold</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CDecorationParts.cpp">
+      <Filter>02.GameObjects\02.LandObject\PartObject\02. Monster\Deco</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CHandBoss.cpp">
+      <Filter>02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\01. BossMonster\03. Boss_C</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CBoneCollider.cpp">
+      <Filter>02.GameObjects\02.LandObject\PartObject\02. Monster\BoneCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CMyNode.cpp" />
+    <ClCompile Include="..\Private\Matilda_Body_Player.cpp">
+      <Filter>02.GameObjects\02.LandObject\03. Player\Body</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Amanda_Body_Player.cpp">
+      <Filter>02.GameObjects\02.LandObject\03. Player\Body</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CInteraction.cpp">
+      <Filter>02.GameObjects\02.LandObject\03. Monster%28for_NonAnim%29\Environment_Object\Interaction</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Timer.cpp">
+      <Filter>96. Time</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CNewMold_C.cpp">
+      <Filter>02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\02. NormalMonster\NewMoldMobile\NewMold\01. NewMold_C</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CNewMold_D.cpp">
+      <Filter>02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\02. NormalMonster\NewMoldMobile\NewMold\02. NewMold_D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CMiniBoss.cpp">
+      <Filter>02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\02. NormalMonster\NewMoldMobile\MiniBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CBoss_B.cpp">
+      <Filter>02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\01. BossMonster\01. Boss_B</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CDrone.cpp">
+      <Filter>02.GameObjects\02.LandObject\PartObject\01. Player\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CSwordThow.cpp">
+      <Filter>02.GameObjects\02.LandObject\03. Player\Bullet\Throw\swordThorw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Particle_Mesh.cpp">
+      <Filter>02.GameObjects\06. Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CHandBullet.cpp">
+      <Filter>02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\01. BossMonster\03. Boss_C\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CBoss_B_Bullet.cpp">
+      <Filter>02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\01. BossMonster\01. Boss_B\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CNoneTexBullet.cpp">
+      <Filter>02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\02. NormalMonster\NewMoldMobile\NewMold\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CPlayerBullet.cpp">
+      <Filter>02.GameObjects\02.LandObject\03. Player\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CBullet.cpp">
+      <Filter>02.GameObjects\02.LandObject\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CMold_CBullet.cpp">
+      <Filter>02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\02. NormalMonster\NewMoldMobile\NewMold\01. NewMold_C\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Stage_1.cpp">
+      <Filter>01.Levels\03.Stage_1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Segment.cpp">
+      <Filter>02.GameObjects\999.Segment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SegmentLine.cpp">
+      <Filter>02.GameObjects\999.Segment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Stage_Change.cpp">
+      <Filter>01.Levels\04.Stage_Change</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UpgradeMachine.cpp">
+      <Filter>02.GameObjects\02.LandObject\03. Monster%28for_NonAnim%29\Environment_Object\Upgrade</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UpgradeMachineTop.cpp">
+      <Filter>02.GameObjects\02.LandObject\03. Monster%28for_NonAnim%29\Environment_Object\Upgrade</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Segment_SM.cpp">
+      <Filter>02.GameObjects\999.Segment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CStage_SM.cpp">
+      <Filter>02.GameObjects\01.Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CPlayerBullet_Mine.cpp">
+      <Filter>02.GameObjects\02.LandObject\03. Player\Bullet\Mine</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Client.ico">
+      <Filter>98.Default</Filter>
+    </Image>
+    <Image Include="small.ico">
+      <Filter>98.Default</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Client.rc">
+      <Filter>98.Default</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt">
+      <Filter>98.Default</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\ShaderFiles\Shader_VtxAnimMesh.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderFiles\Shader_VtxMesh.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderFiles\Shader_VtxNorTex.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderFiles\Shader_VtxPosTex.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderFiles\Shader_VtxCube.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderFiles\Shader_VtxInstance_Rect.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderFiles\Shader_Default_VtxMesh.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderFiles\Shader_Vtx_HandBullet.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderFiles\Shader_VtxInstance_Mesh.hlsl">
+      <Filter>97.ShaderFiles\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderFiles\Shader_VtxInstance_Mesh_Size.hlsl">
+      <Filter>97.ShaderFiles\Particle\Category</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderFiles\Shader_Default_VtxMesh_Upgrade.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderFiles\Shader_Segment.hlsl">
+      <Filter>97.ShaderFiles\Segment</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderFiles\Shader_Segment_SM.hlsl">
+      <Filter>97.ShaderFiles\Segment</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderFiles\Shader_Stage_SM.hlsl">
+      <Filter>97.ShaderFiles\Stage</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderFiles\Shader_Stage.hlsl">
+      <Filter>97.ShaderFiles\Stage</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderFiles\Shader_SegmentLine.hlsl">
+      <Filter>97.ShaderFiles\Segment</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderFiles\Shader_VtxPlayer_matilda.hlsl">
+      <Filter>97.ShaderFiles\Player</Filter>
+    </FxCompile>
+    <FxCompile Include="..\ShaderFiles\Shader_VtxPlayer_Amanda.hlsl">
+      <Filter>97.ShaderFiles\Player</Filter>
+    </FxCompile>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,44 @@
+MeshName :
+BossAttack_Warning_Ray
+Instance :
+1
+OffsetPos.x :
+0
+OffsetPos.y :
+0
+OffsetPos.z :
+0
+PivotPos.x :
+0
+PivotPos.y :
+0
+PivotPos.z :
+0
+Range.x :
+0
+Range.y :
+0
+Range.z :
+0
+Size.x :
+2.155
+Size.y :
+3.571
+Speed.x :
+2.597
+Speed.y :
+3.681
+LifeTime.x :
+2.928
+LifeTime.y :
+3.681
+IsLoop :
+0
+TargetPos.x :
+0
+TargetPos.y :
+0
+TargetPos.z :
+0
+TypeIndex :
+0

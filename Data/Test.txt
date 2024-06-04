@@ -1,0 +1,44 @@
+MeshName :
+ExplosionSpark001
+Instance :
+1
+OffsetPos.x :
+0
+OffsetPos.y :
+0
+OffsetPos.z :
+0
+PivotPos.x :
+0
+PivotPos.y :
+0
+PivotPos.z :
+0
+Range.x :
+0
+Range.y :
+0
+Range.z :
+0
+Size.x :
+0
+Size.y :
+3.736
+Speed.x :
+0
+Speed.y :
+2.527
+LifeTime.x :
+0
+LifeTime.y :
+2.747
+IsLoop :
+0
+TargetPos.x :
+0
+TargetPos.y :
+0
+TargetPos.z :
+0
+TypeIndex :
+0

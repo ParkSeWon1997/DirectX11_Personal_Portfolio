@@ -1,0 +1,50 @@
+MeshName :
+hit001
+Instance :
+1
+OffsetPos.x :
+0
+OffsetPos.y :
+0
+OffsetPos.z :
+0
+PivotPos.x :
+0
+PivotPos.y :
+0
+PivotPos.z :
+0
+Range.x :
+0
+Range.y :
+0
+Range.z :
+0
+Size.x :
+2.32
+Size.y :
+2.747
+Speed.x :
+1.381
+Speed.y :
+2.253
+LifeTime.x :
+0.221
+LifeTime.y :
+0.329
+IsLoop :
+0
+TargetPos.x :
+0
+TargetPos.y :
+0
+TargetPos.z :
+0
+TypeIndex :
+5
+X_Size :
+2
+Y_Size :
+6
+Z_Size :
+2

@@ -1,0 +1,44 @@
+MeshName :
+ExplosionFrag
+Instance :
+29
+OffsetPos.x :
+0
+OffsetPos.y :
+0
+OffsetPos.z :
+0
+PivotPos.x :
+0
+PivotPos.y :
+0
+PivotPos.z :
+0
+Range.x :
+3.509
+Range.y :
+5.263
+Range.z :
+8.696
+Size.x :
+4.198
+Size.y :
+4.561
+Speed.x :
+1.547
+Speed.y :
+2.528
+LifeTime.x :
+1.105
+LifeTime.y :
+1.319
+IsLoop :
+0
+TargetPos.x :
+0
+TargetPos.y :
+0
+TargetPos.z :
+0
+TypeIndex :
+0

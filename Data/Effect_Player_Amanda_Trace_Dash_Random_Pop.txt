@@ -1,0 +1,44 @@
+MeshName :
+Amanda_Trace_Dash
+Instance :
+1
+OffsetPos.x :
+0
+OffsetPos.y :
+0
+OffsetPos.z :
+0
+PivotPos.x :
+0
+PivotPos.y :
+0
+PivotPos.z :
+0
+Range.x :
+4.386
+Range.y :
+0
+Range.z :
+2.609
+Size.x :
+0.497
+Size.y :
+0.989
+Speed.x :
+0
+Speed.y :
+0
+LifeTime.x :
+0.221
+LifeTime.y :
+0.33
+IsLoop :
+0
+TargetPos.x :
+0
+TargetPos.y :
+0
+TargetPos.z :
+0
+TypeIndex :
+0

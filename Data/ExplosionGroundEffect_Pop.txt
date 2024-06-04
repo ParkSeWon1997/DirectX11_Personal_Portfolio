@@ -1,0 +1,44 @@
+MeshName :
+ExplosionGroundEffect
+Instance :
+3
+OffsetPos.x :
+0
+OffsetPos.y :
+0
+OffsetPos.z :
+0
+PivotPos.x :
+0
+PivotPos.y :
+0
+PivotPos.z :
+0
+Range.x :
+0
+Range.y :
+0
+Range.z :
+0
+Size.x :
+0.884
+Size.y :
+2.033
+Speed.x :
+1.05
+Speed.y :
+2.308
+LifeTime.x :
+1.271
+LifeTime.y :
+2.473
+IsLoop :
+0
+TargetPos.x :
+0
+TargetPos.y :
+0
+TargetPos.z :
+0
+TypeIndex :
+0
