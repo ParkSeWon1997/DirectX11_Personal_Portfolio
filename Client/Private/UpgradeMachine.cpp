@@ -226,7 +226,7 @@ HRESULT CUpgradeMachine::Render()
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
-	_uint	iNumMeshes = m_pModelCom->Get_NumMeshes();
+	int	iNumMeshes = m_pModelCom->Get_NumMeshes();
 
 	for (int  i = 0; i < iNumMeshes; i++)
 	{
