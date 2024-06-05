@@ -42,6 +42,7 @@
 #include"UpgradeMachine.h"
 #include"UpgradeMachineTop.h"
 #include"Potal.h"
+#include"Changer.h"
 
 #include"UI.h"
 
@@ -1703,7 +1704,10 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 		if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_Potal"),
 		CPotal::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
+ 	/* For.Changer */
+		if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_Changer"),
+		CChanger::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 
 	/* For.Prototype_GameObject_Player */
@@ -3044,6 +3048,18 @@ HRESULT CLoader::Loading_For_Stage_1()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("UpgradeMachine_Sizeup"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/TimeStop.fbx", Make_ParticleDesc(TEXT("UpgradeMachine_Sizeup"))))))
 		return E_FAIL;
+#pragma region Potal
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Potal_Effect_hitRing_Rotate_Y"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/PotalEffect/hitRing.fbx", Make_ParticleDesc(TEXT("Potal_Effect_hitRing_Rotate_Y"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Potal_Effect_LowpolyCylinder6_Rotate_Y"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/PotalEffect/LowpolyCylinder6.fbx", Make_ParticleDesc(TEXT("Potal_Effect_LowpolyCylinder6_Rotate_Y"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Potal_Effect_atomTri_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/PotalEffect/atomTri.fbx", Make_ParticleDesc(TEXT("Potal_Effect_atomTri_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Potal_Effect_atomTri.001_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/PotalEffect/atomTri.001.fbx", Make_ParticleDesc(TEXT("Potal_Effect_atomTri.001_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Potal_Effect_atomTri.002_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/PotalEffect/atomTri.002.fbx", Make_ParticleDesc(TEXT("Potal_Effect_atomTri.002_Spread"))))))
+		return E_FAIL;
+#pragma endregion
 
 
 
@@ -4026,11 +4042,21 @@ HRESULT CLoader::Loading_For_Change_Stage()
 
 #pragma endregion
 
+#pragma region Potal
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Potal_Effect_hitRing_Rotate_Y"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/PotalEffect/hitRing.fbx", Make_ParticleDesc(TEXT("Potal_Effect_hitRing_Rotate_Y"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Potal_Effect_LowpolyCylinder6_Rotate_Y"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/PotalEffect/LowpolyCylinder6.fbx", Make_ParticleDesc(TEXT("Potal_Effect_LowpolyCylinder6_Rotate_Y"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Potal_Effect_atomTri_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/PotalEffect/atomTri.fbx", Make_ParticleDesc(TEXT("Potal_Effect_atomTri_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Potal_Effect_atomTri.001_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/PotalEffect/atomTri.001.fbx", Make_ParticleDesc(TEXT("Potal_Effect_atomTri.001_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Potal_Effect_atomTri.002_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/PotalEffect/atomTri.002.fbx", Make_ParticleDesc(TEXT("Potal_Effect_atomTri.002_Spread"))))))
+		return E_FAIL;
+#pragma endregion
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("UpgradeMachine_Sizeup"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/TimeStop.fbx", Make_ParticleDesc(TEXT("UpgradeMachine_Sizeup"))))))
 		return E_FAIL;
-
-
 
 
 

@@ -181,8 +181,8 @@ void CUpgradeMachine::Late_Tick(_float fTimeDelta)
 				m_bIsFullCharge = true;
 				m_fGrowingTime = 0.f;
 				vector<CParticle_Mesh::PARTICLE_DESC> vecDesc = {
-					{CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_DOWN,TEXT("Boss_Attack_Warning_Ray_SizeDown"),_float4(1.0f,0.9f,0.9f,0.8f)},
-					{CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP,TEXT("UpgradeMachine_Sizeup"),_float4(1.0f,0.9f,0.9f,0.8f)},
+					{CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_DOWN,TEXT("Boss_Attack_Warning_Ray_SizeDown"),_float4(1.0f,0.9f,0.9f,0.8f),false ,true},
+					{CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP,TEXT("UpgradeMachine_Sizeup"),_float4(1.0f,0.9f,0.9f,0.8f),false ,true},
 
 				};
 				CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, 0.0f, this->Get_Position().z, 1.0f));
@@ -210,6 +210,7 @@ void CUpgradeMachine::Late_Tick(_float fTimeDelta)
 
 
 	m_pGameInstance->Add_RenderObject(CRenderer::RENDER_NONBLEND, this);
+	m_pGameInstance->Add_RenderObject(CRenderer::RENDER_SHADOWOBJ, this);
 
 #ifdef _DEBUG
 	for (size_t i = 0; i < COLLIDER_END; i++)
@@ -247,6 +248,43 @@ HRESULT CUpgradeMachine::Render()
 	}
 	
 
+
+	return S_OK;
+}
+
+HRESULT CUpgradeMachine::Render_LightDepth()
+{
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", m_pTransformCom->Get_WorldFloat4x4())))
+		return E_FAIL;
+
+	_float4x4		ViewMatrix, ProjMatrix;
+
+	/* ±¤¿ø ±âÁØÀÇ ºä º¯È¯Çà·Ä. */
+	XMStoreFloat4x4(&ViewMatrix, XMMatrixLookAtLH(XMVectorSet(0.f, 10.f, -10.f, 1.f), XMVectorSet(0.f, 0.f, 0.f, 1.f), XMVectorSet(0.f, 1.f, 0.f, 0.f)));
+	XMStoreFloat4x4(&ProjMatrix, XMMatrixPerspectiveFovLH(XMConvertToRadians(120.0f), (_float)g_iWinSizeX / g_iWinSizeY, 0.1f, 1000.f));
+
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &ProjMatrix)))
+		return E_FAIL;
+
+	int	iNumMeshes = m_pModelCom->Get_NumMeshes();
+
+	for (int i = 0; i < iNumMeshes; i++)
+	{
+		if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_MeshNum", &i, sizeof(int))))
+			return E_FAIL;
+		if (FAILED(m_pShaderCom->Bind_intArray("g_IntParam", m_iOnOff, 4)))
+			return E_FAIL;
+
+
+		m_pShaderCom->Begin(2);
+
+		m_pModelCom->Render(i);
+	}
 
 	return S_OK;
 }

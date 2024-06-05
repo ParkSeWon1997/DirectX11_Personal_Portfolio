@@ -219,6 +219,7 @@ void Amanda_Body_Player::Late_Tick(_float fTimeDelta)
 	XMStoreFloat4x4(&m_WorldMatrix, m_pTransformCom->Get_WorldMatrix() * XMLoadFloat4x4(m_pParentMatrix));
 
 	m_pGameInstance->Add_RenderObject(CRenderer::RENDER_NONBLEND, this);
+	m_pGameInstance->Add_RenderObject(CRenderer::RENDER_SHADOWOBJ, this);
 
 
 #ifdef _DEBUG

@@ -102,18 +102,18 @@ HRESULT CPotal::Render()
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
-	int	iNumMeshes = m_pModelCom->Get_NumMeshes();
+	//int	iNumMeshes = m_pModelCom->Get_NumMeshes();
 
-	for (int  i = 0; i < iNumMeshes; i++)
-	{
-		//g_Texture
-		if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
-			return E_FAIL;		
-	
-		m_pShaderCom->Begin(0);
-	
-		m_pModelCom->Render(i);
-	}
+	//for (int  i = 0; i < iNumMeshes; i++)
+	//{
+	//	//g_Texture
+	//	if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
+	//		return E_FAIL;		
+	//
+	//	m_pShaderCom->Begin(0);
+	//
+	//	m_pModelCom->Render(i);
+	//}
 	
 
 
@@ -125,9 +125,9 @@ HRESULT CPotal::Render()
 HRESULT CPotal::Add_Components()
 {
 
-	if (FAILED(__super::Add_Component(CLoader::m_eNextLevel, m_strModelName,
-		TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
-		return E_FAIL;
+	//if (FAILED(__super::Add_Component(CLoader::m_eNextLevel, m_strModelName,
+	//	TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
+	//	return E_FAIL;
 
 
 	/* For.Com_Shader */

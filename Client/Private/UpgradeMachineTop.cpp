@@ -66,6 +66,7 @@ void CUpgradeMachineTop::Late_Tick(_float fTimeDelta)
 {
 
 	m_pGameInstance->Add_RenderObject(CRenderer::RENDER_NONBLEND, this);
+	m_pGameInstance->Add_RenderObject(CRenderer::RENDER_SHADOWOBJ, this);
 
 }
 
@@ -88,6 +89,38 @@ HRESULT CUpgradeMachineTop::Render()
 	}
 	
 
+
+	return S_OK;
+}
+
+HRESULT CUpgradeMachineTop::Render_LightDepth()
+{
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", m_pTransformCom->Get_WorldFloat4x4())))
+		return E_FAIL;
+
+	_float4x4		ViewMatrix, ProjMatrix;
+
+	/* ±¤¿ø ±âÁØÀÇ ºä º¯È¯Çà·Ä. */
+	XMStoreFloat4x4(&ViewMatrix, XMMatrixLookAtLH(XMVectorSet(0.f, 10.f, -10.f, 1.f), XMVectorSet(0.f, 0.f, 0.f, 1.f), XMVectorSet(0.f, 1.f, 0.f, 0.f)));
+	XMStoreFloat4x4(&ProjMatrix, XMMatrixPerspectiveFovLH(XMConvertToRadians(120.0f), (_float)g_iWinSizeX / g_iWinSizeY, 0.1f, 1000.f));
+
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &ProjMatrix)))
+		return E_FAIL;
+
+	int	iNumMeshes = m_pModelCom->Get_NumMeshes();
+
+	for (int i = 0; i < iNumMeshes; i++)
+	{
+		if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
+			return E_FAIL;
+
+
+		m_pShaderCom->Begin(2);
+
+		m_pModelCom->Render(i);
+	}
 
 	return S_OK;
 }

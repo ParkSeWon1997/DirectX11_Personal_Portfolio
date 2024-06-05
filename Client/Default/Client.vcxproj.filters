@@ -208,6 +208,9 @@
     <Filter Include="01.Levels\98. PotaSingleton">
       <UniqueIdentifier>{f7681c51-52f2-4662-800e-dc2023ca99e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\03. Monster%28for_NonAnim%29\Environment_Object\Changer">
+      <UniqueIdentifier>{c7809891-e7d3-4080-af5d-51ad2684801b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -406,6 +409,9 @@
     <ClInclude Include="..\public\CPotalSingleton.h">
       <Filter>01.Levels\98. PotaSingleton</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Changer.h">
+      <Filter>02.GameObjects\02.LandObject\03. Monster%28for_NonAnim%29\Environment_Object\Changer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -594,6 +600,9 @@
     </ClCompile>
     <ClCompile Include="..\private\CPotalSingleton.cpp">
       <Filter>01.Levels\98. PotaSingleton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Changer.cpp">
+      <Filter>02.GameObjects\02.LandObject\03. Monster%28for_NonAnim%29\Environment_Object\Changer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

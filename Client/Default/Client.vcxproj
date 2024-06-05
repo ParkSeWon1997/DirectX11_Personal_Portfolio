@@ -184,6 +184,7 @@
     <ClInclude Include="..\public\CFsm_Anim.h" />
     <ClInclude Include="..\public\CHandBoss.h" />
     <ClInclude Include="..\public\CHandBullet.h" />
+    <ClInclude Include="..\Public\Changer.h" />
     <ClInclude Include="..\public\CInteraction.h" />
     <ClInclude Include="..\Public\CInverter.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
@@ -252,6 +253,7 @@
     <ClCompile Include="..\private\CFsm_Anim.cpp" />
     <ClCompile Include="..\private\CHandBoss.cpp" />
     <ClCompile Include="..\private\CHandBullet.cpp" />
+    <ClCompile Include="..\Private\Changer.cpp" />
     <ClCompile Include="..\private\CInteraction.cpp" />
     <ClCompile Include="..\Private\CInverter.cpp" />
     <ClCompile Include="..\private\CMiniBoss.cpp" />
