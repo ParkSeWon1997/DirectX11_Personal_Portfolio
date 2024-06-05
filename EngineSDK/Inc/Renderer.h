@@ -53,11 +53,13 @@ private:
 
 private:
 	void  Render_Priority();
-	void Render_ShadowObjects();
-	void Render_Mask();
+	void  Render_ShadowObjects();
+	void  Render_Mask();
 	void  Render_NonBlend();
-	void Render_LightAcc();
-	void Render_DeferredResult();
+	void  Render_LightAcc();
+	void  Render_DeferredResult();
+	void  Render_Bloom();
+	void  Render_FinalBlend();
 	void  Render_NonLight();
 	void  Render_Blend();
 	void  Render_Effect();

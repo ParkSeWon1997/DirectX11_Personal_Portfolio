@@ -9,6 +9,9 @@ xcopy			/y		.\Engine\Bin\Engine.dll				.\FBXLoad_Proj\Bin\
 xcopy			/y		.\Engine\Bin\Engine.lib				.\EngineSDK\Lib\
 xcopy			/y		.\Engine\Bin\ShaderFiles\*.hlsl		.\Client\Bin\ShaderFiles\
 xcopy			/y		.\Engine\Bin\ShaderFiles\*.hlsli	.\Client\Bin\ShaderFiles\
+xcopy			/y		.\Engine\Bin\ShaderFiles\*.hlsl		.\Tool\Bin\ShaderFiles\
+xcopy			/y		.\Engine\Bin\ShaderFiles\*.hlsli	.\Tool\Bin\ShaderFiles\
+
 
 
 

@@ -199,6 +199,9 @@
     <Filter Include="02.GameObjects\02.LandObject\03. Player\Bullet\Mine">
       <UniqueIdentifier>{acc0c3d9-0182-4ec1-8bf9-57f26d5cf257}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\07. UI">
+      <UniqueIdentifier>{c74b24d1-298e-4b93-9b96-a7e9081cfb81}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -388,6 +391,9 @@
     <ClInclude Include="..\Public\CPlayerBullet_Mine.h">
       <Filter>02.GameObjects\02.LandObject\03. Player\Bullet\Mine</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI.h">
+      <Filter>02.GameObjects\07. UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -567,6 +573,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CPlayerBullet_Mine.cpp">
       <Filter>02.GameObjects\02.LandObject\03. Player\Bullet\Mine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI.cpp">
+      <Filter>02.GameObjects\07. UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

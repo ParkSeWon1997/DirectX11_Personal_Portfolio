@@ -107,8 +107,8 @@ HRESULT CPlayerBullet_Mine::Render()
 	CPlayerBullet::CPlayetBULLET_DESC CSwordThowDesc{};
 	if (m_bIsDead)
 	{
-		vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD_NONE_DISOLVE,TEXT("Player_Amanda_Balance_X_LowpolySphere16_Spread"),_float4(0.1f,0.0f,0.0f,0.3f),false ,true,*this });
-		vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD_NONE_DISOLVE,TEXT("Player_Amanda_Balance_X_LowpolySphere8_Spread"),_float4(0.1f,0.0f,0.0f,0.3f),false ,true,*this });
+		vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD_NONE_DISOLVE,TEXT("Player_Amanda_Balance_X_LowpolySphere16_Spread"),_float4(0.1f,0.0f,0.0f,0.3f),false ,false,*this });
+		vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD_NONE_DISOLVE,TEXT("Player_Amanda_Balance_X_LowpolySphere8_Spread"),_float4(0.1f,0.0f,0.0f,0.3f),false ,false,*this });
 		vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Player_Amanda_Balance_X_ExplosionGroundEffect_Pop"),_float4(1.0f,0.9f,0.9f,0.7f),false ,true,*this });
 		vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Player_Amanda_Balance_X_ExplosionGroundEffect.001_Pop"),_float4(1.0f,0.9f,0.9f,0.7f),false ,true,*this });
 		vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_UP_AND_DOWN,TEXT("Player_Amanda_Balance_X_ExplosionFrag_Up_And_Down"),_float4(1.0f,1.0f,0.0f,0.7f),false ,true,*this });

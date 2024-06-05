@@ -34,7 +34,7 @@ HRESULT CParticle_Mesh::Initialize(void * pArg)
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMLoadFloat4(&((PARTICLE_DESC*)pArg)->vStartPos));
 		m_pTransformCom->Set_Look(((PARTICLE_DESC*)pArg)->vLookDir);
 		m_vColor = ((PARTICLE_DESC*)pArg)->fColor;
-		m_bIsUpdate= ((PARTICLE_DESC*)pArg)->bUpdate;
+		m_bIsBloom = ((PARTICLE_DESC*)pArg)->bBloom;
 		m_pGameCallObject = ((PARTICLE_DESC*)pArg)->pGameCallObject;
 		m_fDisolveSpeed = ((PARTICLE_DESC*)pArg)->fDisolveSpeed;
 		m_vPos= ((PARTICLE_DESC*)pArg)->vOffsetPos;
@@ -195,8 +195,12 @@ void CParticle_Mesh::Late_Tick(_float fTimeDelta)
 			
 	}
 
-
-	m_pGameInstance->Add_RenderObject(CRenderer::RENDER_NONLIGHT, this);
+	if (m_bIsBloom)
+	{
+		m_pGameInstance->Add_RenderObject(CRenderer::RENDER_NONLIGHT, this);
+	}
+	else
+		m_pGameInstance->Add_RenderObject(CRenderer::RENDER_EFFECT, this);
 }
 
 HRESULT CParticle_Mesh::Render()

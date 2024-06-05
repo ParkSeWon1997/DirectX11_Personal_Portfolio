@@ -93,17 +93,24 @@ void CPlayer::Tick(_float fTimeDelta)
 
 		_float fMaskOnPlayerPos = 0.0;
 		fMaskOnPlayerPos =m_pGameInstance->PickMaskMap(this->Get_Position());
+
+		CHRACTER_TYPE ePreCharacterType = m_eCharacterType;
 		if (fMaskOnPlayerPos == 0.0f)
 		{
-			
 			m_eCharacterType = CHRACTER_TYPE::CHRACTER_SWORD_MASTER;
+			
+
 		}
-		if (fMaskOnPlayerPos == 1.0f)
+		else if (fMaskOnPlayerPos == 1.0f)
 		{
 			m_eCharacterType = CHRACTER_TYPE::CHRACTER_GUN_SLINGER;
+			
 		}
-
-		
+	
+		if (ePreCharacterType != m_eCharacterType)
+		{
+			MakeChangeparticle(fTimeDelta);
+		}
 		
 		
 
@@ -1186,6 +1193,29 @@ void CPlayer::MakeDrone(_int DroneCount, _float fDistance, wstring DroneName)
 	}
 
 }
+
+void CPlayer::MakeChangeparticle(_float fTimeDelta)
+{
+	vector<CParticle_Mesh::PARTICLE_DESC> vecDesc = {};
+	
+		switch (m_eCharacterType)
+		{
+		case Client::CPlayer::CHRACTER_SWORD_MASTER:
+
+
+			break;
+		case Client::CPlayer::CHRACTER_GUN_SLINGER:
+			break;
+		case Client::CPlayer::CHRACTER_END:
+			break;
+		default:
+			break;
+		}
+
+
+
+}
+
 
 
 

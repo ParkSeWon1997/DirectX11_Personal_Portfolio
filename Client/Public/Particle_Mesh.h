@@ -64,12 +64,12 @@ public:
 	
 		_float4			fColor = {};
 		_bool           bIsRandome = false;
-		_bool           bUpdate = false;
+		_bool           bBloom = false;
 		_float          fDisolveSpeed = 1.5f;
 		CGameObject*	 pGameCallObject=nullptr;
 		PARTICLE_DESC() :eParticleType(PARTICLE_TYPE::PARTICLE_TYPE_NONE), vStartPos(0, 0, 0, 0) {};
-		PARTICLE_DESC(PARTICLE_TYPE type, const std::wstring& modelName, _float4 fColor=_float4(), _bool bIsRandom=false,_bool bUpdate=false, CGameObject& pCallObject= *static_cast<CGameObject*>(nullptr), _vector vOffsetPos=_vector())
-			:eParticleType(type), fColor(fColor), bIsRandome(bIsRandom),bUpdate(bUpdate),pGameCallObject(&pCallObject),vOffsetPos(vOffsetPos)
+		PARTICLE_DESC(PARTICLE_TYPE type, const std::wstring& modelName, _float4 fColor=_float4(), _bool bIsRandom=false,_bool bBloom =false, CGameObject& pCallObject= *static_cast<CGameObject*>(nullptr), _vector vOffsetPos=_vector())
+			:eParticleType(type), fColor(fColor), bIsRandome(bIsRandom), bBloom(bBloom),pGameCallObject(&pCallObject),vOffsetPos(vOffsetPos)
 		{
 			Safe_AddRef(pGameCallObject);
 			this->strModelName= modelName;
@@ -105,9 +105,8 @@ private:
 
 	_float                         m_fDisolveTime = 0.f;
 	_float                         m_fDisolveSpeed = 1.5f;
-	_bool                          m_bIsUpdate = false;
 	_vector                        m_vPos = {};
-
+	_bool                          m_bIsBloom = false;
 	CGameObject*                   m_pGameCallObject = nullptr;
 
 private:
@@ -149,7 +148,7 @@ public:
 			desc.eParticleType = pInfo.eParticleType;
 			desc.fColor = pInfo.fColor;
 			desc.bIsRandome = pInfo.bIsRandome;
-			desc.bUpdate = pInfo.bUpdate;
+			desc.bBloom = pInfo.bBloom;
 			desc.pGameCallObject = pInfo.pGameCallObject;
 			desc.vOffsetPos= pInfo.vOffsetPos;
 			CGameInstance::GetInstance()->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Particle"), &desc);

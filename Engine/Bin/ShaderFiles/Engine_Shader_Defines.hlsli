@@ -1,6 +1,16 @@
 
 
 
+sampler ClampSampler = sampler_state
+{
+    filter = min_mag_mip_linear;
+    AddressU = clamp;
+    AddressV = clamp;
+};
+
+
+
+
 sampler RampSampler = sampler_state
 {
     filter = min_mag_mip_linear;

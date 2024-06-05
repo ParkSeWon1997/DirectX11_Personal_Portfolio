@@ -1,5 +1,5 @@
 
-
+#include "Engine_Shader_Defines.hlsli"
 
 /* 컨스턴트 테이블(상수테이블) */
 matrix		g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;

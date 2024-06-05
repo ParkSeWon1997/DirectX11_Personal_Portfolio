@@ -145,10 +145,10 @@ void CWeapon::MakeParticle()
 		{
 		case Client::CWeapon::WEAPON_PARTICLE_TYPE::BALANCE_X:
 			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_Y,TEXT("Player_X_Balalnce_SlashHaftone001_Rotate"),_float4(0.1f,0.2f,1.0f,0.3f) });
-			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_Y,TEXT("Player_X_Balalnce_slashShockwave_Rotate"),_float4(0.1f,0.0f,0.9f,0.2f) });
-			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_Y,TEXT("Player_X_Balalnce_swordThrowing_Rotate"),_float4(0.0f,0.2f,1.0f,0.2f) });
-			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_Y,TEXT("Player_X_Balalnce_newSlash.001_Rotate"),_float4(0.2f,0.2f,1.0f,0.5f) });
-			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_Y,TEXT("Player_X_Balalnce_newSlash_Rotate"),_float4(0.3f,0.2f,0.8f,0.2f) });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_Y,TEXT("Player_X_Balalnce_slashShockwave_Rotate"),_float4(0.1f,0.0f,0.9f,0.2f),false ,true });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_Y,TEXT("Player_X_Balalnce_swordThrowing_Rotate"),_float4(0.0f,0.2f,1.0f,0.2f)  });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_Y,TEXT("Player_X_Balalnce_newSlash.001_Rotate"),_float4(0.2f,0.2f,1.0f,0.5f),false ,true });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_Y,TEXT("Player_X_Balalnce_newSlash_Rotate"),_float4(0.3f,0.2f,0.8f,0.2f) ,false ,true });
 			CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(XMVectorGetX(vNewPos), XMVectorGetY(vNewPos), XMVectorGetZ(vNewPos), 1.0f), -vPlayerLook);
 			CSwordThowDesc.fRadius = 5.0f;
 			CSwordThowDesc.strModelName = TEXT("swordThrowing");

@@ -33,6 +33,8 @@ HRESULT CLevel_GamePlay::Initialize()
 
 	if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
 		return E_FAIL;
+	if (FAILED(Ready_UI(TEXT("Layer_Ui"))))
+		return E_FAIL;
 
 	if (FAILED(Ready_Layer_0_Stage(TEXT("Layer_0_Stage"))))
 		return E_FAIL;
@@ -87,6 +89,18 @@ HRESULT CLevel_GamePlay::Ready_Lights()
 	LightDesc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
 
 	m_pGameInstance->Add_Light(LightDesc);
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_UI(const wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_UI"))))
+		return E_FAIL;
+
+
+
+
 
 	return S_OK;
 }

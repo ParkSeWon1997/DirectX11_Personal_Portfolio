@@ -42,7 +42,7 @@
 #include"UpgradeMachine.h"
 #include"UpgradeMachineTop.h"
 
-
+#include"UI.h"
 
 
 
@@ -278,8 +278,19 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Noise/Pattern_Line_Vertical.png"), 1))))
 		return E_FAIL;
 
-
-
+	/*UI*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Panel_Frame_InGame_Deco_Left_Botom"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Panel_Frame_InGame_Deco_Left_Botom.png"), 1))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Panel_Frame_InGame_Deco_Left_Top"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Panel_Frame_InGame_Deco_Legt_Top.png"), 1))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Panel_Frame_InGame_Deco_Right_Botom"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Panel_Frame_InGame_Deco_Right_Botom.png"), 1))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Panel_Frame_InGame_Deco_Right_Top"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Panel_Frame_InGame_Deco_Right_Top.png"), 1))))
+		return E_FAIL;
 
 
 
@@ -999,6 +1010,11 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 		CShader::Create(m_pDevice, m_pContext, TEXT("../ShaderFiles/Shader_Stage_SM.hlsl"), VTXMESH::Elements, VTXMESH::iNumElements))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Shader_VtxPosTex"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../ShaderFiles/Shader_VtxPosTex.hlsl"), VTXPOSTEX::Elements, VTXPOSTEX::iNumElements))))
+		return E_FAIL;
+
+
 
 	
 	//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Shader_VtxInstance_Rect"),
@@ -1475,14 +1491,12 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Player_Amanda_Power_XC_ExplosionFrag_Up_And_Down_2"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/XC/ExplosionFrag.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_XC_ExplosionFrag_Up_And_Down_2"))))))
 		return E_FAIL;
 
-
+#pragma endregion
+#pragma region Player_Amanda_REVERSE_X
 
 
 
 #pragma endregion
-
-
-
 
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("UpgradeMachine_Sizeup"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/TimeStop.fbx", Make_ParticleDesc(TEXT("UpgradeMachine_Sizeup"))))))
@@ -1740,6 +1754,9 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CSegment_Line"),
 		CSegmentLine::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI"),
+		UI::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	
 

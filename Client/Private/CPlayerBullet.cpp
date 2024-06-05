@@ -126,8 +126,8 @@ HRESULT CPlayerBullet::Render()
 			{
 			case Client::CPlayerBullet::BALANCE_X:
 
-				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD_NONE_DISOLVE,TEXT("Player_Amanda_Balance_X_LowpolySphere16_Spread"),_float4(0.1f,0.0f,0.0f,0.3f),false ,true,*this });
-				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD_NONE_DISOLVE,TEXT("Player_Amanda_Balance_X_LowpolySphere8_Spread"),_float4(0.1f,0.0f,0.0f,0.3f),false ,true,*this });
+				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD_NONE_DISOLVE,TEXT("Player_Amanda_Balance_X_LowpolySphere16_Spread"),_float4(0.1f,0.0f,0.0f,0.3f),false ,false,*this });
+				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD_NONE_DISOLVE,TEXT("Player_Amanda_Balance_X_LowpolySphere8_Spread"),_float4(0.1f,0.0f,0.0f,0.3f),false ,false,*this });
 				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Player_Amanda_Balance_X_ExplosionGroundEffect_Pop"),_float4(1.0f,0.9f,0.9f,0.7f),false ,true,*this });
 				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Player_Amanda_Balance_X_ExplosionGroundEffect.001_Pop"),_float4(1.0f,0.9f,0.9f,0.7f),false ,true,*this });
 				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_UP_AND_DOWN,TEXT("Player_Amanda_Balance_X_ExplosionFrag_Up_And_Down"),_float4(1.0f,1.0f,0.0f,0.7f),false ,true,*this });
@@ -453,7 +453,7 @@ void CPlayerBullet::MakeParticle()
 		switch (m_eParticleType)
 		{
 		case Client::CPlayerBullet::BALANCE_X:
-			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_X_TEXTURE,TEXT("Player_Amanda_Balance_X_Grenade_Rotate_X"),_float4(0.1f,0.2f,1.0f,0.3f),false ,true,*this });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_X_TEXTURE,TEXT("Player_Amanda_Balance_X_Grenade_Rotate_X"),_float4(0.1f,0.2f,1.0f,0.3f),false ,false,*this });
 			CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f), -m_pTransformCom->Get_State(CTransform::STATE_LOOK), 0.5f);
 			m_bParticleCreate = false;
 			break;

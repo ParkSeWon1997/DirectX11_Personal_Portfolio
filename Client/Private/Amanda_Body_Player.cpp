@@ -1666,9 +1666,9 @@ NodeStates Amanda_Body_Player::DoAttack_Shot_Crouch()
 
 
 
-			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_Z_NONE_DISOLVE,TEXT("Player_Amanda_Balance_XC_Ult_Spring_Rotate_Z"),_float4(0.9f,0.4f,0.1f,0.2f) });
-			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_Z,TEXT("Player_Amanda_Balance_XC_Ult_Ring_Rotate_Z"),_float4(1.0f,0.1f,0.1f,0.5f) });
-			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_Z,TEXT("Player_Amanda_Balance_XC_Ult_Beam_Rotate_Z"),_float4(1.0f,1.0f,0.0f,0.2f) });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_Z_NONE_DISOLVE,TEXT("Player_Amanda_Balance_XC_Ult_Spring_Rotate_Z"),_float4(0.9f,0.4f,0.1f,1.0f),false,true });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_Z,TEXT("Player_Amanda_Balance_XC_Ult_Ring_Rotate_Z"),_float4(1.0f,0.1f,0.1f,0.1f) });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_Z,TEXT("Player_Amanda_Balance_XC_Ult_Beam_Rotate_Z"),_float4(1.0f,1.0f,0.0f,1.0f),false,true });
 			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Player_Amanda_Balance_XC_LowpolySphere16_1_Spread"),_float4(0.8f,0.9f,0.8f,0.3f) });
 			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Player_Amanda_Balance_XC_LowpolySphere16_2_Spread"),_float4(0.9f,0.8f,0.9f,0.2f) });
 			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP_X,TEXT("Player_Amanda_Balance_XC_hit001_Size_Up_X"),_float4(0.9f,0.8f,0.9f,0.2f) });

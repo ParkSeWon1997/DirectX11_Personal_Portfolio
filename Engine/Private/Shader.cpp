@@ -66,6 +66,11 @@ HRESULT CShader::Initialize(void * pArg)
 
 HRESULT CShader::Begin(_uint iPassIndex)
 {
+	//if (iPassIndex >= m_InputLayouts.size())
+	//{
+	//	return E_FAIL;
+	//}
+
 	if (nullptr == m_InputLayouts[iPassIndex])
 		return E_FAIL;
 

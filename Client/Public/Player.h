@@ -124,7 +124,7 @@ public:
 	void SetMovePower(_float fPower) { m_fMovePower = fPower; }
 	void SetFire(_bool bFire) { m_bIsFire = bFire; }
 
-	public:
+public:
 		_vector GetLookDir() { return m_pTransformCom->Get_State(CTransform::STATE_LOOK); }
 public:
 	HRESULT Add_Components();	
@@ -150,7 +150,8 @@ private:
 	
 
 	void MakeDrone(_int DroneCount,_float fDistance,wstring DroneName);
-
+	
+	void MakeChangeparticle(_float fTimeDelta);
 private:
 	vector<class CGameObject*>		m_PartObjects;
 
@@ -161,6 +162,7 @@ private:
 	Player_Abililty					m_Ability = {};
 	STATE							m_eCurState = STATE_DEFAULT_IDLE;
 	CHRACTER_TYPE					m_eCharacterType = CHRACTER_GUN_SLINGER;
+	CHRACTER_TYPE                   m_eBeforeCharacterType = CHRACTER_END;
 	SWORD_MASTER_TYPE				m_eSwordMasterType = SWORD_BALANCE;
 	GUN_SLINGER_TYPE				m_eGunSlingerType = GUN_BALANCE;
 
@@ -173,6 +175,7 @@ private:
 	_bool							m_bIsMove_After_Skill = false;
 	_bool    						m_bIsAttacking = false;
 	_bool                           m_bIsMonsterDetact = false;
+	_bool                           m_bIsChange = false;
 public:
 	static CPlayer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;

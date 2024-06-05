@@ -165,6 +165,9 @@
 #include "C:\Git\New_Personal_Portfolio\Framework\Client\private\Timer.cpp"
 
 
+#include "C:\Git\New_Personal_Portfolio\Framework\Client\Private\UI.cpp"
+
+
 #include "C:\Git\New_Personal_Portfolio\Framework\Client\Private\UpgradeMachine.cpp"
 
 

@@ -250,10 +250,10 @@ void Matilda_Body_Player::CreateEffect_By_Motion(_float fTimeDelta)
 		//for.Particle
 		if (fCurPos >= 0.12 && fCurPos < 0.16)
 		{
-			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP_NONE_DISOLVE,TEXT("Player_C_Balalnce_stingerRing_Size_Up"),_float4(0.8f,0.8f,1.0f,0.5f) });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP_NONE_DISOLVE,TEXT("Player_C_Balalnce_stingerRing_Size_Up"),_float4(0.8f,0.8f,1.0f,0.5f),false,true});
 			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP_NONE_DISOLVE,TEXT("Player_C_Balalnce_stinger.001_Size_Down_Z"),_float4(0.8f,0.8f,1.0f,0.5f) });
 			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_DOWN_Z,TEXT("Player_C_Balalnce_stingerHalftone_Size_Down_Z"),_float4(0.8f,0.8f,1.0f,0.5f) });
-			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_DOWN_Z,TEXT("Player_C_Balalnce_LowpolySphere16_Size_Down_Z"),_float4(0.8f,0.8f,1.0f,0.5f) });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_DOWN_Z,TEXT("Player_C_Balalnce_LowpolySphere16_Size_Down_Z"),_float4(0.8f,0.8f,1.0f,0.5f),false,true });
 			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_DOWN_Z,TEXT("Player_C_Balalnce_stingerRing_Size_Up"),_float4(0.6f,0.8f,1.0f,0.5f) });
 			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_DOWN_Z,TEXT("Player_C_Balalnce_stingerRing.001_Size_Up"),_float4(0.7f,0.7f,1.0f,0.5f) });
 
@@ -1130,8 +1130,8 @@ NodeStates Matilda_Body_Player::DoAttackUltimateBalance()
 					vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Player_Balalnce_XC_Matilda_Trace_Ult.005_Spread"),_float4(0.0f,0.2f,1.0f,0.5f) });
 					vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Player_Balalnce_XC_Matilda_Trace_Ult_Spread"),_float4(0.7f,0.7f,0.9f,0.5f) });
 					vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_DOWN_Z_NONE_DISOLVE,TEXT("Player_Balalnce_XC_slashLine_Size_Down_Z"),_float4(0.8f,0.8f,0.9f,0.8f),true });
-					vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP,TEXT("Player_Balalnce_XC_swordGroundWind_Size_Up"),_float4(0.7f,0.7f,0.9f,0.5f),true });
-					vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_EXPLOSION,TEXT("Player_Balalnce_XC_LowpolySphere8_Explosion"),_float4(0.9f,0.9f,0.9f,0.2f),true });
+					vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP,TEXT("Player_Balalnce_XC_swordGroundWind_Size_Up"),_float4(0.7f,0.7f,0.9f,0.5f),true,true });
+					vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_EXPLOSION,TEXT("Player_Balalnce_XC_LowpolySphere8_Explosion"),_float4(0.9f,0.9f,0.9f,0.2f),true,true });
 
 
 					_vector vPlayerLook = dynamic_cast<CPlayer*>(m_pPlayer)->GetLookDir();
@@ -1146,7 +1146,7 @@ NodeStates Matilda_Body_Player::DoAttackUltimateBalance()
 				{
 					if (dNowFramePos >= 0.2)
 					{
-						vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Player_Balalnce_XC_LowpolySphere16_Next_Pop"),_float4(0.2f,0.2f,1.0f,0.5f) });
+						vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Player_Balalnce_XC_LowpolySphere16_Next_Pop"),_float4(0.2f,0.2f,1.0f,0.5f),false,true });
 						
 
 						_vector vPlayerLook = dynamic_cast<CPlayer*>(m_pPlayer)->GetLookDir();
