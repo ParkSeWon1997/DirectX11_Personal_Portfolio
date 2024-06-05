@@ -46,6 +46,7 @@ HRESULT CPlayerBullet::Initialize(void* pArg)
 		m_fInitSpeed= ((CPlayetBULLET_DESC*)pArg)->fInitSpeed;
 
 	}
+	
 	return S_OK;
 }
 

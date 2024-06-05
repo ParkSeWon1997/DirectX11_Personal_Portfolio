@@ -130,7 +130,10 @@ public:
 	HRESULT Add_Components();	
 	HRESULT Add_PartObjects();
 	_bool Intersect(PART ePartObjID, const wstring& strComponetTag,  CCollider* pTargetCollider);
+	_float GetDamage() { return m_fDamage; }
 
+	void SetIsCollision(_bool bIsCollision) { m_bIsCollision = bIsCollision; }
+	_bool GetIsCollision() { return m_bIsCollision; }
 
 private:
 	void Move(_float fTimeDelta);
@@ -152,6 +155,7 @@ private:
 	void MakeDrone(_int DroneCount,_float fDistance,wstring DroneName);
 	
 	void MakeChangeparticle(_float fTimeDelta);
+
 private:
 	vector<class CGameObject*>		m_PartObjects;
 
@@ -168,7 +172,9 @@ private:
 
 	_float							m_fMovePower = 0.f;
 	_float                          m_fQuestTime = 0.f;
+	_float                          m_fDamage = 0.f;
 
+	_bool                           m_bIsCollision = false;
 	_bool							m_bIsFire = false;
 	_bool							m_bNextAttack = false;
 	_bool							m_bIsJump = false;

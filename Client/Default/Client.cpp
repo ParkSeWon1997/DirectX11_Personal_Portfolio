@@ -5,6 +5,7 @@
 #include "../Public/MainApp.h"
 #include "GameInstance.h"
 
+
 #define MAX_LOADSTRING 100
 
 // 전역 변수:
@@ -56,7 +57,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	pMainApp = CMainApp::Create();
 	if (nullptr == pMainApp)
 		return FALSE;
-
+    
+    
 	CGameInstance*		pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
@@ -97,6 +99,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		
 	}
 
+    
 	Safe_Release(pGameInstance);
 
 	/* 메인앱을 삭제한다. */

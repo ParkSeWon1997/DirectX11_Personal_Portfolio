@@ -1,0 +1,50 @@
+MeshName :
+LowpolyCylinder6
+Instance :
+1
+OffsetPos.x :
+0
+OffsetPos.y :
+0
+OffsetPos.z :
+0
+PivotPos.x :
+0
+PivotPos.y :
+0
+PivotPos.z :
+0
+Range.x :
+0
+Range.y :
+0
+Range.z :
+0
+Size.x :
+4.088
+Size.y :
+5.549
+Speed.x :
+2.1
+Speed.y :
+2.198
+LifeTime.x :
+1.658
+LifeTime.y :
+2.033
+IsLoop :
+1
+TargetPos.x :
+0
+TargetPos.y :
+0
+TargetPos.z :
+0
+TypeIndex :
+0
+X_Size :
+2
+Y_Size :
+10
+Z_Size :
+2

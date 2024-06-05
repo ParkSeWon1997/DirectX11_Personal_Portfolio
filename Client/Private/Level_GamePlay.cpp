@@ -7,12 +7,13 @@
 #include"EnvironmentObj.h"
 #include"CStage.h"
 #include"Level_Loading.h"
-
+#include"CPotalSingleton.h"
 #include"CHandBoss.h"
 #include"Particle_Mesh.h"
 #include"CHandBullet.h"
 #include"UpgradeMachine.h"
 #include"UpgradeMachineTop.h"
+#include"Particle_Mesh.h"
 CLevel_GamePlay::CLevel_GamePlay(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -60,13 +61,52 @@ HRESULT CLevel_GamePlay::Initialize()
 
 void CLevel_GamePlay::Tick(_float fTimeDelta)
 {
-	if (KEY_TAP(DIK_5))
+	static _bool   bisMosterClear = false;
+	_uint iLayerSize= m_pGameInstance->Get_LayerSize(LEVEL_GAMEPLAY, TEXT("Layer_2_Monster"));
+	vector<CParticle_Mesh::PARTICLE_DESC> vecDesc = {};
+	if (iLayerSize == 0)
+	{
+		if (bisMosterClear == false)
+		{
+			bisMosterClear = true;
+			CEnvironmentObj::CEnvironmentObj_DESC desc;
+			desc.strModelName = TEXT("Ventilator");
+			desc.vPosition = _float4(0.1f, 0.f, 38.f, 1.0f);
+			desc.vScale = _float3(1.f, 1.f, 1.f);
+			desc.vRotation = _float3(0.f, 1.f, 0.f);
+			desc.vRotationAngle = 45.f;
+			
+
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_Y_NONE_DISOLVE,TEXT("Potal_Effect_hitRing_Rotate_Y"),_float4(1.0f,1.0f,1.0f,0.3f),false ,true, });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_Y_NONE_DISOLVE,TEXT("Potal_Effect_LowpolyCylinder6_Rotate_Y"),_float4(1.0f,1.0f,1.0f,0.3f),false ,true, });
+
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Potal_Effect_atomTri_Spread"),_float4(1.0f,1.0f,1.0f,0.3f),false ,true, });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Potal_Effect_atomTri.001_Spread"),_float4(1.0f,1.0f,1.0f,0.3f),false ,true, });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Potal_Effect_atomTri.002_Spread"),_float4(1.0f,1.0f,1.0f,0.3f),false ,true, });
+			CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(desc.vPosition.x, desc.vPosition.y + 1.0f, desc.vPosition.z, 1.0f));
+
+			if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, TEXT("Layer_Potal"), TEXT("Prototype_Potal"), &desc)))
+				return;
+			//if (FAILED(m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_CHANGE_STAGE))))
+			//	return;
+		}
+	}
+	else
+	{
+		bisMosterClear = false;
+	}
+
+
+	if (CPotalSingleton::GetInstance()->GetPotalOn())
 	{
 		if (FAILED(m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_CHANGE_STAGE))))
 			return;
-		
+		CPotalSingleton::GetInstance()->SetPotalOn(false);
+
 		return;
 	}
+
+
 #ifdef _DEBUG
 	ostringstream oss;
 	oss << std::fixed << std::setprecision(2) << m_pGameInstance->Get_FPS(TEXT("Timer_60"));
@@ -222,14 +262,15 @@ HRESULT CLevel_GamePlay::Ready_Layer_2_Monster(const wstring & strLayerTag)
 	//
 	//
 	
-	//for (int i = 0; i < 3; i++)
-	//{
-	//	desc.strModelName = TEXT("NewMoldTest");
-	//	desc.vPosition = _float4(fRandomX(Gen), 0.f, fRandomZ(Gen), 1.0f);
-	//	desc.strDeconModelTag = TEXT("NewMold_Deco_Segment");
-	//	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_NewMold"), &desc)))
-	//		return E_FAIL;
-	//}
+	for (int i = 0; i < 1; i++)
+	{
+		desc.strModelName = TEXT("NewMoldTest");
+		desc.vPosition = _float4(fRandomX(Gen), 0.f, fRandomZ(Gen), 1.0f);
+		desc.strDeconModelTag = TEXT("NewMold_Deco_Segment");
+		desc.fHp= 50.f;
+		if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_NewMold"), &desc)))
+			return E_FAIL;
+	}
 	
 	//desc.strModelName = TEXT("NewMoldTest");
 	//desc.vPosition = _float4(fRandomX(Gen), 0.f, fRandomZ(Gen), 1.0f);
@@ -260,18 +301,18 @@ HRESULT CLevel_GamePlay::Ready_Layer_2_Monster(const wstring & strLayerTag)
 	//Prototype_GameObject_Hand_Boss
 	//Boss_C_Right_Hand
 
-	CHandBoss::CHandBoss_DESC HandDesc;
-	HandDesc.strModelName = TEXT("Boss_C_Right_Hand");
-	HandDesc.vPosition = _float4(0.0f, 0.f, 20.f, 1.0f);
-	HandDesc.ePart = CHandBoss::PARTS_HAND_R;
-	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_Hand_Boss"), &HandDesc)))
-	 return E_FAIL;
-	
-	HandDesc.strModelName = TEXT("Boss_C_Left_Hand");
-	HandDesc.vPosition = _float4(0.0f, 0.f, 20.f, 1.0f);
-	HandDesc.ePart = CHandBoss::PARTS_HAND_L;
-	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_Hand_Boss"), &HandDesc)))
-		return E_FAIL;
+	//CHandBoss::CHandBoss_DESC HandDesc;
+	//HandDesc.strModelName = TEXT("Boss_C_Right_Hand");
+	//HandDesc.vPosition = _float4(0.0f, 0.f, 20.f, 1.0f);
+	//HandDesc.ePart = CHandBoss::PARTS_HAND_R;
+	//if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_Hand_Boss"), &HandDesc)))
+	// return E_FAIL;
+	//
+	//HandDesc.strModelName = TEXT("Boss_C_Left_Hand");
+	//HandDesc.vPosition = _float4(0.0f, 0.f, 20.f, 1.0f);
+	//HandDesc.ePart = CHandBoss::PARTS_HAND_L;
+	//if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_Hand_Boss"), &HandDesc)))
+	//	return E_FAIL;
 	
 
 	
@@ -289,8 +330,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Environment(const wstring& strLayerTag)
 	desc.vRotation= _float3(0.f, 1.f, 0.f);
 	desc.vRotationAngle = 45.f;
 	
-	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_EnvironmentObj"), &desc)))
-		return E_FAIL;
+	//if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_EnvironmentObj"), &desc)))
+	//	return E_FAIL;
 
 
 

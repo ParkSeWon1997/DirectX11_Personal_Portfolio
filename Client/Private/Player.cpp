@@ -72,7 +72,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	/* 플레이어의 Transform이란 녀석은 파츠가 될 바디와 웨폰의 부모 행렬정보를 가지는 컴포넌트가 될거다. */
 
-
+	m_fDamage = 10.f;
 	return S_OK;
 }
 
@@ -288,12 +288,15 @@ void CPlayer::Tick(_float fTimeDelta)
 			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Player_Power_XC_stingerRing.001_Pop"),_float4(0.1f,0.2f,1.0f,0.3f)});
 
 			CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f), -m_pTransformCom->Get_State(CTransform::STATE_LOOK), 0.5f);
-
+			m_bIsAttacking = true;
+			m_bIsCollision = true;
 			m_fQuestTime = 0.0f;
 			iNextIndex++;
 		}
 		if (iNextIndex == iLayerSize)
 		{
+			m_bIsAttacking = false;
+			m_bIsCollision = false;
 			iNextIndex = 0;
 			m_bIsMonsterDetact = false;
 			m_fQuestTime = 0.0f;
@@ -871,7 +874,7 @@ void CPlayer::SetStatePressC(_float fTimeDelta)
 			case Client::CPlayer::SWORD_BALANCE:
 				m_eCurState = STATE_ATTACK_STINGER;
 				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Player_C_Balalnce_Matilda_Trace_Attack_Pop"),_float4(0.8f,0.8f,0.8f,0.5f) });
-
+				
 				CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f), -vPlayerLook);
 				break;
 			case Client::CPlayer::SWORD_TECHNNIC:
@@ -1197,14 +1200,27 @@ void CPlayer::MakeDrone(_int DroneCount, _float fDistance, wstring DroneName)
 void CPlayer::MakeChangeparticle(_float fTimeDelta)
 {
 	vector<CParticle_Mesh::PARTICLE_DESC> vecDesc = {};
-	
+	_vector vPlayerLook = this->GetLookDir();
 		switch (m_eCharacterType)
 		{
 		case Client::CPlayer::CHRACTER_SWORD_MASTER:
 
-
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Player_Swap_Effect_Style_Sword_Spread"),_float4(0.0f,0.0f,1.0f,0.3f),false ,false, });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Player_Swap_Effect_LowpolySphere16_Pop"),_float4(1.0f,1.0f,1.0f,0.1f),false ,false, });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Player_Swap_Effect_atomTri_Spread"),_float4(1.0f,1.0f,1.0f,0.3f),false ,false, });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Player_Swap_Effect_atomTri.002_Spread"),_float4(1.0f,1.0f,1.0f,0.3f),false ,false, });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Player_Swap_Effect_atomTri.001_Spread"),_float4(1.0f,1.0f,1.0f,0.3f),false ,false, });
+			
+			CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y+1.0f, this->Get_Position().z, 1.0f));
 			break;
 		case Client::CPlayer::CHRACTER_GUN_SLINGER:
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Player_Swap_Effect_Style_Gun_Spread"),_float4(1.0f,0.753f,0.796f,0.3f),false ,false, });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Player_Swap_Effect_LowpolySphere16_Pop"),_float4(1.0f,0.0f,1.0f,0.1f),false ,false, });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Player_Swap_Effect_atomTri_Spread"),_float4(1.0f,1.0f,1.0f,0.3f),false ,false, });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Player_Swap_Effect_atomTri.002_Spread"),_float4(1.0f,1.0f,1.0f,0.3f),false ,false, });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Player_Swap_Effect_atomTri.001_Spread"),_float4(1.0f,1.0f,1.0f,0.3f),false ,false, });
+			
+			CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y+ 1.0f, this->Get_Position().z, 1.0f));
 			break;
 		case Client::CPlayer::CHRACTER_END:
 			break;

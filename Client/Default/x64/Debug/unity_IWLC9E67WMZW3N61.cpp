@@ -81,6 +81,9 @@
 #include "C:\Git\New_Personal_Portfolio\Framework\Client\Private\CPlayerBullet_Mine.cpp"
 
 
+#include "C:\Git\New_Personal_Portfolio\Framework\Client\private\CPotalSingleton.cpp"
+
+
 #include "C:\Git\New_Personal_Portfolio\Framework\Client\Private\CSelector.cpp"
 
 
@@ -145,6 +148,9 @@
 
 
 #include "C:\Git\New_Personal_Portfolio\Framework\Client\Private\PlayerCamera.cpp"
+
+
+#include "C:\Git\New_Personal_Portfolio\Framework\Client\Private\Potal.cpp"
 
 
 #include "C:\Git\New_Personal_Portfolio\Framework\Client\Private\Segment.cpp"

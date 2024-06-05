@@ -2,6 +2,7 @@
 #include "..\Public\MainApp.h"
 
 #include "GameInstance.h"
+#include "CPotalSingleton.h"
 #include "Level_Loading.h"
 #include "BackGround.h"
 
@@ -9,8 +10,10 @@
 
 CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::GetInstance() }
+	, m_pPotalSingleton{ CPotalSingleton::GetInstance() }
 {
 	Safe_AddRef(m_pGameInstance);
+	Safe_AddRef(m_pPotalSingleton);
 
 	// D3D11_SAMPLER_DESC
 
@@ -238,6 +241,9 @@ void CMainApp::Free()
 {
 	Safe_Release(m_pContext);
 	Safe_Release(m_pDevice);
+
+	Safe_Release(m_pPotalSingleton);
+	Safe_Release(m_pPotalSingleton);
 
 	/* 레퍼런스 카운트를 0으로만든다. */
 	Safe_Release(m_pGameInstance);

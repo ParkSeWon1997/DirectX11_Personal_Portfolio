@@ -22,6 +22,7 @@ public:
 	{
 		wstring strDeconModelTag;
 		_matrix m_pWorldMatrix = {};
+		_float fHp = 0.f;
 	}CMonster_DESC;
 
 

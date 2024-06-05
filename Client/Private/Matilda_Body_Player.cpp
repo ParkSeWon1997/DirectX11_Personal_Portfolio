@@ -429,6 +429,7 @@ NodeStates Matilda_Body_Player::DoAttack_Left()
 		{
 			dynamic_cast<CPlayer*>(m_pPlayer)->SetMove_After_Skill(true);
 			dynamic_cast<CPlayer*>(m_pPlayer)->SetAttackEndTime(true);
+			dynamic_cast<CPlayer*>(m_pPlayer)->SetIsCollision(false);
 			
 		}
 	
@@ -470,6 +471,7 @@ NodeStates Matilda_Body_Player::DoAttack_Right()
 		{
 			dynamic_cast<CPlayer*>(m_pPlayer)->SetMove_After_Skill(true);
 			dynamic_cast<CPlayer*>(m_pPlayer)->SetAttackEndTime(true);
+			dynamic_cast<CPlayer*>(m_pPlayer)->SetIsCollision(false);
 		}
 		if (m_pModelCom->Get_AnimationIndex() != Player_Matilda_AnimationType::Matilda_ANIMATION_ATTACK_SLASH_RIGHT)
 		{
@@ -861,6 +863,7 @@ NodeStates Matilda_Body_Player::DoAttackStinger()
 		{
 			dynamic_cast<CPlayer*>(m_pPlayer)->SetMove_After_Skill(true);
 			dynamic_cast<CPlayer*>(m_pPlayer)->SetAttackEndTime(true);
+			dynamic_cast<CPlayer*>(m_pPlayer)->SetIsCollision(false);
 			dynamic_cast<CPlayer*>(m_pPlayer)->SetMovePower(1.0f);
 		}
 
@@ -909,6 +912,7 @@ NodeStates Matilda_Body_Player::DoAttakcSpin()
 		if (m_pModelCom->Get_AnimationIndex() == Matilda_ANIMATION_SLASH_SPIN)
 		{
 			dynamic_cast<CPlayer*>(m_pPlayer)->SetAttackEndTime(true);
+			dynamic_cast<CPlayer*>(m_pPlayer)->SetIsCollision(false);
 			if (m_pModelCom->Get_AnimFinished())
 			{
 				m_eCurState = CPlayer::STATE_ATTACK_SPIN_END;
@@ -982,6 +986,7 @@ NodeStates Matilda_Body_Player::DoAttackStomp()
 		{
 			dynamic_cast<CPlayer*>(m_pPlayer)->SetMove_After_Skill(true);
 			dynamic_cast<CPlayer*>(m_pPlayer)->SetAttackEndTime(true);
+			dynamic_cast<CPlayer*>(m_pPlayer)->SetIsCollision(false);
 		}
 		
 
@@ -1275,7 +1280,6 @@ NodeStates Matilda_Body_Player::DoAttackUltimatePower()
 				if (dNowFramePos >= 0.02 && dNowFramePos <= 0.05)
 				{
 					dynamic_cast<CPlayer*>(m_pPlayer)->SetMove_After_Skill(true);
-					dynamic_cast<CPlayer*>(m_pPlayer)->SetAttackEndTime(true);
 					dynamic_cast<CPlayer*>(m_pPlayer)->SetMovePower(5.5f);
 				}
 			}
@@ -1568,6 +1572,8 @@ NodeStates Matilda_Body_Player::DoAttack_Dash_Slide_Shot()
 		m_bLoop = false;
 		m_AnimSpeed = 2.0f;
 		dynamic_cast<CPlayer*>(m_pPlayer)->SetAttackEndTime(true);
+		dynamic_cast<CPlayer*>(m_pPlayer)->SetIsCollision(false);
+
 	
 		if (m_pModelCom->Get_AnimationIndex() == Matilda_ANIMATION_SHOT_STOP)
 		{
@@ -1596,6 +1602,7 @@ NodeStates Matilda_Body_Player::DoAttack_Shot_Crouch()
 		m_bLoop = false;
 		m_AnimSpeed = 1.0f;
 		dynamic_cast<CPlayer*>(m_pPlayer)->SetAttackEndTime(true);
+		dynamic_cast<CPlayer*>(m_pPlayer)->SetIsCollision(false);
 		if (m_pModelCom->Get_AnimationIndex() == Player_Matilda_AnimationType::Matilda_ANIMATION_SHOT_CROUCH_READY)
 		{
 			return NodeStates::RUNNING;

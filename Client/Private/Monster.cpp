@@ -31,6 +31,7 @@ HRESULT CMonster::Initialize(void * pArg)
 	GameObjectDesc.fRotationPerSec = XMConvertToRadians(90.0f);
 	GameObjectDesc.strModelName=static_cast<CMonster_DESC*>(pArg)->strModelName;
 	m_strDeconModelTag= static_cast<CMonster_DESC*>(pArg)->strDeconModelTag;
+	m_fHp = static_cast<CMonster_DESC*>(pArg)->fHp;
 	//GameObjectDesc.
 	if (FAILED(__super::Initialize(&GameObjectDesc)))
 		return E_FAIL;
@@ -102,17 +103,30 @@ void CMonster::Late_Tick(_float fTimeDelta)
 		{
 			if (pPlayer->Intersect(CPlayer::PART_WEAPON, TEXT("Com_Collider"), m_pColliderCom[COLLIDER_OBB]))
 			{
-				if(pPlayer->IsAttacking())
-					m_bIsHit = true;
+				if (pPlayer->IsAttacking()&&!pPlayer->GetIsCollision())
+				{
+					_float fDamage = pPlayer->GetDamage();
+					pPlayer->SetIsCollision(true);
+					if (m_fHp > 0.f)
+					{
+						m_fHp -= fDamage;
+					}
+						m_bIsHit = true;
+				}
 			}
 			for (_uint i = 0; i < iLayerSize; ++i)
 			{
 				CBullet* pBullet = dynamic_cast<CBullet*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), i));
 				if (pBullet != nullptr)
 				{
-					if (pBullet->Intersect(TEXT("Com_Collider"), m_pColliderCom[COLLIDER_OBB]))
+					if (!pBullet->Get_IsCollision() && pBullet->Intersect(TEXT("Com_Collider"), m_pColliderCom[COLLIDER_OBB]))
 					{
-						//pBullet->Set_Dead();
+						_float fDamage= pBullet->Get_Damage();
+						pBullet->Set_IsCollision(true);
+						if (m_fHp > 0.f)
+						{
+							m_fHp -= fDamage;
+						}
 						m_bIsHit = true;
 					}
 				}

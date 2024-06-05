@@ -26,6 +26,7 @@ public:
 	{
 		_matrix m_pWorldMatrix = {};
 		_vector vDir = {};
+		_float fDamage = 0.f;
 		wstring m_strObjName = L"";
 		_float fRotatedAngle = 0.f;
 		_vector vTargetPos;
@@ -46,8 +47,10 @@ public:
 	virtual HRESULT Render() override;
 
 	_bool Intersect( const wstring& strComponetTag, CCollider* pTargetCollider);
+	_float Get_Damage() { return m_fDamage; }
 
-
+	void Set_IsCollision(_bool bIsCollision) { m_bIsCollision = bIsCollision; }
+	_bool Get_IsCollision() { return m_bIsCollision; }
 public:
 	virtual void Falling(_float fTimeDelta);
 	virtual void Spread(_float fTimeDelta);
@@ -66,6 +69,8 @@ protected:
 	_vector             m_vTargetPos;
 
 	_float				m_fElapsedTime = 0.f;
+	_float              m_fDamage = 0.f;
+	_bool               m_bIsCollision = false;
 	HAND_BULLET_STATE	m_pBulletAction;
 	
 public:

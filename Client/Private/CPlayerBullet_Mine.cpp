@@ -48,7 +48,7 @@ HRESULT CPlayerBullet_Mine::Initialize(void* pArg)
 	}
 	return S_OK;
 
-
+	
 	
 }
 

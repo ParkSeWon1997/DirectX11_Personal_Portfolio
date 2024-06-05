@@ -33,7 +33,7 @@ HRESULT CBullet::Initialize(void* pArg)
 		m_vTargetPos = static_cast<CBullet_DESC*>(pArg)->vTargetPos;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMLoadFloat4(&static_cast<CBullet_DESC*>(pArg)->vPosition));
 		m_pTransformCom->Set_Look(static_cast<CBullet_DESC*>(pArg)->vDir);
-
+		m_fDamage = static_cast<CBullet_DESC*>(pArg)->fDamage;
 
 	}
 

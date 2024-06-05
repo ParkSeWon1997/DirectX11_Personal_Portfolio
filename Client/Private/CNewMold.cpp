@@ -25,6 +25,7 @@ CNewMold::CNewMold(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 CNewMold::CNewMold(const CNewMold& rhs)
 	: CMonster(rhs)
+
 {
 }
 
@@ -78,7 +79,7 @@ HRESULT CNewMold::Initialize(void* pArg)
 	//
 	m_pRootNode=CSequence::Create(pDoIsAlive,pDoHit,pDoIdleNode, pDoMove,pDefalutRoutineSelector);
 
-
+	
 	return S_OK;
 }
 
@@ -104,10 +105,10 @@ void CNewMold::Tick(_float fTimeDelta)
 	}
 
 
-	if (KEY_TAP(DIK_7))
-	{
+	
+	if(m_fHp<=0.0f)
 		m_eCurState = CNewMold_STATES::STATES_SMASH;
-	}
+	
 
 
 	_bool Isfloor = false;

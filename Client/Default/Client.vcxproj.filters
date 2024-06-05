@@ -202,6 +202,12 @@
     <Filter Include="02.GameObjects\07. UI">
       <UniqueIdentifier>{c74b24d1-298e-4b93-9b96-a7e9081cfb81}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\03. Monster%28for_NonAnim%29\Environment_Object\Potal">
+      <UniqueIdentifier>{8299bb1d-55b1-4ee7-9c86-3083329bf5cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\98. PotaSingleton">
+      <UniqueIdentifier>{f7681c51-52f2-4662-800e-dc2023ca99e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -394,6 +400,12 @@
     <ClInclude Include="..\Public\UI.h">
       <Filter>02.GameObjects\07. UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Potal.h">
+      <Filter>02.GameObjects\02.LandObject\03. Monster%28for_NonAnim%29\Environment_Object\Potal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CPotalSingleton.h">
+      <Filter>01.Levels\98. PotaSingleton</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -576,6 +588,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI.cpp">
       <Filter>02.GameObjects\07. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Potal.cpp">
+      <Filter>02.GameObjects\02.LandObject\03. Monster%28for_NonAnim%29\Environment_Object\Potal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CPotalSingleton.cpp">
+      <Filter>01.Levels\98. PotaSingleton</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

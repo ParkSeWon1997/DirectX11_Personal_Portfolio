@@ -1350,9 +1350,63 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 
 //---------------------------------
 
+//-----Player_Swap_Effect-----------
+	PreTransformMatrix = XMMatrixIdentity();
+	PreTransformMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Player_Swap_Effect_atomTri.001"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Object/Particle/Effect/Player/Swap/atomTri.001.fbx", PreTransformMatrix, nullptr))))
+		return E_FAIL;
+	PreTransformMatrix = XMMatrixIdentity();
+	PreTransformMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Player_Swap_Effect_atomTri.002"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Object/Particle/Effect/Player/Swap/atomTri.002.fbx", PreTransformMatrix, nullptr))))
+		return E_FAIL;
+	PreTransformMatrix = XMMatrixIdentity();
+	PreTransformMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Player_Swap_Effect_atomTri"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Object/Particle/Effect/Player/Swap/atomTri.fbx", PreTransformMatrix, nullptr))))
+		return E_FAIL;
+	PreTransformMatrix = XMMatrixIdentity();
+	PreTransformMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Player_Swap_Effect_LowpolySphere16"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Object/Particle/Effect/Player/Swap/LowpolySphere16.fbx", PreTransformMatrix, nullptr))))
+		return E_FAIL;
+	PreTransformMatrix = XMMatrixIdentity();
+	PreTransformMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Player_Swap_Effect_Style_Gun"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Object/Particle/Effect/Player/Swap/Style_Gun.fbx", PreTransformMatrix, nullptr))))
+		return E_FAIL;
+	PreTransformMatrix = XMMatrixIdentity();
+	PreTransformMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Player_Swap_Effect_Style_Sword"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Object/Particle/Effect/Player/Swap/Style_Sword.fbx", PreTransformMatrix, nullptr))))
+		return E_FAIL;
+//---------------------------------
 
 
 
+
+
+
+//----------Potal----------------
+
+	PreTransformMatrix = XMMatrixIdentity();
+	PreTransformMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Potal_Effect_LowpolyCylinder6"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Object/Particle/Effect/PotalEffect/LowpolyCylinder6.fbx", PreTransformMatrix, nullptr))))
+		return E_FAIL;	
+	PreTransformMatrix = XMMatrixIdentity();
+	PreTransformMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Potal_Effect_hitRing"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Object/Particle/Effect/PotalEffect/hitRing.fbx", PreTransformMatrix, nullptr))))
+		return E_FAIL;
+
+
+
+
+
+
+//---------------------------------
 
 
 	PreTransformMatrix = XMMatrixIdentity();

@@ -41,6 +41,7 @@
 
 #include"UpgradeMachine.h"
 #include"UpgradeMachineTop.h"
+#include"Potal.h"
 
 #include"UI.h"
 
@@ -1496,7 +1497,55 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 
 
 
+
 #pragma endregion
+
+#pragma region Player_Swap
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Player_Swap_Effect_Style_Sword_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Swap/Style_Sword.fbx", Make_ParticleDesc(TEXT("Player_Swap_Effect_Style_Sword_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Player_Swap_Effect_Style_Gun_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Swap/Style_Gun.fbx", Make_ParticleDesc(TEXT("Player_Swap_Effect_Style_Gun_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Player_Swap_Effect_LowpolySphere16_Pop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Swap/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Swap_Effect_LowpolySphere16_Pop"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Player_Swap_Effect_atomTri_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Swap/atomTri.fbx", Make_ParticleDesc(TEXT("Player_Swap_Effect_atomTri_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Player_Swap_Effect_atomTri.002_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Swap/atomTri.002.fbx", Make_ParticleDesc(TEXT("Player_Swap_Effect_atomTri.002_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Player_Swap_Effect_atomTri.001_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Swap/atomTri.001.fbx", Make_ParticleDesc(TEXT("Player_Swap_Effect_atomTri.001_Spread"))))))
+		return E_FAIL;
+
+#pragma endregion
+
+
+
+
+#pragma region Potal
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Potal_Effect_hitRing_Rotate_Y"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/PotalEffect/hitRing.fbx", Make_ParticleDesc(TEXT("Potal_Effect_hitRing_Rotate_Y"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Potal_Effect_LowpolyCylinder6_Rotate_Y"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/PotalEffect/LowpolyCylinder6.fbx", Make_ParticleDesc(TEXT("Potal_Effect_LowpolyCylinder6_Rotate_Y"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Potal_Effect_atomTri_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/PotalEffect/atomTri.fbx", Make_ParticleDesc(TEXT("Potal_Effect_atomTri_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Potal_Effect_atomTri.001_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/PotalEffect/atomTri.001.fbx", Make_ParticleDesc(TEXT("Potal_Effect_atomTri.001_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Potal_Effect_atomTri.002_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/PotalEffect/atomTri.002.fbx", Make_ParticleDesc(TEXT("Potal_Effect_atomTri.002_Spread"))))))
+		return E_FAIL;
+#pragma endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("UpgradeMachine_Sizeup"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/TimeStop.fbx", Make_ParticleDesc(TEXT("UpgradeMachine_Sizeup"))))))
@@ -1649,6 +1698,10 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 	/* For.UpgradeMachine */
 		if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_UpgradeMachineTop"),
 		CUpgradeMachineTop::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	/* For.Potal */
+		if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_Potal"),
+		CPotal::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 
@@ -2509,7 +2562,6 @@ HRESULT CLoader::Loading_For_Stage_1()
 	lstrcpy(m_szLoadingText, TEXT("파티클을 로딩 중 입니다."));
 	/*Particle*/
 
-
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Effect_ExplosionFrag_Up_And_Down"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/ExplosionFrag.fbx", Make_ParticleDesc(TEXT("Effect_ExplosionFrag_Up_And_Down"))))))
 		return E_FAIL;
 
@@ -2602,27 +2654,8 @@ HRESULT CLoader::Loading_For_Stage_1()
 
 
 
-#pragma region Player_Power_C
-
-
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_C_Power_HitRing001_Pop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/C/hit001.fbx", Make_ParticleDesc(TEXT("Player_C_Power_HitRing001_Pop"))))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_C_Power_HitRing003_SizeUP"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/C/hit003.fbx", Make_ParticleDesc(TEXT("Player_C_Power_HitRing003_SizeUP"))))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_C_Power_LowPlySphere8_SizeUP"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/C/LowpolySphere8.fbx", Make_ParticleDesc(TEXT("Player_C_Power_LowPlySphere8_SizeUP"))))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_C_Power_LowPlySphere16_SizeUP"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/C/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_C_Power_LowPlySphere16_SizeUP"))))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_C_Power_Stomp_SIzeDown_Y"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/C/slashStomp.fbx", Make_ParticleDesc(TEXT("Player_C_Power_Stomp_SIzeDown_Y"))))))
-		return E_FAIL;
-
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("UpgradeMachine_Sizeup"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/TimeStop.fbx", Make_ParticleDesc(TEXT("UpgradeMachine_Sizeup"))))))
-#pragma endregion
-
-#pragma region Player_Power_X
-
+#pragma region Player_Balance_X
+	/*---------------------Player_Balance_X------------------------*/
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_X_Balalnce_newSlash_Rotate"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/X/newSlash.fbx", Make_ParticleDesc(TEXT("Player_X_Balalnce_newSlash_Rotate"))))))
 		return E_FAIL;
@@ -2634,6 +2667,382 @@ HRESULT CLoader::Loading_For_Stage_1()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_X_Balalnce_slashShockwave_Rotate"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/X/slashShockwave.fbx", Make_ParticleDesc(TEXT("Player_X_Balalnce_slashShockwave_Rotate"))))))
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_X_Balalnce_swordThrowing_Rotate"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/X/swordThrowing.fbx", Make_ParticleDesc(TEXT("Player_X_Balalnce_swordThrowing_Rotate"))))))
+		return E_FAIL;
+
+
+	/*-------------------------------------------------------------*/
+#pragma endregion
+
+
+#pragma region Player_Balance_C
+	/*---------------------Player_Balance_C------------------------*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_C_Balalnce_LowpolySphere16_Size_Down_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/C/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_C_Balalnce_LowpolySphere16_Size_Down_Z"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_C_Balalnce_stingerRing.001_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/C/stinger.001.fbx", Make_ParticleDesc(TEXT("Player_C_Balalnce_stingerRing.001_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_C_Balalnce_stingerHalftone_Size_Down_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/C/stingerHalftone.fbx", Make_ParticleDesc(TEXT("Player_C_Balalnce_stingerHalftone_Size_Down_Z"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_C_Balalnce_stinger.001_Size_Down_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/C/stingerRing.001.fbx", Make_ParticleDesc(TEXT("Player_C_Balalnce_stinger.001_Size_Down_Z"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_C_Balalnce_stingerRing_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/C/stingerRing.fbx", Make_ParticleDesc(TEXT("Player_C_Balalnce_stingerRing_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_C_Balalnce_Matilda_Trace_Attack_Pop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/C/Matilda_Trace_Attack.fbx", Make_ParticleDesc(TEXT("Player_C_Balalnce_Matilda_Trace_Attack_Pop"))))))
+		return E_FAIL;
+
+
+	/*-------------------------------------------------------------*/
+#pragma endregion
+#pragma region Player_Balance_XC
+	/*---------------------Player_Balance_XC------------------------*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Balalnce_XC_ExplosionFrag_Up_And_Down"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/XC/ExplosionFrag.fbx", Make_ParticleDesc(TEXT("Player_Balalnce_XC_ExplosionFrag_Up_And_Down"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Balalnce_XC_LowpolySphere8_Explosion"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/XC/LowpolySphere8.fbx", Make_ParticleDesc(TEXT("Player_Balalnce_XC_LowpolySphere8_Explosion"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Balalnce_XC_LowpolySphere16_Pop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/XC/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Balalnce_XC_LowpolySphere16_Pop"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Balalnce_XC_LowpolySphere16_Next_Pop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/XC/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Balalnce_XC_LowpolySphere16_Next_Pop"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Balalnce_XC_Matilda_Trace_Ult.001_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/XC/Matilda_Trace_Ult.001.fbx", Make_ParticleDesc(TEXT("Player_Balalnce_XC_Matilda_Trace_Ult.001_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Balalnce_XC_Matilda_Trace_Ult.002_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/XC/Matilda_Trace_Ult.002.fbx", Make_ParticleDesc(TEXT("Player_Balalnce_XC_Matilda_Trace_Ult.002_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Balalnce_XC_Matilda_Trace_Ult.003_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/XC/Matilda_Trace_Ult.003.fbx", Make_ParticleDesc(TEXT("Player_Balalnce_XC_Matilda_Trace_Ult.003_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Balalnce_XC_Matilda_Trace_Ult.004_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/XC/Matilda_Trace_Ult.004.fbx", Make_ParticleDesc(TEXT("Player_Balalnce_XC_Matilda_Trace_Ult.004_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Balalnce_XC_Matilda_Trace_Ult.005_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/XC/Matilda_Trace_Ult.005.fbx", Make_ParticleDesc(TEXT("Player_Balalnce_XC_Matilda_Trace_Ult.005_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Balalnce_XC_Matilda_Trace_Ult_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/XC/Matilda_Trace_Ult.fbx", Make_ParticleDesc(TEXT("Player_Balalnce_XC_Matilda_Trace_Ult_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Balalnce_XC_slashLine_Size_Down_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/XC/slashLine.fbx", Make_ParticleDesc(TEXT("Player_Balalnce_XC_slashLine_Size_Down_Z"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Balalnce_XC_slashLine_Next_Size_Down_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/XC/slashLine.fbx", Make_ParticleDesc(TEXT("Player_Balalnce_XC_slashLine_Next_Size_Down_Z"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Balalnce_XC_swordGroundWind_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/XC/swordGroundWind.fbx", Make_ParticleDesc(TEXT("Player_Balalnce_XC_swordGroundWind_Size_Up"))))))
+		return E_FAIL;
+
+	/*-------------------------------------------------------------*/
+#pragma endregion
+
+
+
+#pragma region Player_Technic_X
+	/*---------------------Player_Technic_X------------------------*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Technic_X_swordThrowing_Rotate_x"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Technic/X/swordThrowing.fbx", Make_ParticleDesc(TEXT("Player_Technic_X_swordThrowing_Rotate_x"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Technic_X_slashShockwave_Rotate_x"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Technic/X/slashShockwave.fbx", Make_ParticleDesc(TEXT("Player_Technic_X_slashShockwave_Rotate_x"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Technic_X_hitRing_SIZE_UP"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Technic/X/hitRing.fbx", Make_ParticleDesc(TEXT("Player_Technic_X_hitRing_SIZE_UP"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Technic_X_hit_Pop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Technic/X/hit.fbx", Make_ParticleDesc(TEXT("Player_Technic_X_hit_Pop"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Technic_X_swordThrow_Pop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Technic/X/swordThrow.fbx", Make_ParticleDesc(TEXT("Player_Technic_X_swordThrow_Pop"))))))
+		return E_FAIL;
+
+	/*-------------------------------------------------------------*/
+
+
+
+#pragma endregion
+
+
+
+
+#pragma region Player_Technic_C
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Technic_C_slashShockwave_Rotate"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Technic/C/slashShockwave.fbx", Make_ParticleDesc(TEXT("Player_Technic_C_slashShockwave_Rotate"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Technic_C_slashCircleSword_Rotate"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Technic/C/slashCircleSword.fbx", Make_ParticleDesc(TEXT("Player_Technic_C_slashCircleSword_Rotate"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Technic_C_slashCircle_Rotate"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Technic/C/slashCircle.fbx", Make_ParticleDesc(TEXT("Player_Technic_C_slashCircle_Rotate"))))))
+		return E_FAIL;
+
+
+
+
+#pragma endregion
+
+#pragma region Player_Technic_XC
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Technic_XC_slashCircle_SizeUP"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Technic/XC/slashCircle.fbx", Make_ParticleDesc(TEXT("Player_Technic_XC_slashCircle_SizeUP"))))))
+		return E_FAIL;
+
+
+
+
+#pragma endregion
+
+
+#pragma region Player_Power_X
+	/*---------------------Player_Power_X------------------------*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Power_X_Matilda_Trace_Jump_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/X/Matilda_Trace_Jump.fbx", Make_ParticleDesc(TEXT("Player_Power_X_Matilda_Trace_Jump_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Power_X_slashLine_Size_Down_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/X/slashLine.fbx", Make_ParticleDesc(TEXT("Player_Power_X_slashLine_Size_Down_Z"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Power_X_LowpolySphere16_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/X/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Power_X_LowpolySphere16_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Power_X_LowpolyCylinder6_Size_Down_Y"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/X/LowpolyCylinder6.fbx", Make_ParticleDesc(TEXT("Player_Power_X_LowpolyCylinder6_Size_Down_Y"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Power_X_hitRing_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/X/hitRing.fbx", Make_ParticleDesc(TEXT("Player_Power_X_hitRing_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Power_X_ExplosionFrag.001_Up_And_Down"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/X/ExplosionFrag.001.fbx", Make_ParticleDesc(TEXT("Player_Power_X_ExplosionFrag.001_Up_And_Down"))))))
+		return E_FAIL;
+
+
+
+	/*-------------------------------------------------------------*/
+#pragma endregion
+
+
+
+
+
+#pragma region Player_Power_C
+	/*---------------------Player_Power_C------------------------*/
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_C_Power_HitRing001_Pop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/C/hit001.fbx", Make_ParticleDesc(TEXT("Player_C_Power_HitRing001_Pop"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_C_Power_HitRing003_SizeUP"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/C/hit003.fbx", Make_ParticleDesc(TEXT("Player_C_Power_HitRing003_SizeUP"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_C_Power_LowPlySphere8_SizeUP"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/C/LowpolySphere8.fbx", Make_ParticleDesc(TEXT("Player_C_Power_LowPlySphere8_SizeUP"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_C_Power_LowPlySphere16_SizeUP"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/C/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_C_Power_LowPlySphere16_SizeUP"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_C_Power_Stomp_SIzeDown_Y"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/C/slashStomp.fbx", Make_ParticleDesc(TEXT("Player_C_Power_Stomp_SIzeDown_Y"))))))
+		return E_FAIL;
+	/*-------------------------------------------------------------*/
+#pragma endregion
+
+#pragma region Player_Power_XC
+/*---------------------Player_Power_XC------------------------*/
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Power_XC_Matilda_Trace_Size_Up_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/XC/Matilda_Trace.fbx", Make_ParticleDesc(TEXT("Player_Power_XC_Matilda_Trace_Size_Up_Z"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Power_XC_newSlash.001_Size_UP_X"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/XC/newSlash.001.fbx", Make_ParticleDesc(TEXT("Player_Power_XC_newSlash.001_Size_UP_X"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Power_XC_stingerRing.001_Pop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/XC/stingerRing.001.fbx", Make_ParticleDesc(TEXT("Player_Power_XC_stingerRing.001_Pop"))))))
+		return E_FAIL;
+
+	/*-------------------------------------------------------------*/
+#pragma endregion
+
+#pragma region Player_Reverse_X
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Reverse_X_swordThrowing_Rotate_X_Loop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Reverse/X/swordThrowing.fbx", Make_ParticleDesc(TEXT("Player_Reverse_X_swordThrowing_Rotate_X_Loop"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Reverse_X_slashShockwave_Rotate_X_Loop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Reverse/X/slashShockwave.fbx", Make_ParticleDesc(TEXT("Player_Reverse_X_slashShockwave_Rotate_X_Loop"))))))
+		return E_FAIL;
+
+
+
+#pragma endregion
+
+
+#pragma region Player_Reverse_C
+	/*---------------------Player_Reverse_C------------------------*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Reverse_C_Matilda_Trace_Jump_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Reverse/C/Matilda_Trace_Jump.fbx", Make_ParticleDesc(TEXT("Player_Reverse_C_Matilda_Trace_Jump_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Reverse_C_LowpolyCylinder6_Size_Down"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Reverse/C/LowpolyCylinder6.fbx", Make_ParticleDesc(TEXT("Player_Reverse_C_LowpolyCylinder6_Size_Down"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Reverse_C_ThrowingKnife_Size_UP"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Reverse/C/ThrowingKnife.fbx", Make_ParticleDesc(TEXT("Player_Reverse_C_ThrowingKnife_Size_UP"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Reverse_C_LowpolySphere16_Size_UP"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Reverse/C/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Reverse_C_LowpolySphere16_Size_UP"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Reverse_C_hitRing_Size_UP"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Reverse/C/hitRing.fbx", Make_ParticleDesc(TEXT("Player_Reverse_C_hitRing_Size_UP"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Reverse_C_atomStar0022_SizeUP"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Reverse/C/atomStar0022.fbx", Make_ParticleDesc(TEXT("Player_Reverse_C_atomStar0022_SizeUP"))))))
+		return E_FAIL;
+	/*-------------------------------------------------------------*/
+#pragma endregion
+
+#pragma region Player_Reverse_XC
+/*---------------------Player_Reverse_C------------------------*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Reverse_XC_stingerRing.001_Rotate_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Reverse/XC/stingerRing.001.fbx", Make_ParticleDesc(TEXT("Player_Reverse_XC_stingerRing.001_Rotate_Z"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Reverse_XC_stingerHalftone_Size_Up_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Reverse/XC/stingerHalftone.fbx", Make_ParticleDesc(TEXT("Player_Reverse_XC_stingerHalftone_Size_Up_Z"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Reverse_XC_SlashCubic_Pop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Reverse/XC/SlashCubic.fbx", Make_ParticleDesc(TEXT("Player_Reverse_XC_SlashCubic_Pop"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Reverse_XC_LowpolySphere16_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Reverse/XC/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Reverse_XC_LowpolySphere16_Size_Up"))))))
+		return E_FAIL;
+
+
+	/*-------------------------------------------------------------*/
+#pragma endregion
+
+
+#pragma region Player_Amanda_Default_Attack
+	/*---------------------Player_Amanda_Default_Attack------------------------*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Default_Attack_Beam_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/DefaultAttack/Beam.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Default_Attack_Beam_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Default_Attack_Muzzle_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/DefaultAttack/Muzzle.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Default_Attack_Muzzle_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Default_Attack_LowpolySphere16_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/DefaultAttack/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Default_Attack_LowpolySphere16_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Default_Attack_hit001_Size_Up_X"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/DefaultAttack/hit001.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Default_Attack_hit001_Size_Up_X"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Default_Attack_Flame_Size_Up_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/DefaultAttack/Flame.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Default_Attack_Flame_Size_Up_Z"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Default_Attack_Shell001_Up_And_Down_Tex"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/DefaultAttack/Shell001.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Default_Attack_Shell001_Up_And_Down_Tex"))))))
+		return E_FAIL;
+
+
+	/*-------------------------------------------------------------*/
+#pragma endregion
+#pragma region Player_Amanda_Balance_X
+	/*---------------------Player_Amanda_Balance_X------------------------*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Balance_X_Grenade_Rotate_X"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/X/Grenade.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_X_Grenade_Rotate_X"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Balance_X_LowpolySphere16_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/X/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_X_LowpolySphere16_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Balance_X_LowpolySphere8_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/X/LowpolySphere8.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_X_LowpolySphere8_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Balance_X_ExplosionGroundEffect_Pop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/X/ExplosionGroundEffect.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_X_ExplosionGroundEffect_Pop"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Balance_X_ExplosionGroundEffect.001_Pop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/X/ExplosionGroundEffect.001.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_X_ExplosionGroundEffect.001_Pop"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Balance_X_ExplosionFrag_Up_And_Down"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/X/ExplosionFrag.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_X_ExplosionFrag_Up_And_Down"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Balance_X_ExplosionFrag.002_Up_And_Down"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/X/ExplosionFrag.002.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_X_ExplosionFrag.002_Up_And_Down"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Balance_X_ExplosionFrag.001_Up_And_Down"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/X/ExplosionFrag.001.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_X_ExplosionFrag.001_Up_And_Down"))))))
+		return E_FAIL;
+
+	/*-------------------------------------------------------------*/
+#pragma endregion
+#pragma region Player_Amanda_Balance_C
+	/*---------------------Player_Amanda_Balance_C------------------------*/
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Balance_C_BulletBuck_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/C/BulletBuck.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_C_BulletBuck_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Balance_C_ShotRing_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/C/ShotRing.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_C_ShotRing_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Balance_C_MuzzleBuck.001_Size_Up_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/C/MuzzleBuck.001.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_C_MuzzleBuck.001_Size_Up_Z"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Balance_C_LowpolySphere16_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/C/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_C_LowpolySphere16_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Balance_C_Grappling_Pop_Texture"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/C/Grappling.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_C_Grappling_Pop_Texture"))))))
+		return E_FAIL;
+
+
+
+
+	/*-------------------------------------------------------------*/
+#pragma endregion
+
+#pragma region Player_Amanda_Balance_XC
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Balance_XC_ExplosionFrag_Up_And_Down"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/XC/ExplosionFrag.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_XC_ExplosionFrag_Up_And_Down"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Balance_XC_hit001_Size_Up_X"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/XC/hit001.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_XC_hit001_Size_Up_X"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Balance_XC_LowpolySphere16_2_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/XC/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_XC_LowpolySphere16_2_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Balance_XC_LowpolySphere16_1_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/XC/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_XC_LowpolySphere16_1_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Balance_XC_Ult_Beam_Rotate_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/XC/Ult_Beam.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_XC_Ult_Beam_Rotate_Z"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Balance_XC_Ult_Ring_Rotate_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/XC/Ult_Ring.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_XC_Ult_Ring_Rotate_Z"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Balance_XC_Ult_Spring_Rotate_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/XC/Ult_Spring.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_XC_Ult_Spring_Rotate_Z"))))))
+		return E_FAIL;
+
+
+
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Balance_XC_Shell.002_Up_And_Down_Texture"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/XC/Shell.002.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_XC_Shell.002_Up_And_Down_Texture"))))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region Player_Amanda_Technic_X
+	//없음
+
+
+
+
+
+
+#pragma endregion
+#pragma region Player_Amanda_Technic_C
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Technic_C_WireBarrier_Rotate_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Technic/C/WireBarrier.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Technic_C_WireBarrier_Rotate_Z"))))))
+		return E_FAIL;
+#pragma endregion
+#pragma region Player_Amanda_POWER_X
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Power_X_Tail_LowpolySphere16_Spread_2"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/X/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_X_Tail_LowpolySphere16_Spread_2"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Power_X_Tail_LowpolySphere16_Spread_1"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/X/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_X_Tail_LowpolySphere16_Spread_1"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Power_X_LowpolySphere16_Spread_2"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/X/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_X_LowpolySphere16_Spread_2"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Power_X_LowpolySphere16_Spread_1"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/X/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_X_LowpolySphere16_Spread_1"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Power_X_hit_Size_Down_Y"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/X/hit.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_X_hit_Size_Down_Y"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Power_X_ExplosionSpark001_Szie_Down_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/X/ExplosionSpark001.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_X_ExplosionSpark001_Szie_Down_Z"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Power_X_atomStar0022_Size_Up_X"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/X/atomStar0022.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_X_atomStar0022_Size_Up_X"))))))
+		return E_FAIL;
+#pragma endregion
+#pragma region Player_Amanda_POWER_C
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Power_C_ShotRing_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/C/ShotRing.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_C_ShotRing_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Power_C_MuzzleBuck.001_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/C/MuzzleBuck.001.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_C_MuzzleBuck.001_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Power_C_BulletBuck_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/C/BulletBuck.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_C_BulletBuck_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Power_C_LowpolySphere16_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/C/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_C_LowpolySphere16_Size_Up"))))))
+		return E_FAIL;
+
+#pragma endregion
+#pragma region Player_Amanda_POWER_XC
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Power_XC_ShotRing_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/XC/ShotRing.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_XC_ShotRing_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Power_XC_MuzzleBuck_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/XC/MuzzleBuck.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_XC_MuzzleBuck_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Power_XC_LowpolySphere16_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/XC/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_XC_LowpolySphere16_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Power_XC_Flame_Size_UP_Y"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/XC/Flame.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_XC_Flame_Size_UP_Y"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Power_XC_BulletBuck_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/XC/BulletBuck.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_XC_BulletBuck_Size_Up"))))))
+		return E_FAIL;
+
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Power_XC_Ult_Beam_Vertical_Size_Down_X"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/XC/Ult_Beam_Vertical.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_XC_Ult_Beam_Vertical_Size_Down_X"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Power_XC_Ult_Ring_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/XC/Ult_Ring.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_XC_Ult_Ring_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Power_XC_ExplosionGroundEffect_Pop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/XC/ExplosionGroundEffect.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_XC_ExplosionGroundEffect_Pop"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Power_XC_ExplosionGroundEffect.001_Pop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/XC/ExplosionGroundEffect.001.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_XC_ExplosionGroundEffect.001_Pop"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Power_XC_ExplosionFrag_Up_And_Down"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/XC/ExplosionFrag.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_XC_ExplosionFrag_Up_And_Down"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Amanda_Power_XC_ExplosionFrag_Up_And_Down_2"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/XC/ExplosionFrag.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_XC_ExplosionFrag_Up_And_Down_2"))))))
+		return E_FAIL;
+
+#pragma endregion
+#pragma region Player_Amanda_REVERSE_X
+
+
+
+
+#pragma endregion
+
+#pragma region Player_Swap
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Swap_Effect_Style_Sword_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Swap/Style_Sword.fbx", Make_ParticleDesc(TEXT("Player_Swap_Effect_Style_Sword_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Swap_Effect_Style_Gun_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Swap/Style_Gun.fbx", Make_ParticleDesc(TEXT("Player_Swap_Effect_Style_Gun_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Swap_Effect_LowpolySphere16_Pop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Swap/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Swap_Effect_LowpolySphere16_Pop"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Swap_Effect_atomTri_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Swap/atomTri.fbx", Make_ParticleDesc(TEXT("Player_Swap_Effect_atomTri_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Swap_Effect_atomTri.002_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Swap/atomTri.002.fbx", Make_ParticleDesc(TEXT("Player_Swap_Effect_atomTri.002_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Swap_Effect_atomTri.001_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Swap/atomTri.001.fbx", Make_ParticleDesc(TEXT("Player_Swap_Effect_atomTri.001_Spread"))))))
+		return E_FAIL;
+
+#pragma endregion
+
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("UpgradeMachine_Sizeup"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/TimeStop.fbx", Make_ParticleDesc(TEXT("UpgradeMachine_Sizeup"))))))
 		return E_FAIL;
 
 
@@ -3138,7 +3547,6 @@ HRESULT CLoader::Loading_For_Change_Stage()
 	lstrcpy(m_szLoadingText, TEXT("파티클을 로딩 중 입니다."));
 	/*Particle*/
 
-
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Effect_ExplosionFrag_Up_And_Down"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/ExplosionFrag.fbx", Make_ParticleDesc(TEXT("Effect_ExplosionFrag_Up_And_Down"))))))
 		return E_FAIL;
 
@@ -3231,6 +3639,150 @@ HRESULT CLoader::Loading_For_Change_Stage()
 
 
 
+#pragma region Player_Balance_X
+	/*---------------------Player_Balance_X------------------------*/
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_X_Balalnce_newSlash_Rotate"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/X/newSlash.fbx", Make_ParticleDesc(TEXT("Player_X_Balalnce_newSlash_Rotate"))))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_X_Balalnce_newSlash.001_Rotate"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/X/newSlash.001.fbx", Make_ParticleDesc(TEXT("Player_X_Balalnce_newSlash.001_Rotate"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_X_Balalnce_SlashHaftone001_Rotate"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/X/slashHaftone.001.fbx", Make_ParticleDesc(TEXT("Player_X_Balalnce_SlashHaftone001_Rotate"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_X_Balalnce_slashShockwave_Rotate"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/X/slashShockwave.fbx", Make_ParticleDesc(TEXT("Player_X_Balalnce_slashShockwave_Rotate"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_X_Balalnce_swordThrowing_Rotate"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/X/swordThrowing.fbx", Make_ParticleDesc(TEXT("Player_X_Balalnce_swordThrowing_Rotate"))))))
+		return E_FAIL;
+
+
+	/*-------------------------------------------------------------*/
+#pragma endregion
+
+
+#pragma region Player_Balance_C
+	/*---------------------Player_Balance_C------------------------*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_C_Balalnce_LowpolySphere16_Size_Down_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/C/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_C_Balalnce_LowpolySphere16_Size_Down_Z"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_C_Balalnce_stingerRing.001_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/C/stinger.001.fbx", Make_ParticleDesc(TEXT("Player_C_Balalnce_stingerRing.001_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_C_Balalnce_stingerHalftone_Size_Down_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/C/stingerHalftone.fbx", Make_ParticleDesc(TEXT("Player_C_Balalnce_stingerHalftone_Size_Down_Z"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_C_Balalnce_stinger.001_Size_Down_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/C/stingerRing.001.fbx", Make_ParticleDesc(TEXT("Player_C_Balalnce_stinger.001_Size_Down_Z"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_C_Balalnce_stingerRing_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/C/stingerRing.fbx", Make_ParticleDesc(TEXT("Player_C_Balalnce_stingerRing_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_C_Balalnce_Matilda_Trace_Attack_Pop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/C/Matilda_Trace_Attack.fbx", Make_ParticleDesc(TEXT("Player_C_Balalnce_Matilda_Trace_Attack_Pop"))))))
+		return E_FAIL;
+
+
+	/*-------------------------------------------------------------*/
+#pragma endregion
+#pragma region Player_Balance_XC
+	/*---------------------Player_Balance_XC------------------------*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Balalnce_XC_ExplosionFrag_Up_And_Down"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/XC/ExplosionFrag.fbx", Make_ParticleDesc(TEXT("Player_Balalnce_XC_ExplosionFrag_Up_And_Down"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Balalnce_XC_LowpolySphere8_Explosion"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/XC/LowpolySphere8.fbx", Make_ParticleDesc(TEXT("Player_Balalnce_XC_LowpolySphere8_Explosion"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Balalnce_XC_LowpolySphere16_Pop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/XC/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Balalnce_XC_LowpolySphere16_Pop"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Balalnce_XC_LowpolySphere16_Next_Pop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/XC/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Balalnce_XC_LowpolySphere16_Next_Pop"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Balalnce_XC_Matilda_Trace_Ult.001_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/XC/Matilda_Trace_Ult.001.fbx", Make_ParticleDesc(TEXT("Player_Balalnce_XC_Matilda_Trace_Ult.001_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Balalnce_XC_Matilda_Trace_Ult.002_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/XC/Matilda_Trace_Ult.002.fbx", Make_ParticleDesc(TEXT("Player_Balalnce_XC_Matilda_Trace_Ult.002_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Balalnce_XC_Matilda_Trace_Ult.003_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/XC/Matilda_Trace_Ult.003.fbx", Make_ParticleDesc(TEXT("Player_Balalnce_XC_Matilda_Trace_Ult.003_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Balalnce_XC_Matilda_Trace_Ult.004_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/XC/Matilda_Trace_Ult.004.fbx", Make_ParticleDesc(TEXT("Player_Balalnce_XC_Matilda_Trace_Ult.004_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Balalnce_XC_Matilda_Trace_Ult.005_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/XC/Matilda_Trace_Ult.005.fbx", Make_ParticleDesc(TEXT("Player_Balalnce_XC_Matilda_Trace_Ult.005_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Balalnce_XC_Matilda_Trace_Ult_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/XC/Matilda_Trace_Ult.fbx", Make_ParticleDesc(TEXT("Player_Balalnce_XC_Matilda_Trace_Ult_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Balalnce_XC_slashLine_Size_Down_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/XC/slashLine.fbx", Make_ParticleDesc(TEXT("Player_Balalnce_XC_slashLine_Size_Down_Z"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Balalnce_XC_slashLine_Next_Size_Down_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/XC/slashLine.fbx", Make_ParticleDesc(TEXT("Player_Balalnce_XC_slashLine_Next_Size_Down_Z"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Balalnce_XC_swordGroundWind_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Balalnce/XC/swordGroundWind.fbx", Make_ParticleDesc(TEXT("Player_Balalnce_XC_swordGroundWind_Size_Up"))))))
+		return E_FAIL;
+
+	/*-------------------------------------------------------------*/
+#pragma endregion
+
+
+
+#pragma region Player_Technic_X
+	/*---------------------Player_Technic_X------------------------*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Technic_X_swordThrowing_Rotate_x"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Technic/X/swordThrowing.fbx", Make_ParticleDesc(TEXT("Player_Technic_X_swordThrowing_Rotate_x"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Technic_X_slashShockwave_Rotate_x"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Technic/X/slashShockwave.fbx", Make_ParticleDesc(TEXT("Player_Technic_X_slashShockwave_Rotate_x"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Technic_X_hitRing_SIZE_UP"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Technic/X/hitRing.fbx", Make_ParticleDesc(TEXT("Player_Technic_X_hitRing_SIZE_UP"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Technic_X_hit_Pop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Technic/X/hit.fbx", Make_ParticleDesc(TEXT("Player_Technic_X_hit_Pop"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Technic_X_swordThrow_Pop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Technic/X/swordThrow.fbx", Make_ParticleDesc(TEXT("Player_Technic_X_swordThrow_Pop"))))))
+		return E_FAIL;
+
+	/*-------------------------------------------------------------*/
+
+
+
+#pragma endregion
+
+
+
+
+#pragma region Player_Technic_C
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Technic_C_slashShockwave_Rotate"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Technic/C/slashShockwave.fbx", Make_ParticleDesc(TEXT("Player_Technic_C_slashShockwave_Rotate"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Technic_C_slashCircleSword_Rotate"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Technic/C/slashCircleSword.fbx", Make_ParticleDesc(TEXT("Player_Technic_C_slashCircleSword_Rotate"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Technic_C_slashCircle_Rotate"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Technic/C/slashCircle.fbx", Make_ParticleDesc(TEXT("Player_Technic_C_slashCircle_Rotate"))))))
+		return E_FAIL;
+
+
+
+
+#pragma endregion
+
+#pragma region Player_Technic_XC
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Technic_XC_slashCircle_SizeUP"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Technic/XC/slashCircle.fbx", Make_ParticleDesc(TEXT("Player_Technic_XC_slashCircle_SizeUP"))))))
+		return E_FAIL;
+
+
+
+
+#pragma endregion
+
+
+#pragma region Player_Power_X
+	/*---------------------Player_Power_X------------------------*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Power_X_Matilda_Trace_Jump_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/X/Matilda_Trace_Jump.fbx", Make_ParticleDesc(TEXT("Player_Power_X_Matilda_Trace_Jump_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Power_X_slashLine_Size_Down_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/X/slashLine.fbx", Make_ParticleDesc(TEXT("Player_Power_X_slashLine_Size_Down_Z"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Power_X_LowpolySphere16_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/X/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Power_X_LowpolySphere16_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Power_X_LowpolyCylinder6_Size_Down_Y"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/X/LowpolyCylinder6.fbx", Make_ParticleDesc(TEXT("Player_Power_X_LowpolyCylinder6_Size_Down_Y"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Power_X_hitRing_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/X/hitRing.fbx", Make_ParticleDesc(TEXT("Player_Power_X_hitRing_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Power_X_ExplosionFrag.001_Up_And_Down"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/X/ExplosionFrag.001.fbx", Make_ParticleDesc(TEXT("Player_Power_X_ExplosionFrag.001_Up_And_Down"))))))
+		return E_FAIL;
+
+
+
+	/*-------------------------------------------------------------*/
+#pragma endregion
+
+
+
+
+
+#pragma region Player_Power_C
+	/*---------------------Player_Power_C------------------------*/
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_C_Power_HitRing001_Pop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/C/hit001.fbx", Make_ParticleDesc(TEXT("Player_C_Power_HitRing001_Pop"))))))
 		return E_FAIL;
@@ -3242,12 +3794,241 @@ HRESULT CLoader::Loading_For_Change_Stage()
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_C_Power_Stomp_SIzeDown_Y"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/C/slashStomp.fbx", Make_ParticleDesc(TEXT("Player_C_Power_Stomp_SIzeDown_Y"))))))
 		return E_FAIL;
+	/*-------------------------------------------------------------*/
+#pragma endregion
 
+#pragma region Player_Power_XC
+/*---------------------Player_Power_XC------------------------*/
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Power_XC_Matilda_Trace_Size_Up_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/XC/Matilda_Trace.fbx", Make_ParticleDesc(TEXT("Player_Power_XC_Matilda_Trace_Size_Up_Z"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Power_XC_newSlash.001_Size_UP_X"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/XC/newSlash.001.fbx", Make_ParticleDesc(TEXT("Player_Power_XC_newSlash.001_Size_UP_X"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Power_XC_stingerRing.001_Pop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Power/XC/stingerRing.001.fbx", Make_ParticleDesc(TEXT("Player_Power_XC_stingerRing.001_Pop"))))))
+		return E_FAIL;
+
+	/*-------------------------------------------------------------*/
+#pragma endregion
+
+#pragma region Player_Reverse_X
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Reverse_X_swordThrowing_Rotate_X_Loop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Reverse/X/swordThrowing.fbx", Make_ParticleDesc(TEXT("Player_Reverse_X_swordThrowing_Rotate_X_Loop"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Reverse_X_slashShockwave_Rotate_X_Loop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Reverse/X/slashShockwave.fbx", Make_ParticleDesc(TEXT("Player_Reverse_X_slashShockwave_Rotate_X_Loop"))))))
+		return E_FAIL;
+
+
+
+#pragma endregion
+
+
+#pragma region Player_Reverse_C
+	/*---------------------Player_Reverse_C------------------------*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Reverse_C_Matilda_Trace_Jump_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Reverse/C/Matilda_Trace_Jump.fbx", Make_ParticleDesc(TEXT("Player_Reverse_C_Matilda_Trace_Jump_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Reverse_C_LowpolyCylinder6_Size_Down"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Reverse/C/LowpolyCylinder6.fbx", Make_ParticleDesc(TEXT("Player_Reverse_C_LowpolyCylinder6_Size_Down"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Reverse_C_ThrowingKnife_Size_UP"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Reverse/C/ThrowingKnife.fbx", Make_ParticleDesc(TEXT("Player_Reverse_C_ThrowingKnife_Size_UP"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Reverse_C_LowpolySphere16_Size_UP"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Reverse/C/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Reverse_C_LowpolySphere16_Size_UP"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Reverse_C_hitRing_Size_UP"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Reverse/C/hitRing.fbx", Make_ParticleDesc(TEXT("Player_Reverse_C_hitRing_Size_UP"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Reverse_C_atomStar0022_SizeUP"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Reverse/C/atomStar0022.fbx", Make_ParticleDesc(TEXT("Player_Reverse_C_atomStar0022_SizeUP"))))))
+		return E_FAIL;
+	/*-------------------------------------------------------------*/
+#pragma endregion
+
+#pragma region Player_Reverse_XC
+/*---------------------Player_Reverse_C------------------------*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Reverse_XC_stingerRing.001_Rotate_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Reverse/XC/stingerRing.001.fbx", Make_ParticleDesc(TEXT("Player_Reverse_XC_stingerRing.001_Rotate_Z"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Reverse_XC_stingerHalftone_Size_Up_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Reverse/XC/stingerHalftone.fbx", Make_ParticleDesc(TEXT("Player_Reverse_XC_stingerHalftone_Size_Up_Z"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Reverse_XC_SlashCubic_Pop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Reverse/XC/SlashCubic.fbx", Make_ParticleDesc(TEXT("Player_Reverse_XC_SlashCubic_Pop"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Reverse_XC_LowpolySphere16_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Reverse/XC/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Reverse_XC_LowpolySphere16_Size_Up"))))))
+		return E_FAIL;
+
+
+	/*-------------------------------------------------------------*/
+#pragma endregion
+
+
+#pragma region Player_Amanda_Default_Attack
+	/*---------------------Player_Amanda_Default_Attack------------------------*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Default_Attack_Beam_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/DefaultAttack/Beam.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Default_Attack_Beam_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Default_Attack_Muzzle_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/DefaultAttack/Muzzle.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Default_Attack_Muzzle_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Default_Attack_LowpolySphere16_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/DefaultAttack/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Default_Attack_LowpolySphere16_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Default_Attack_hit001_Size_Up_X"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/DefaultAttack/hit001.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Default_Attack_hit001_Size_Up_X"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Default_Attack_Flame_Size_Up_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/DefaultAttack/Flame.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Default_Attack_Flame_Size_Up_Z"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Default_Attack_Shell001_Up_And_Down_Tex"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/DefaultAttack/Shell001.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Default_Attack_Shell001_Up_And_Down_Tex"))))))
+		return E_FAIL;
+
+
+	/*-------------------------------------------------------------*/
+#pragma endregion
+#pragma region Player_Amanda_Balance_X
+	/*---------------------Player_Amanda_Balance_X------------------------*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Balance_X_Grenade_Rotate_X"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/X/Grenade.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_X_Grenade_Rotate_X"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Balance_X_LowpolySphere16_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/X/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_X_LowpolySphere16_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Balance_X_LowpolySphere8_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/X/LowpolySphere8.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_X_LowpolySphere8_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Balance_X_ExplosionGroundEffect_Pop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/X/ExplosionGroundEffect.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_X_ExplosionGroundEffect_Pop"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Balance_X_ExplosionGroundEffect.001_Pop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/X/ExplosionGroundEffect.001.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_X_ExplosionGroundEffect.001_Pop"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Balance_X_ExplosionFrag_Up_And_Down"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/X/ExplosionFrag.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_X_ExplosionFrag_Up_And_Down"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Balance_X_ExplosionFrag.002_Up_And_Down"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/X/ExplosionFrag.002.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_X_ExplosionFrag.002_Up_And_Down"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Balance_X_ExplosionFrag.001_Up_And_Down"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/X/ExplosionFrag.001.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_X_ExplosionFrag.001_Up_And_Down"))))))
+		return E_FAIL;
+
+	/*-------------------------------------------------------------*/
+#pragma endregion
+#pragma region Player_Amanda_Balance_C
+	/*---------------------Player_Amanda_Balance_C------------------------*/
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Balance_C_BulletBuck_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/C/BulletBuck.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_C_BulletBuck_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Balance_C_ShotRing_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/C/ShotRing.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_C_ShotRing_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Balance_C_MuzzleBuck.001_Size_Up_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/C/MuzzleBuck.001.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_C_MuzzleBuck.001_Size_Up_Z"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Balance_C_LowpolySphere16_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/C/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_C_LowpolySphere16_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Balance_C_Grappling_Pop_Texture"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/C/Grappling.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_C_Grappling_Pop_Texture"))))))
+		return E_FAIL;
+
+
+
+
+	/*-------------------------------------------------------------*/
+#pragma endregion
+
+#pragma region Player_Amanda_Balance_XC
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Balance_XC_ExplosionFrag_Up_And_Down"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/XC/ExplosionFrag.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_XC_ExplosionFrag_Up_And_Down"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Balance_XC_hit001_Size_Up_X"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/XC/hit001.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_XC_hit001_Size_Up_X"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Balance_XC_LowpolySphere16_2_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/XC/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_XC_LowpolySphere16_2_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Balance_XC_LowpolySphere16_1_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/XC/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_XC_LowpolySphere16_1_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Balance_XC_Ult_Beam_Rotate_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/XC/Ult_Beam.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_XC_Ult_Beam_Rotate_Z"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Balance_XC_Ult_Ring_Rotate_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/XC/Ult_Ring.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_XC_Ult_Ring_Rotate_Z"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Balance_XC_Ult_Spring_Rotate_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/XC/Ult_Spring.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_XC_Ult_Spring_Rotate_Z"))))))
+		return E_FAIL;
+
+
+
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Balance_XC_Shell.002_Up_And_Down_Texture"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Balalnce/XC/Shell.002.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Balance_XC_Shell.002_Up_And_Down_Texture"))))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region Player_Amanda_Technic_X
+	//없음
+
+
+
+
+
+
+#pragma endregion
+#pragma region Player_Amanda_Technic_C
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Technic_C_WireBarrier_Rotate_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Technic/C/WireBarrier.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Technic_C_WireBarrier_Rotate_Z"))))))
+		return E_FAIL;
+#pragma endregion
+#pragma region Player_Amanda_POWER_X
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Power_X_Tail_LowpolySphere16_Spread_2"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/X/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_X_Tail_LowpolySphere16_Spread_2"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Power_X_Tail_LowpolySphere16_Spread_1"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/X/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_X_Tail_LowpolySphere16_Spread_1"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Power_X_LowpolySphere16_Spread_2"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/X/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_X_LowpolySphere16_Spread_2"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Power_X_LowpolySphere16_Spread_1"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/X/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_X_LowpolySphere16_Spread_1"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Power_X_hit_Size_Down_Y"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/X/hit.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_X_hit_Size_Down_Y"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Power_X_ExplosionSpark001_Szie_Down_Z"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/X/ExplosionSpark001.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_X_ExplosionSpark001_Szie_Down_Z"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Power_X_atomStar0022_Size_Up_X"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/X/atomStar0022.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_X_atomStar0022_Size_Up_X"))))))
+		return E_FAIL;
+#pragma endregion
+#pragma region Player_Amanda_POWER_C
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Power_C_ShotRing_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/C/ShotRing.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_C_ShotRing_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Power_C_MuzzleBuck.001_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/C/MuzzleBuck.001.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_C_MuzzleBuck.001_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Power_C_BulletBuck_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/C/BulletBuck.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_C_BulletBuck_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Power_C_LowpolySphere16_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/C/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_C_LowpolySphere16_Size_Up"))))))
+		return E_FAIL;
+
+#pragma endregion
+#pragma region Player_Amanda_POWER_XC
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Power_XC_ShotRing_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/XC/ShotRing.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_XC_ShotRing_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Power_XC_MuzzleBuck_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/XC/MuzzleBuck.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_XC_MuzzleBuck_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Power_XC_LowpolySphere16_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/XC/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_XC_LowpolySphere16_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Power_XC_Flame_Size_UP_Y"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/XC/Flame.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_XC_Flame_Size_UP_Y"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Power_XC_BulletBuck_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/XC/BulletBuck.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_XC_BulletBuck_Size_Up"))))))
+		return E_FAIL;
+
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Power_XC_Ult_Beam_Vertical_Size_Down_X"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/XC/Ult_Beam_Vertical.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_XC_Ult_Beam_Vertical_Size_Down_X"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Power_XC_Ult_Ring_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/XC/Ult_Ring.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_XC_Ult_Ring_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Power_XC_ExplosionGroundEffect_Pop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/XC/ExplosionGroundEffect.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_XC_ExplosionGroundEffect_Pop"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Power_XC_ExplosionGroundEffect.001_Pop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/XC/ExplosionGroundEffect.001.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_XC_ExplosionGroundEffect.001_Pop"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Power_XC_ExplosionFrag_Up_And_Down"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/XC/ExplosionFrag.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_XC_ExplosionFrag_Up_And_Down"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Amanda_Power_XC_ExplosionFrag_Up_And_Down_2"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Amanda/Power/XC/ExplosionFrag.fbx", Make_ParticleDesc(TEXT("Player_Amanda_Power_XC_ExplosionFrag_Up_And_Down_2"))))))
+		return E_FAIL;
+
+#pragma endregion
+#pragma region Player_Amanda_REVERSE_X
+
+
+
+
+#pragma endregion
+
+#pragma region Player_Swap
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Swap_Effect_Style_Sword_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Swap/Style_Sword.fbx", Make_ParticleDesc(TEXT("Player_Swap_Effect_Style_Sword_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Swap_Effect_Style_Gun_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Swap/Style_Gun.fbx", Make_ParticleDesc(TEXT("Player_Swap_Effect_Style_Gun_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Swap_Effect_LowpolySphere16_Pop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Swap/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Player_Swap_Effect_LowpolySphere16_Pop"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Swap_Effect_atomTri_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Swap/atomTri.fbx", Make_ParticleDesc(TEXT("Player_Swap_Effect_atomTri_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Swap_Effect_atomTri.002_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Swap/atomTri.002.fbx", Make_ParticleDesc(TEXT("Player_Swap_Effect_atomTri.002_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Swap_Effect_atomTri.001_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Player/Swap/atomTri.001.fbx", Make_ParticleDesc(TEXT("Player_Swap_Effect_atomTri.001_Spread"))))))
+		return E_FAIL;
+
+#pragma endregion
 
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("UpgradeMachine_Sizeup"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/TimeStop.fbx", Make_ParticleDesc(TEXT("UpgradeMachine_Sizeup"))))))
-
-
+		return E_FAIL;
 
 
 
