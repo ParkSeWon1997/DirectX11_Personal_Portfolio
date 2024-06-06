@@ -11,6 +11,9 @@
 #include"CHandBoss.h"
 #include"Particle_Mesh.h"
 #include"CHandBullet.h"
+
+
+#include"UI.h"
 CLevel_Stage_1::CLevel_Stage_1(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -24,6 +27,8 @@ HRESULT CLevel_Stage_1::Initialize()
 
 	//if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 	//	return E_FAIL;
+	if (FAILED(Ready_UI(TEXT("Layer_Ui"))))
+		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
 		return E_FAIL;
@@ -79,6 +84,51 @@ HRESULT CLevel_Stage_1::Ready_Lights()
 	LightDesc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
 
 	m_pGameInstance->Add_Light(LightDesc);
+
+	return S_OK;
+}
+
+HRESULT CLevel_Stage_1::Ready_UI(const wstring& strLayerTag)
+{
+	UI::UI_DESC desc;
+
+
+	//좌상단
+	desc.strModelName = TEXT("Panel_Frame_InGame_Deco_Left_Top");
+	desc.fSizeX = 256.f;
+	desc.fSizeY = 128.f;
+	desc.fX = desc.fSizeX * 0.5f;
+	desc.fY = desc.fSizeY * 0.5f;
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_1, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
+		return E_FAIL;
+
+	// 우상단
+	desc.strModelName = TEXT("Panel_Frame_InGame_Deco_Right_Top");
+	desc.fSizeX = 256.f;
+	desc.fSizeY = 128.f;
+	desc.fX = 1280.f - desc.fSizeX * 0.5f;  // X 좌표: 화면 너비 - 크기의 반
+	desc.fY = desc.fSizeY * 0.5f;           // Y 좌표: 크기의 반
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_1, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
+		return E_FAIL;
+
+	// 좌하단
+	desc.strModelName = TEXT("Panel_Frame_InGame_Deco_Left_Bottom");
+	desc.fSizeX = 256.f;
+	desc.fSizeY = 128.f;
+	desc.fX = desc.fSizeX * 0.5f;             // X 좌표: 크기의 반
+	desc.fY = 720.f - desc.fSizeY * 0.5f;     // Y 좌표: 화면 높이 - 크기의 반
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_1, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
+		return E_FAIL;
+
+
+	// 우하단
+	desc.strModelName = TEXT("Panel_Frame_InGame_Deco_Right_Bottom");
+	desc.fSizeX = 256.f;
+	desc.fSizeY = 128.f;
+	desc.fX = 1280.f - desc.fSizeX * 0.5f;    // X 좌표: 화면 너비 - 크기의 반
+	desc.fY = 720.f - desc.fSizeY * 0.5f;     // Y 좌표: 화면 높이 - 크기의 반
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_1, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
+		return E_FAIL;
 
 	return S_OK;
 }

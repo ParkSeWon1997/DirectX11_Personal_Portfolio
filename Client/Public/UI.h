@@ -16,7 +16,9 @@ class UI final : public CGameObject
 public:
 	typedef struct UI_DESC : public CGameObject::GAMEOBJECT_DESC
 	{
-		_float		fData;
+		_float            fX, fY, fSizeX, fSizeY;
+
+
 	}UI_DESC;
 private:
 	UI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

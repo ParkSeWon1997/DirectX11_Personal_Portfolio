@@ -44,8 +44,9 @@ HRESULT CPlayerBullet::Initialize(void* pArg)
 		m_pMatPlayerWorld = ((CPlayetBULLET_DESC*)pArg)->pMatPlayerWorld;
 		m_eCharacterType = ((CPlayetBULLET_DESC*)pArg)->eCharacterType;
 		m_fInitSpeed= ((CPlayetBULLET_DESC*)pArg)->fInitSpeed;
-
+		m_fDamage = ((CPlayetBULLET_DESC*)pArg)->fDamage;
 	}
+	
 	
 	return S_OK;
 }

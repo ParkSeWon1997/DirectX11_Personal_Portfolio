@@ -11,8 +11,11 @@
 #include"CHandBoss.h"
 #include"Particle_Mesh.h"
 #include"CHandBullet.h"
-#include"CPotalSingleton.h"
+#include"CTotalSingleton.h"
 #include"Changer.h"
+
+
+#include"UI.h"
 CLevel_Stage_Change::CLevel_Stage_Change(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -26,6 +29,10 @@ HRESULT CLevel_Stage_Change::Initialize()
 
 	//if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 	//	return E_FAIL;
+
+	if (FAILED(Ready_UI(TEXT("Layer_Ui"))))
+		return E_FAIL;
+
 
 	if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
 		return E_FAIL;
@@ -80,11 +87,11 @@ void CLevel_Stage_Change::Tick(_float fTimeDelta)
 		CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(desc.vPosition.x, desc.vPosition.y + 1.0f, desc.vPosition.z, 1.0f));
 	}
 
-	if (CPotalSingleton::GetInstance()->GetPotalOn())
+	if (CTotalSingleton::GetInstance()->GetPotalOn())
 	{
 		if (FAILED(m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_STAGE_1))))
 			return;
-		CPotalSingleton::GetInstance()->SetPotalOn(false);
+		CTotalSingleton::GetInstance()->SetPotalOn(false);
 
 		return;
 	}
@@ -112,6 +119,52 @@ HRESULT CLevel_Stage_Change::Ready_Lights()
 	LightDesc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
 
 	m_pGameInstance->Add_Light(LightDesc);
+
+	return S_OK;
+}
+
+HRESULT CLevel_Stage_Change::Ready_UI(const wstring& strLayerTag)
+{
+
+	UI::UI_DESC desc;
+
+
+	//좌상단
+	desc.strModelName = TEXT("Panel_Frame_InGame_Deco_Left_Top");
+	desc.fSizeX = 256.f;
+	desc.fSizeY = 128.f;
+	desc.fX = desc.fSizeX * 0.5f;
+	desc.fY = desc.fSizeY * 0.5f;
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_CHANGE_STAGE, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
+		return E_FAIL;
+
+	// 우상단
+	desc.strModelName = TEXT("Panel_Frame_InGame_Deco_Right_Top");
+	desc.fSizeX = 256.f;
+	desc.fSizeY = 128.f;
+	desc.fX = 1280.f - desc.fSizeX * 0.5f;  // X 좌표: 화면 너비 - 크기의 반
+	desc.fY = desc.fSizeY * 0.5f;           // Y 좌표: 크기의 반
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_CHANGE_STAGE, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
+		return E_FAIL;
+
+	// 좌하단
+	desc.strModelName = TEXT("Panel_Frame_InGame_Deco_Left_Bottom");
+	desc.fSizeX = 256.f;
+	desc.fSizeY = 128.f;
+	desc.fX = desc.fSizeX * 0.5f;             // X 좌표: 크기의 반
+	desc.fY = 720.f - desc.fSizeY * 0.5f;     // Y 좌표: 화면 높이 - 크기의 반
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_CHANGE_STAGE, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
+		return E_FAIL;
+
+
+	// 우하단
+	desc.strModelName = TEXT("Panel_Frame_InGame_Deco_Right_Bottom");
+	desc.fSizeX = 256.f;
+	desc.fSizeY = 128.f;
+	desc.fX = 1280.f - desc.fSizeX * 0.5f;    // X 좌표: 화면 너비 - 크기의 반
+	desc.fY = 720.f - desc.fSizeY * 0.5f;     // Y 좌표: 화면 높이 - 크기의 반
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_CHANGE_STAGE, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
+		return E_FAIL;
 
 	return S_OK;
 }

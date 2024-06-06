@@ -3,7 +3,7 @@
 
 #include "GameInstance.h"
 #include"Loader.h"
-#include"CPotalSingleton.h"
+#include"CTotalSingleton.h"
 
 #include "Player.h"
 #include"UpgradeMachineTop.h"
@@ -82,7 +82,7 @@ void CPotal::Late_Tick(_float fTimeDelta)
 		return ;
 	if (pPlayer->Intersect(CPlayer::PART_BODY_MATILDA, TEXT("Com_Collider"), m_pColliderCom))
 	{
-		CPotalSingleton::GetInstance()->SetPotalOn(true);
+		CTotalSingleton::GetInstance()->SetPotalOn(true);
 		return ;
 	}
 

@@ -4,7 +4,7 @@
 #include "Base.h"
 
 
-class CPotalSingleton;
+class CTotalSingleton;
 
 BEGIN(Engine)
 class CGameInstance;
@@ -28,7 +28,7 @@ private:
 	ID3D11DeviceContext*	m_pContext = { nullptr };
 
 	CGameInstance*			m_pGameInstance = { nullptr };
-	CPotalSingleton*		m_pPotalSingleton = { nullptr };
+	CTotalSingleton*		m_pPotalSingleton = { nullptr };
 public:
 	HRESULT Open_Level(LEVEL eLevelID);
 	HRESULT Ready_Navigation();

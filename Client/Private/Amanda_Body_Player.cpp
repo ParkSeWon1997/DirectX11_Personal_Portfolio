@@ -314,6 +314,7 @@ void Amanda_Body_Player::CreateEffect_By_Motion(_float fTimeDelta)
 				PlayerBulletdesc.bParticleCreate = true;
 				PlayerBulletdesc.eCharacterType = CPlayer::CHRACTER_GUN_SLINGER;
 				PlayerBulletdesc.eParticleType= CPlayerBullet::CPLAYER_BULLET_PARTICLE_TYPE::POWER_XC;
+				PlayerBulletdesc.fDamage = 40.f;
 				m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &PlayerBulletdesc);
 			}
 			
@@ -1372,6 +1373,7 @@ NodeStates Amanda_Body_Player::DoAttack_Shot()
 			PlayerBulletdesc.vDir = vPlayerLook;
 			PlayerBulletdesc.fLifeTime = 0.1f;
 			PlayerBulletdesc.BulletState = &CBullet::Pop;
+			PlayerBulletdesc.fDamage = 5.0f;
 			m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &PlayerBulletdesc);
 
 			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP,TEXT("Player_Amanda_Default_Attack_Beam_Size_Up"),_float4(0.8f,0.8f,0.8f,0.5f) });
@@ -1424,6 +1426,7 @@ NodeStates Amanda_Body_Player::DoAttack_Shot_Critical()
 			PlayerBulletdesc.vDir = vPlayerLook;
 			PlayerBulletdesc.fLifeTime = 0.1f;
 			PlayerBulletdesc.BulletState = &CBullet::Pop;
+			PlayerBulletdesc.fDamage=7.0f;
 			m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &PlayerBulletdesc);
 
 			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP,TEXT("Player_Amanda_Default_Attack_Beam_Size_Up"),_float4(1.0f,0.8f,0.8f,0.7f) });
@@ -1480,6 +1483,7 @@ NodeStates Amanda_Body_Player::DoAttack_Shot_Dash()
 				PlayerBulletdesc.vDir = vPlayerLook;
 				PlayerBulletdesc.fLifeTime = 0.1f;
 				PlayerBulletdesc.BulletState = &CBullet::Pop;
+				PlayerBulletdesc.fDamage = 20.f;
 				m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &PlayerBulletdesc);
 				
 				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP_Z_TEXTURE,TEXT("Player_Amanda_Balance_C_Grappling_Pop_Texture"),_float4(0.8f,0.8f,0.8f,0.5f) });
@@ -1663,6 +1667,7 @@ NodeStates Amanda_Body_Player::DoAttack_Shot_Crouch()
 			PlayerBulletdesc.vDir = vPlayerLook;
 			PlayerBulletdesc.fLifeTime = 0.5f;
 			PlayerBulletdesc.BulletState = &CBullet::Pop;
+			PlayerBulletdesc.fDamage=100.f;
 			m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &PlayerBulletdesc);
 
 

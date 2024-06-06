@@ -7,13 +7,15 @@
 #include"EnvironmentObj.h"
 #include"CStage.h"
 #include"Level_Loading.h"
-#include"CPotalSingleton.h"
+#include"CTotalSingleton.h"
 #include"CHandBoss.h"
 #include"Particle_Mesh.h"
 #include"CHandBullet.h"
 #include"UpgradeMachine.h"
 #include"UpgradeMachineTop.h"
 #include"Particle_Mesh.h"
+
+#include"UI.h"
 CLevel_GamePlay::CLevel_GamePlay(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -98,12 +100,11 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 	}
 
 
-	if (CPotalSingleton::GetInstance()->GetPotalOn())
+	if (CTotalSingleton::GetInstance()->GetPotalOn())
 	{
 		if (FAILED(m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_CHANGE_STAGE))))
 			return;
-		CPotalSingleton::GetInstance()->SetPotalOn(false);
-
+		CTotalSingleton::GetInstance()->SetPotalOn(false);
 		return;
 	}
 
@@ -137,12 +138,45 @@ HRESULT CLevel_GamePlay::Ready_Lights()
 
 HRESULT CLevel_GamePlay::Ready_UI(const wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_UI"))))
+	UI::UI_DESC desc;
+
+
+	//좌상단
+	desc.strModelName = TEXT("Panel_Frame_InGame_Deco_Left_Top");
+	desc.fSizeX = 256.f;
+	desc.fSizeY = 128.f;
+	desc.fX = desc.fSizeX*0.5f;
+	desc.fY = desc.fSizeY*0.5f;
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
+		return E_FAIL;
+
+	// 우상단
+	desc.strModelName = TEXT("Panel_Frame_InGame_Deco_Right_Top");
+	desc.fSizeX = 256.f;
+	desc.fSizeY = 128.f;
+	desc.fX = 1280.f - desc.fSizeX * 0.5f;  // X 좌표: 화면 너비 - 크기의 반
+	desc.fY = desc.fSizeY * 0.5f;           // Y 좌표: 크기의 반
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
+		return E_FAIL;
+
+	// 좌하단
+	desc.strModelName = TEXT("Panel_Frame_InGame_Deco_Left_Bottom");
+	desc.fSizeX = 256.f;
+	desc.fSizeY = 128.f;
+	desc.fX = desc.fSizeX * 0.5f;             // X 좌표: 크기의 반
+	desc.fY = 720.f - desc.fSizeY * 0.5f;     // Y 좌표: 화면 높이 - 크기의 반
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
 		return E_FAIL;
 
 
-
-
+	// 우하단
+	desc.strModelName = TEXT("Panel_Frame_InGame_Deco_Right_Bottom");
+	desc.fSizeX = 256.f;
+	desc.fSizeY = 128.f;
+	desc.fX = 1280.f - desc.fSizeX * 0.5f;    // X 좌표: 화면 너비 - 크기의 반
+	desc.fY = 720.f - desc.fSizeY * 0.5f;     // Y 좌표: 화면 높이 - 크기의 반
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -264,15 +298,15 @@ HRESULT CLevel_GamePlay::Ready_Layer_2_Monster(const wstring & strLayerTag)
 	//
 	//
 	
-	for (int i = 0; i < 1; i++)
-	{
-		desc.strModelName = TEXT("NewMoldTest");
-		desc.vPosition = _float4(fRandomX(Gen), 0.f, fRandomZ(Gen), 1.0f);
-		desc.strDeconModelTag = TEXT("NewMold_Deco_Segment");
-		desc.fHp= 50.f;
-		if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_NewMold"), &desc)))
-			return E_FAIL;
-	}
+	//for (int i = 0; i < 5; i++)
+	//{
+	//	desc.strModelName = TEXT("NewMoldTest");
+	//	desc.vPosition = _float4(fRandomX(Gen), 0.f, fRandomZ(Gen), 1.0f);
+	//	desc.strDeconModelTag = TEXT("NewMold_Deco_Segment");
+	//	desc.fHp= 50.f;
+	//	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_NewMold"), &desc)))
+	//		return E_FAIL;
+	//}
 	
 	//desc.strModelName = TEXT("NewMoldTest");
 	//desc.vPosition = _float4(fRandomX(Gen), 0.f, fRandomZ(Gen), 1.0f);

@@ -88,7 +88,7 @@ void CPlayer::Tick(_float fTimeDelta)
 	
 
 	_vector vPrePosition = m_pTransformCom->Get_State(CTransform::STATE::STATE_POSITION);
-	cout << vPrePosition.m128_f32[0] << " " << vPrePosition.m128_f32[1] << " " << vPrePosition.m128_f32[2] << endl;
+	//cout << vPrePosition.m128_f32[0] << " " << vPrePosition.m128_f32[1] << " " << vPrePosition.m128_f32[2] << endl;
 
 
 		_float fMaskOnPlayerPos = 0.0;
@@ -659,6 +659,7 @@ void CPlayer::SetStatePressX(_float fTimeDelta)
 				CSwordThowDesc.fSpeedPerSec = 55.f;
 				CSwordThowDesc.bParticleCreate = true;
 				CSwordThowDesc.fLifeTime = 1.f;
+				CSwordThowDesc.fDamage = 10.f;
 				CSwordThowDesc.eParticleType = CPlayerBullet::CPLAYER_BULLET_PARTICLE_TYPE::TECHNIC_X;
 				m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &CSwordThowDesc);
 				//ÃÑ¾Ë »ý¼º	
@@ -683,6 +684,7 @@ void CPlayer::SetStatePressX(_float fTimeDelta)
 				CSwordThowDesc.vDir = this->GetLookDir();
 				CSwordThowDesc.BulletState = &CBullet::Pop;
 				CSwordThowDesc.fLifeTime = 1.f;
+				CSwordThowDesc.fDamage = 10.f;
 				m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &CSwordThowDesc);
 
 				m_eCurState = STATE_MATILD_D_SHORT;
@@ -700,6 +702,7 @@ void CPlayer::SetStatePressX(_float fTimeDelta)
 				CSwordThowDesc.bParticleCreate = true;
 				CSwordThowDesc.pMatPlayerWorld = m_pTransformCom->Get_WorldFloat4x4();
 				CSwordThowDesc.eParticleType = CPlayerBullet::CPLAYER_BULLET_PARTICLE_TYPE::REVERSE_X;
+				CSwordThowDesc.fDamage = 10.f;
 				m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &CSwordThowDesc);
 
 
@@ -740,6 +743,7 @@ void CPlayer::SetStatePressX(_float fTimeDelta)
 					CSwordThowDesc.eParticleType = CPlayerBullet::CPLAYER_BULLET_PARTICLE_TYPE::BALANCE_X;
 					CSwordThowDesc.eCharacterType = m_eCharacterType;
 					CSwordThowDesc.fInitSpeed = 5.f+i+1;
+					CSwordThowDesc.fDamage = 20.f;
 					m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &CSwordThowDesc);
 
 				}
@@ -769,7 +773,7 @@ void CPlayer::SetStatePressX(_float fTimeDelta)
 					CMineDesc.fLifeTime = 10.f;
 					CMineDesc.pMatPlayerWorld = m_pTransformCom->Get_WorldFloat4x4();
 					CMineDesc.eCharacterType = m_eCharacterType;
-					CSwordThowDesc.fInitSpeed = 5.f + i + 1;
+					CMineDesc.fDamage= 20.f;
 					m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet_Mine"), &CMineDesc);
 
 				}
@@ -822,6 +826,7 @@ void CPlayer::SetStatePressX(_float fTimeDelta)
 					CMineDesc.eCharacterType = m_eCharacterType;
 					CMineDesc.vTargetPos =  pMonster==nullptr?XMVectorSet(0.f,0.f,0.f,1.f):pMonster->Get_PositionVector();
 					CMineDesc.eParticleType= CPlayerBullet_Mine::CPLAYER_BULLET_PARTICLE_TYPE::POWER_X;
+					CMineDesc.fDamage = 20.f;
 					m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet_Mine"), &CMineDesc);
 
 
@@ -920,6 +925,7 @@ void CPlayer::SetStatePressC(_float fTimeDelta)
 				CSwordThowDesc.vPosition = _float4(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f);
 				CSwordThowDesc.BulletState = &CBullet::Pop;
 				CSwordThowDesc.fLifeTime = 1.f;
+				CSwordThowDesc.fDamage = 10.f;
 				m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &CSwordThowDesc);
 				m_eCurState = STATE_ATTACK_DASH_BUCK;
 				m_bIsJump = true;

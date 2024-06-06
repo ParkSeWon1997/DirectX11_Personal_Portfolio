@@ -1033,6 +1033,7 @@ NodeStates Matilda_Body_Player::DoAttackThrow()
 				PlayerBulletdesc.vTargetPos = XMVectorSet(vPlayerPos.x, vPlayerPos.y, vPlayerPos.z, 1.0f) + vPlayerLook * 10.0f;
 				PlayerBulletdesc.eParticleType = CPlayerBullet::CPLAYER_BULLET_PARTICLE_TYPE::REVERSE_C;
 				PlayerBulletdesc.bParticleCreate = true;
+				PlayerBulletdesc.fDamage = 20.0f;
 				m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &PlayerBulletdesc);
 
 
@@ -1348,6 +1349,7 @@ NodeStates Matilda_Body_Player::DoAttackUltimateReverse()
 					PlayerBulletdesc.BulletState = &CBullet::Go;
 					PlayerBulletdesc.eParticleType = CPlayerBullet::CPLAYER_BULLET_PARTICLE_TYPE::REVERSE_XC;
 					PlayerBulletdesc.bParticleCreate = true;
+					PlayerBulletdesc.fDamage = 50.0f;
 					m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &PlayerBulletdesc);
 
 

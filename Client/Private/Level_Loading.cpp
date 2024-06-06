@@ -12,7 +12,7 @@
 #include"Level_Stage_1.h"
 #include "Level_Stage_Change.h"
 #pragma endregion
-
+#include"UI.h"
 
 CLevel_Loading::CLevel_Loading(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)

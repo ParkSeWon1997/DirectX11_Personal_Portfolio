@@ -44,7 +44,7 @@ HRESULT CPlayerBullet_Mine::Initialize(void* pArg)
 		m_pMatPlayerWorld = ((CPlayetBULLET_MINE_DESC*)pArg)->pMatPlayerWorld;
 		m_eCharacterType = ((CPlayetBULLET_MINE_DESC*)pArg)->eCharacterType;
 		m_fInitSpeed= ((CPlayetBULLET_MINE_DESC*)pArg)->fInitSpeed;
-
+		m_fDamage = ((CPlayetBULLET_MINE_DESC*)pArg)->fDamage;
 	}
 	return S_OK;
 

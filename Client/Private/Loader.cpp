@@ -43,6 +43,7 @@
 #include"UpgradeMachineTop.h"
 #include"Potal.h"
 #include"Changer.h"
+#include"Rank.h"
 
 #include"UI.h"
 
@@ -203,10 +204,240 @@ HRESULT CLoader::Loading_For_LogoLevel()
 	lstrcpy(m_szLoadingText, TEXT("텍스쳐를 로딩 중 입니다."));
 
 
+
+
+
+
 	lstrcpy(m_szLoadingText, TEXT("모델를(을) 로딩 중 입니다."));	
 
 
 	lstrcpy(m_szLoadingText, TEXT("셰이더를(을) 로딩 중 입니다."));	
+
+
+	
+
+
+
+
+
+
+
+
+	lstrcpy(m_szLoadingText, TEXT("객체원형을 로딩 중 입니다."));
+
+	/* For.Prototype_GameObject_Terrain*/
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Terrain"),
+		CTerrain::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_FreeCamera*/
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_FreeCamera"),
+		CFreeCamera::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	/* For.Prototype_GameObject_PlayerCamera*/
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PlayerCamera"),
+		CPlayerCamera::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+
+	/* For.Prototype_GameObject_Monster */
+	//if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster"),
+	//	CMonster ::Create(m_pDevice, m_pContext))))
+	//	return E_FAIL;
+
+	/* For.Prototype_GameObject_Boss_D */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_D"),
+		CBoss_D::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	/* For.Prototype_GameObject_Boss_B */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_B"),
+		CBoss_B::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Hand_Boss"),
+		CHandBoss::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+
+
+
+	/* For.Prototype_GameObject_CBoss_D_Picker */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CBoss_D_Picker"),
+		CBoss_D_Picker::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_NewMold*/
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NewMold"),
+		CNewMold::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_NewMold*/
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NewMold_C"),
+		CNewMold_C::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_NewMold*/
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NewMold_D"),
+		CNewMold_D::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* Prototype_GameObject_MiniBoss*/
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MiniBoss_A"),
+		CMiniBoss::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	/* Prototype_GameObject_MiniBoss*/
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MiniBoss_B"),
+		CMiniBoss::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+
+
+	/* For.Prototype_GameObject_ForkLift */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ForkLift"),
+		CForkLift::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+
+
+	/* For.EnvironmentObj */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_EnvironmentObj"),
+		CEnvironmentObj::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	/* For.UpgradeMachine */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_UpgradeMachine"),
+		CUpgradeMachine::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	/* For.UpgradeMachine */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_UpgradeMachineTop"),
+		CUpgradeMachineTop::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	/* For.Potal */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_Potal"),
+		CPotal::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	/* For.Changer */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_Changer"),
+		CChanger::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	/* For.Rank */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_Rank"),
+		CRank::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+
+	/* For.Prototype_GameObject_Player */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player"),
+		CPlayer::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Body_Player */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Matilda_Body_Player"),
+		Matilda_Body_Player::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	/* For.Prototype_GameObject_Amanda_Body_Player */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Amanda_Body_Player"),
+		Amanda_Body_Player::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Weapon */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon"),
+		CWeapon::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	/* For.Prototype_GameObject_Bullet */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Bullet"),
+		CBullet::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	/* For.Prototype_GameObject_Drone */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Drone"),
+		CDrone::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	//if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SwordThrow"),
+	//	CSwordThow::Create(m_pDevice, m_pContext))))
+	//	return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PlayerBullet"),
+		CPlayerBullet::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PlayerBullet_Mine"),
+		CPlayerBullet_Mine::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+
+
+
+
+	/* For.Prototype_GameObject_DecorationParts */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Decoration"),
+		CDecorationParts::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_BoneCollider */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BoneCollider"),
+		CBoneCollider::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+
+
+	/* For.Prototype_GameObject_Stage */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CStage"),
+		CStage::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	/* For.Prototype_GameObject_Stage */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CStage_SM"),
+		CStage_SM::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Sky */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Sky"),
+		CSky::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_particle */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Particle"),
+		CParticle_Mesh::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_HandBullet"),
+		CHandBullet::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_B_Bullet"),
+		CBoss_B_Bullet::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NoneTex_Bullet"),
+		CNoneTexBullet::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CMold_Bullet"),
+		CMold_CBullet::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CSegment"),
+		CSegment::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CSegment_SM"),
+		CSegment_SM::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CSegment_Line"),
+		CSegmentLine::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI"),
+		UI::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+
+
+
+
+
+
 
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
@@ -281,16 +512,16 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 		return E_FAIL;
 
 	/*UI*/
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Panel_Frame_InGame_Deco_Left_Botom"),
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Panel_Frame_InGame_Deco_Left_Bottom"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Panel_Frame_InGame_Deco_Left_Botom.png"), 1))))
 		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Panel_Frame_InGame_Deco_Left_Top"),
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Panel_Frame_InGame_Deco_Left_Top"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Panel_Frame_InGame_Deco_Legt_Top.png"), 1))))
 		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Panel_Frame_InGame_Deco_Right_Botom"),
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Panel_Frame_InGame_Deco_Right_Bottom"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Panel_Frame_InGame_Deco_Right_Botom.png"), 1))))
 		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Panel_Frame_InGame_Deco_Right_Top"),
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Panel_Frame_InGame_Deco_Right_Top"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Panel_Frame_InGame_Deco_Right_Top.png"), 1))))
 		return E_FAIL;
 
@@ -1534,7 +1765,17 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 #pragma endregion
 
 
+#pragma region HitEffect
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Hit_Effect_ElectColumn_Pop"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Hit/ElectColumn.fbx", Make_ParticleDesc(TEXT("Hit_Effect_ElectColumn_Pop"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Hit_Effect_LowpolySphere8_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Hit/LowpolySphere8.fbx", Make_ParticleDesc(TEXT("Hit_Effect_LowpolySphere8_Size_Up"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Hit_Effect_hitRing_Size_Up_X"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Hit/hit001.fbx", Make_ParticleDesc(TEXT("Hit_Effect_hitRing_Size_Up_X"))))))
+		return E_FAIL;
+
+
+#pragma endregion
 
 
 
@@ -1611,220 +1852,7 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 
 
 
-	lstrcpy(m_szLoadingText, TEXT("객체원형을 로딩 중 입니다."));
-
-	/* For.Prototype_GameObject_Terrain*/
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Terrain"),
-		CTerrain::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_FreeCamera*/
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_FreeCamera"),
-		CFreeCamera::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	/* For.Prototype_GameObject_PlayerCamera*/
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PlayerCamera"),
-		CPlayerCamera::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-
-	/* For.Prototype_GameObject_Monster */
-	//if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster"),
-	//	CMonster ::Create(m_pDevice, m_pContext))))
-	//	return E_FAIL;
-
-	/* For.Prototype_GameObject_Boss_D */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_D"),
-		CBoss_D::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-		/* For.Prototype_GameObject_Boss_B */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_B"),
-		CBoss_B::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Hand_Boss"),
-		CHandBoss::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-
-
-
-	/* For.Prototype_GameObject_CBoss_D_Picker */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CBoss_D_Picker"),
-		CBoss_D_Picker::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* Prototype_GameObject_NewMold*/
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NewMold"),
-		CNewMold::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-		/* Prototype_GameObject_NewMold*/
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NewMold_C"),
-		CNewMold_C::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-		/* Prototype_GameObject_NewMold*/
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NewMold_D"),
-		CNewMold_D::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-		/* Prototype_GameObject_MiniBoss*/
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MiniBoss_A"),
-		CMiniBoss::Create(m_pDevice, m_pContext))))
-		return E_FAIL;	
-	/* Prototype_GameObject_MiniBoss*/
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MiniBoss_B"),
-		CMiniBoss::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-
-
-	/* For.Prototype_GameObject_ForkLift */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ForkLift"),
-		CForkLift::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-
-
-	/* For.EnvironmentObj */
-		if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_EnvironmentObj"),
-		CEnvironmentObj::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	/* For.UpgradeMachine */
-		if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_UpgradeMachine"),
-		CUpgradeMachine::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	/* For.UpgradeMachine */
-		if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_UpgradeMachineTop"),
-		CUpgradeMachineTop::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	/* For.Potal */
-		if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_Potal"),
-		CPotal::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
- 	/* For.Changer */
-		if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_Changer"),
-		CChanger::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-
-	/* For.Prototype_GameObject_Player */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player"),
-		CPlayer::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Body_Player */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Matilda_Body_Player"),
-		Matilda_Body_Player::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	/* For.Prototype_GameObject_Amanda_Body_Player */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Amanda_Body_Player"),
-		Amanda_Body_Player::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Weapon */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Weapon"),
-		CWeapon::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	/* For.Prototype_GameObject_Bullet */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Bullet"),
-		CBullet::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	/* For.Prototype_GameObject_Drone */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Drone"),
-		CDrone::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	//if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SwordThrow"),
-	//	CSwordThow::Create(m_pDevice, m_pContext))))
-	//	return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PlayerBullet"),
-		CPlayerBullet::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PlayerBullet_Mine"),
-		CPlayerBullet_Mine::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-
-
-
-
-	/* For.Prototype_GameObject_DecorationParts */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Decoration"),
-		CDecorationParts::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
 	
-	/* For.Prototype_GameObject_BoneCollider */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BoneCollider"),
-		CBoneCollider::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-
-
-	/* For.Prototype_GameObject_Stage */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CStage"),
-		CStage::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	/* For.Prototype_GameObject_Stage */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CStage_SM"),
-		CStage_SM::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_Sky */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Sky"),
-		CSky::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* For.Prototype_GameObject_particle */
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Particle"),
-		CParticle_Mesh::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-
-
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_HandBullet"),
-		CHandBullet::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_B_Bullet"),
-		CBoss_B_Bullet::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NoneTex_Bullet"),
-		CNoneTexBullet::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CMold_Bullet"),
-		CMold_CBullet::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CSegment"),
-		CSegment::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CSegment_SM"),
-		CSegment_SM::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CSegment_Line"),
-		CSegmentLine::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI"),
-		UI::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-	
-
-
-
-
-
-
-
-
-
 
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
@@ -1878,7 +1906,19 @@ HRESULT CLoader::Loading_For_Stage_1()
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Noise/noiseRepeat.png"), 1))))
 		return E_FAIL;
 
-
+	/*UI*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Panel_Frame_InGame_Deco_Left_Bottom"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Panel_Frame_InGame_Deco_Left_Botom.png"), 1))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Panel_Frame_InGame_Deco_Left_Top"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Panel_Frame_InGame_Deco_Legt_Top.png"), 1))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Panel_Frame_InGame_Deco_Right_Bottom"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Panel_Frame_InGame_Deco_Right_Botom.png"), 1))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Panel_Frame_InGame_Deco_Right_Top"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Panel_Frame_InGame_Deco_Right_Top.png"), 1))))
+		return E_FAIL;
 
 
 
@@ -3212,6 +3252,19 @@ HRESULT CLoader::Loading_For_Change_Stage()
 		return E_FAIL;
 
 
+	/*UI*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Panel_Frame_InGame_Deco_Left_Bottom"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Panel_Frame_InGame_Deco_Left_Botom.png"), 1))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Panel_Frame_InGame_Deco_Left_Top"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Panel_Frame_InGame_Deco_Legt_Top.png"), 1))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Panel_Frame_InGame_Deco_Right_Bottom"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Panel_Frame_InGame_Deco_Right_Botom.png"), 1))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Panel_Frame_InGame_Deco_Right_Top"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Panel_Frame_InGame_Deco_Right_Top.png"), 1))))
+		return E_FAIL;
 
 
 

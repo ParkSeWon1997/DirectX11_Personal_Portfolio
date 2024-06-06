@@ -21,16 +21,27 @@ HRESULT UI::Initialize_Prototype()
 
 HRESULT UI::Initialize(void * pArg)
 {
-	if (FAILED(__super::Initialize(nullptr)))
+	UI_DESC* pDesc = (UI_DESC*)pArg;
+
+
+
+	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
 	if (FAILED(Add_Components()))
 		return E_FAIL;
 
-	m_fSizeX = 256.f;
-	m_fSizeY = 128.f;
-	m_fX = g_iWinSizeX >> 1;
-	m_fY = g_iWinSizeY >> 1;
+	if (pArg != nullptr)
+	{
+		m_fSizeX = pDesc->fSizeX;
+		m_fSizeY = pDesc->fSizeY;
+		m_fX = pDesc->fX;
+		m_fY = pDesc->fY;
+
+
+
+	}
+
 
 	m_pTransformCom->Set_Scale(m_fSizeX, m_fSizeY, 1.f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
@@ -83,7 +94,7 @@ HRESULT UI::Add_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Panel_Frame_InGame_Deco_Left_Botom"),
+	if (FAILED(__super::Add_Component(CLoader::m_eNextLevel,m_strModelName,
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;	
 	

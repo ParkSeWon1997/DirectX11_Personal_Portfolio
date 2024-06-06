@@ -85,6 +85,20 @@ void CBoss_B_Bullet::Late_Tick(_float fTimeDelta)
 	if (m_pColliderCom == nullptr)
 		return;
 			
+	_uint iLayerSize = m_pGameInstance->Get_LayerSize(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"));
+
+
+
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_2_Player")));
+	if (nullptr == pPlayer)
+		return;
+
+
+
+
+
+
+
 
 	__super::Late_Tick(fTimeDelta);
 }
@@ -201,7 +215,7 @@ HRESULT CBoss_B_Bullet::Add_Components()
 {
 	CBounding_OBB::BOUNDING_OBB_DESC		OBB_Desc{};
 	OBB_Desc.eType = CCollider::TYPE_OBB;
-	OBB_Desc.vExtents = _float3(0.3f, 0.7f, 0.3f);
+	OBB_Desc.vExtents = _float3(2.3f, 3.7f, 2.3f);
 	OBB_Desc.vCenter = _float3(0.f, OBB_Desc.vExtents.y, 0.f);
 	OBB_Desc.vRotation = _float3(0.f, XMConvertToRadians(45.0f), 0.f);
 

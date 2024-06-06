@@ -3,7 +3,7 @@
 
 #include "GameInstance.h"
 #include"Loader.h"
-#include"CPotalSingleton.h"
+#include"CTotalSingleton.h"
 
 #include "Player.h"
 #include"UpgradeMachineTop.h"

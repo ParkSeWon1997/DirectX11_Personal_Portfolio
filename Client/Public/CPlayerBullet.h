@@ -38,6 +38,7 @@ public:
 		_float3                vExtents = _float3(0.5f, 0.5f, 0.5f);
 		_float3                vRotation = _float3(0.f, 0.f, 0.f);
 
+		_float					fDamage = 1.f;
 		_float                  fLifeTime = 0.f;
 		_float                  fInitSpeed= 0.f;
 		_bool                   bParticleCreate = false;

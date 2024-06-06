@@ -155,6 +155,7 @@ void CWeapon::MakeParticle()
 			CSwordThowDesc.vPosition= _float4(XMVectorGetX(vNewPos), XMVectorGetY(vNewPos), XMVectorGetZ(vNewPos), 1.0f);
 			CSwordThowDesc.vDir = vPlayerLook;
 			CSwordThowDesc.fLifeTime=1.0f;
+			CSwordThowDesc.fDamage = 30.f;
 			m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &CSwordThowDesc);
 			m_bParticleCreate = false;
 
@@ -167,6 +168,7 @@ void CWeapon::MakeParticle()
 			CSwordThowDesc.vPosition = _float4(XMVectorGetX(vNewPos), XMVectorGetY(vNewPos), XMVectorGetZ(vNewPos), 1.0f);
 			CSwordThowDesc.vDir = vPlayerLook;
 			CSwordThowDesc.fLifeTime = 0.5f;
+			CSwordThowDesc.fDamage = 100.f;
 			m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &CSwordThowDesc);
 			m_bParticleCreate = false;
 			break;

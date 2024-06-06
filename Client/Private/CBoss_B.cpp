@@ -89,6 +89,16 @@ void CBoss_B::Priority_Tick(_float fTimeDelta)
 
 void CBoss_B::Tick(_float fTimeDelta)
 {
+	m_fHitTime += fTimeDelta;
+	if (m_fHitTime >= 0.5f)
+	{
+		m_bIsHit= false;
+		m_fHitTime = 0.0f;
+	}
+
+
+
+
 	for (int i = 0; i < HAND_END; i++)
 	{
 		m_HandMatrix[i] = XMLoadFloat4x4(m_pHandMatrix[i]);
@@ -109,13 +119,10 @@ void CBoss_B::Tick(_float fTimeDelta)
 
 	if(m_bIsBulletSpawn)
 		Make_Falling_Bullet(fTimeDelta);
+	cout << m_fHp << endl;
 
 
-
-	if (KEY_AWAY(DIK_0))
-	{
-				m_fHp -= 50.f;
-	}
+	
 	for (auto& pPartObject : m_PartObjects)
 	{
 		pPartObject->Tick(fTimeDelta);
@@ -167,7 +174,7 @@ NodeStates CBoss_B::DoIdle(_float fTimeDelta)
 		return NodeStates::FAILURE;
 	}
 	else
-	{
+  	{
 		return NodeStates::SUCCESS;
 	}
 
@@ -187,7 +194,7 @@ NodeStates CBoss_B::DoMove(_float fTimeDelta)
 		m_pTransformCom->Go_Straight(fTimeDelta * 0.5f, m_pNavigationCom);
 		if (distance <= 10.0f)
 		{
-			m_eCurState = GetRandomState();
+ 			m_eCurState = GetRandomState();
 
 
 		}
@@ -1156,7 +1163,7 @@ HRESULT CBoss_B::Add_Components()
 	CBounding_OBB::BOUNDING_OBB_DESC		ColliderOBBDesc{};
 	
 	ColliderOBBDesc.eType = CCollider::TYPE_OBB;
-	ColliderOBBDesc.vExtents = _float3(0.3f, 0.7f, 0.3f);
+	ColliderOBBDesc.vExtents = _float3(3.3f, 2.7f, 3.3f);
 	ColliderOBBDesc.vCenter = _float3(0.f, ColliderOBBDesc.vExtents.y, 0.f);
 	ColliderOBBDesc.vRotation = _float3(0.f, XMConvertToRadians(45.0f), 0.f);
 	

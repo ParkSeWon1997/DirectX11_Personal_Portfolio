@@ -8,6 +8,7 @@
 #include"CBullet.h"
 //#include"CSwordThow.h"
 
+#include"Particle_Mesh.h"
 CMonster::CMonster(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CGameObject{ pDevice, pContext }
 {
@@ -85,6 +86,11 @@ void CMonster::Tick(_float fTimeDelta)
 
 void CMonster::Late_Tick(_float fTimeDelta)
 {
+
+
+	vector<CParticle_Mesh::PARTICLE_DESC> vecDesc = {};
+
+
 	_uint iLayerSize=m_pGameInstance->Get_LayerSize(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"));
 	
 
@@ -109,6 +115,14 @@ void CMonster::Late_Tick(_float fTimeDelta)
 					pPlayer->SetIsCollision(true);
 					if (m_fHp > 0.f)
 					{
+						vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Hit_Effect_ElectColumn_Pop"),_float4(1.0f,1.0f,1.0f,0.5f),false,true });
+						vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP,TEXT("Hit_Effect_LowpolySphere8_Size_Up"),_float4(0.1f,0.1f,0.8f,0.3f),false,true });
+						vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP_X,TEXT("Hit_Effect_hitRing_Size_Up_X"),_float4(0.9f,0.9f,0.9f,0.5f),false,true });
+			
+
+
+						CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f));
+
 						m_fHp -= fDamage;
 					}
 						m_bIsHit = true;
@@ -177,8 +191,9 @@ HRESULT CMonster::Render()
 
 		if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;		
+		float HitStatus = m_bIsHit ? 1.0f : 0.0f;
 
-		
+		m_pShaderCom->Bind_RawValue("g_HitStatus", &HitStatus, sizeof(float));
 		//if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_Texture", i, aiTextureType_NORMALS)))
 		//	return E_FAIL;		
 

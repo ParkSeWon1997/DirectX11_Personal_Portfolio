@@ -198,12 +198,12 @@
     <ClInclude Include="..\Public\CNoneTexBullet.h" />
     <ClInclude Include="..\Public\CPlayerBullet.h" />
     <ClInclude Include="..\Public\CPlayerBullet_Mine.h" />
-    <ClInclude Include="..\public\CPotalSingleton.h" />
     <ClInclude Include="..\Public\CSelector.h" />
     <ClInclude Include="..\Public\CSequence.h" />
     <ClInclude Include="..\public\CStage.h" />
     <ClInclude Include="..\Public\CStage_SM.h" />
     <ClInclude Include="..\Public\CSwordThow.h" />
+    <ClInclude Include="..\Public\CTotalSingleton.h" />
     <ClInclude Include="..\Public\EnvironmentObj.h" />
     <ClInclude Include="..\Public\ForkLift.h" />
     <ClInclude Include="..\public\FreeCamera.h" />
@@ -222,6 +222,7 @@
     <ClInclude Include="..\Public\Player.h" />
     <ClInclude Include="..\Public\PlayerCamera.h" />
     <ClInclude Include="..\Public\Potal.h" />
+    <ClInclude Include="..\Public\Rank.h" />
     <ClInclude Include="..\Public\Segment.h" />
     <ClInclude Include="..\Public\SegmentLine.h" />
     <ClInclude Include="..\Public\Segment_SM.h" />
@@ -266,12 +267,12 @@
     <ClCompile Include="..\Private\CNoneTexBullet.cpp" />
     <ClCompile Include="..\private\CPlayerBullet.cpp" />
     <ClCompile Include="..\Private\CPlayerBullet_Mine.cpp" />
-    <ClCompile Include="..\private\CPotalSingleton.cpp" />
     <ClCompile Include="..\Private\CSelector.cpp" />
     <ClCompile Include="..\Private\CSequence.cpp" />
     <ClCompile Include="..\private\CStage.cpp" />
     <ClCompile Include="..\Private\CStage_SM.cpp" />
     <ClCompile Include="..\Private\CSwordThow.cpp" />
+    <ClCompile Include="..\Private\CTotalSingleton.cpp" />
     <ClCompile Include="..\Private\EnvironmentObj.cpp" />
     <ClCompile Include="..\Private\ForkLift.cpp" />
     <ClCompile Include="..\private\FreeCamera.cpp" />
@@ -290,6 +291,7 @@
     <ClCompile Include="..\Private\Player.cpp" />
     <ClCompile Include="..\Private\PlayerCamera.cpp" />
     <ClCompile Include="..\Private\Potal.cpp" />
+    <ClCompile Include="..\Private\Rank.cpp" />
     <ClCompile Include="..\Private\Segment.cpp" />
     <ClCompile Include="..\Private\SegmentLine.cpp" />
     <ClCompile Include="..\Private\Segment_SM.cpp" />

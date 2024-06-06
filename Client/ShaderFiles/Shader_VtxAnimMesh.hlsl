@@ -6,6 +6,7 @@ matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 texture2D g_Texture;
 texture2D g_MapMaskTexture;
 
+float g_HitStatus;
 
 
 /* 이 메시에게 영향을 주는 뼈들. */
@@ -95,6 +96,13 @@ PS_OUT PS_MAIN(PS_IN In)
     //vDiffuse.a = 1.0f;
     if (vDiffuse.a < 0.1f)
         discard;
+    
+    if(g_HitStatus >0.0f)
+    {
+        vDiffuse = vector(1.f, 0.f, 0.f, 0.5f);
+    }
+    
+    
     //vector vMask = g_MapMaskTexture.Sample(PointSampler, In.vTexcoord);
     
     //if(vMask.r < 0.1f)

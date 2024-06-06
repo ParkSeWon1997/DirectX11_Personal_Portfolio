@@ -106,7 +106,7 @@ private:
 
     vector<BulletSpawnDesc>			m_vBulletSpawnDesc;
 	_float 							m_fBulletSpawnTime = 0.f;
-
+	_float                          m_fHitTime = 0.f;
 	_bool							m_bIsBulletSpawn = false;
 public:
 	HRESULT Add_PartObjects();

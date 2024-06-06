@@ -2,7 +2,7 @@
 #include "..\Public\MainApp.h"
 
 #include "GameInstance.h"
-#include "CPotalSingleton.h"
+#include "CTotalSingleton.h"
 #include "Level_Loading.h"
 #include "BackGround.h"
 
@@ -10,7 +10,7 @@
 
 CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::GetInstance() }
-	, m_pPotalSingleton{ CPotalSingleton::GetInstance() }
+	, m_pPotalSingleton{ CTotalSingleton::GetInstance() }
 {
 	Safe_AddRef(m_pGameInstance);
 	Safe_AddRef(m_pPotalSingleton);

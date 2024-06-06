@@ -159,6 +159,23 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 
 
 
+
+	PreTransformMatrix = XMMatrixIdentity();
+	PreTransformMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Sequence_A"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Models/Sequence_A/Sequence_A.fbx", PreTransformMatrix, nullptr))))
+		return E_FAIL;
+
+
+
+
+
+
+
+
+
+
+
 	/*NewMoldTest*/
 	PreTransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("NewMoldTest"),
@@ -1407,6 +1424,47 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 
 
 //---------------------------------
+//----------Hit----------------
+
+	PreTransformMatrix = XMMatrixIdentity();
+	PreTransformMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Hit_Effect_hitRing"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Object/Particle/Effect/Hit/hit001.fbx", PreTransformMatrix, nullptr))))
+		return E_FAIL;
+	PreTransformMatrix = XMMatrixIdentity();
+	PreTransformMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Hit_Effect_LowpolySphere8"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Object/Particle/Effect/Hit/LowpolySphere8.fbx", PreTransformMatrix, nullptr))))
+		return E_FAIL;
+
+
+	PreTransformMatrix = XMMatrixIdentity();
+	PreTransformMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Hit_Effect_ElectColumn"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Object/Particle/Effect/Hit/ElectColumn.fbx", PreTransformMatrix, nullptr))))
+		return E_FAIL;
+	PreTransformMatrix = XMMatrixIdentity();
+	PreTransformMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Hit_Effect_spark.A"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Object/Particle/Effect/Hit/spark.A.fbx", PreTransformMatrix, nullptr))))
+		return E_FAIL;
+
+
+//---------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	PreTransformMatrix = XMMatrixIdentity();
