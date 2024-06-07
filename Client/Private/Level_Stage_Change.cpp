@@ -16,6 +16,7 @@
 
 
 #include"UI.h"
+#include"Fade_In_Out.h"
 CLevel_Stage_Change::CLevel_Stage_Change(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -32,7 +33,8 @@ HRESULT CLevel_Stage_Change::Initialize()
 
 	if (FAILED(Ready_UI(TEXT("Layer_Ui"))))
 		return E_FAIL;
-
+	if (FAILED(Ready_Layer_FadeIn_Out(TEXT("Layer_Fade_In_Out"))))
+		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
 		return E_FAIL;
@@ -89,9 +91,41 @@ void CLevel_Stage_Change::Tick(_float fTimeDelta)
 
 	if (CTotalSingleton::GetInstance()->GetPotalOn())
 	{
-		if (FAILED(m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_STAGE_1))))
-			return;
-		CTotalSingleton::GetInstance()->SetPotalOn(false);
+
+		 _bool bFadeStart = false;
+		_uint iFadeLayerSize = m_pGameInstance->Get_LayerSize(LEVEL_CHANGE_STAGE, TEXT("Layer_Fade_In_Out"));
+		Fade_In_Out* pFadeInOut = nullptr;
+
+		for (_uint i = 0; i < iFadeLayerSize; ++i)
+		{
+
+			pFadeInOut = static_cast<Fade_In_Out*>(m_pGameInstance->Get_Object(LEVEL_CHANGE_STAGE, TEXT("Layer_Fade_In_Out"), i));
+			pFadeInOut->Set_FadeDuration(1.f);
+			if (!bFadeStart)
+			{
+				pFadeInOut->Start_FadeIn();
+				bFadeStart = true;
+			}
+		}
+
+
+		//1차 보스 
+		LEVEL eLevel = LEVEL_STAGE_1;
+		if (CTotalSingleton::GetInstance()->GetVisitLevel(eLevel))
+		{
+			//2차 필드
+			eLevel = LEVEL_STAGE_2;
+
+		}
+
+		if (pFadeInOut->IsFade())
+		{
+			if (FAILED(m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, eLevel))))
+				return;
+			CTotalSingleton::GetInstance()->SetVisitLevel(eLevel);
+			bIsPotalCreated= false;
+		}
+			CTotalSingleton::GetInstance()->SetPotalOn(false);
 
 		return;
 	}
@@ -165,6 +199,50 @@ HRESULT CLevel_Stage_Change::Ready_UI(const wstring& strLayerTag)
 	desc.fY = 720.f - desc.fSizeY * 0.5f;     // Y 좌표: 화면 높이 - 크기의 반
 	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_CHANGE_STAGE, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
 		return E_FAIL;
+
+
+
+
+
+
+
+
+
+
+	desc.strModelName = TEXT("ChargeBar");
+	desc.fSizeX = 512.f * 0.25f;
+	desc.fSizeY = 512.f * 0.25f;
+	desc.fX = 950.f;
+	desc.fY = 580.f;
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_CHANGE_STAGE, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
+		return E_FAIL;
+
+	desc.strModelName = TEXT("Amanda_Icon");
+	desc.fSizeX = 512.f * 0.25f;
+	desc.fSizeY = 512.f * 0.25f;
+	desc.fX = 950.f;
+	desc.fY = 580.f;
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_CHANGE_STAGE, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
+		return E_FAIL;
+
+
+
+
+	return S_OK;
+}
+
+HRESULT CLevel_Stage_Change::Ready_Layer_FadeIn_Out(const wstring& strLayerTag)
+{
+	Fade_In_Out::Fade_In_Out_DESC FadeDesc;
+	FadeDesc.fSizeX = g_iWinSizeX;
+	FadeDesc.fSizeY = g_iWinSizeY;
+	FadeDesc.fX = g_iWinSizeX * 0.5f;
+	FadeDesc.fY = g_iWinSizeY * 0.5f;
+
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_CHANGE_STAGE, strLayerTag, TEXT("Prototype_GameObject_Fade_In_Out"), &FadeDesc)))
+		return E_FAIL;
+
+
 
 	return S_OK;
 }

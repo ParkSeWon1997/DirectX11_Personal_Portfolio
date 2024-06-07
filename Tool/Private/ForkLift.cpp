@@ -86,7 +86,7 @@ HRESULT CForkLift::Render()
 HRESULT CForkLift::Add_Components()
 {
 	/* For.Com_Model */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Segment_001"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("StageGroundAssemble_A_GS_C_66"),
 		TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
 		return E_FAIL;
 	 

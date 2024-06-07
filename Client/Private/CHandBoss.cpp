@@ -16,6 +16,11 @@
 #include"CHandBullet.h"
 #include"CBullet.h"
 
+#include"Segment.h"
+#include"SegmentLine.h"
+#include"Segment_SM.h"
+
+#include"Fade_In_Out.h"
 CHandBoss::CHandBoss(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)
 {
@@ -86,6 +91,7 @@ HRESULT CHandBoss::Initialize(void* pArg)
 	CActionNode* pDoAttack_E_1Node = CActionNode::create([this](_float deltaTime) { return DoAttack_E_1(deltaTime); });
 	CActionNode* pDoAttack_Groggy_StartNode = CActionNode::create([this](_float deltaTime) { return DoAttack_Groggy_Start(deltaTime); });
 	CActionNode* pDoAttack_Groggy_EndNode = CActionNode::create([this](_float deltaTime) { return DoAttack_Groggy_End(deltaTime); });
+	CActionNode* pDoIsAliveNode = CActionNode::create([this](_float deltaTime) { return DoIsAlive(deltaTime); });
 
 
 
@@ -103,7 +109,7 @@ HRESULT CHandBoss::Initialize(void* pArg)
 
 
 
-	m_pRootNode = CSequence::Create(pDoIdleNode, pAttackSelector);
+	m_pRootNode = CSequence::Create(pDoIsAliveNode,pDoIdleNode, pAttackSelector);
 
 	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(10.f,0.0f,20.0f,1.0f));
 	return S_OK;
@@ -118,6 +124,12 @@ void CHandBoss::Priority_Tick(_float fTimeDelta)
 
 void CHandBoss::Tick(_float fTimeDelta)
 {
+	m_fHitTime += fTimeDelta;
+	if (m_fHitTime >= 0.5f)
+	{
+		m_bIsHit = false;
+		m_fHitTime = 0.0f;
+	}
 
 
 	m_HandPalmMatrix = XMLoadFloat4x4(m_HandPalm);
@@ -125,11 +137,7 @@ void CHandBoss::Tick(_float fTimeDelta)
 	m_HandPalmMatrix.r[1] = XMVector3Normalize(m_HandPalmMatrix.r[1]);
 	m_HandPalmMatrix.r[2] = XMVector3Normalize(m_HandPalmMatrix.r[2]);
 
-
-	if (KEY_AWAY(DIK_0))
-	{
-		m_fHp -= 50.f;
-	}
+	cout << m_fHp << endl;
 
 
 	m_pRootNode->Evaluate(fTimeDelta);
@@ -138,7 +146,8 @@ void CHandBoss::Tick(_float fTimeDelta)
 		pPartObject->Tick(fTimeDelta);
 	}
 
-	
+	if (m_fHp <= 0.0f)
+		m_eCurState = CHandBoss_STATES::STATES_SMASH;
 
 	//뼈 자체의 월드행렬
 
@@ -154,8 +163,111 @@ void CHandBoss::Late_Tick(_float fTimeDelta)
 	{
 		pPartObject->Late_Tick(fTimeDelta);
 	}
+	_matrix mBoneWorldMatrix = m_HandPalmMatrix * m_pTransformCom->Get_WorldMatrix();
+	_float4 fBonePos = {};
+	XMStoreFloat4(&fBonePos, mBoneWorldMatrix.r[3]);
 
-	__super::Late_Tick(fTimeDelta);
+	vector<CParticle_Mesh::PARTICLE_DESC> vecDesc = {};
+	_uint iLayerSize = m_pGameInstance->Get_LayerSize(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"));
+
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_2_Player")));
+	if (nullptr == pPlayer)
+		return;
+
+
+
+	for (_uint i = 0; i < COLLIDER_END; ++i)
+	{
+
+		if (m_pColliderCom[COLLIDER_OBB] != nullptr)
+		{
+			if (pPlayer->Intersect(CPlayer::PART_WEAPON, TEXT("Com_Collider"), m_pColliderCom[COLLIDER_OBB]))
+			{
+				if (pPlayer->IsAttacking() && !pPlayer->GetIsCollision())
+				{
+					_float fDamage = pPlayer->GetDamage();
+					pPlayer->SetIsCollision(true);
+					if (m_fHp > 0.f)
+					{
+						vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Hit_Effect_ElectColumn_Pop"),_float4(1.0f,1.0f,1.0f,0.5f),false,true });
+						vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP,TEXT("Hit_Effect_LowpolySphere8_Size_Up"),_float4(0.1f,0.1f,0.8f,0.3f),false,true });
+						vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP_X,TEXT("Hit_Effect_hitRing_Size_Up_X"),_float4(0.9f,0.9f,0.9f,0.5f),false,true });
+
+
+
+						CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(fBonePos.x, fBonePos.y, fBonePos.z, 1.0f));
+
+						m_fHp -= fDamage;
+					}
+					m_bIsHit = true;
+				}
+			}
+			for (_uint i = 0; i < iLayerSize; ++i)
+			{
+				CBullet* pBullet = dynamic_cast<CBullet*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), i));
+				if (pBullet != nullptr)
+				{
+					if (!pBullet->Get_IsCollision() && pBullet->Intersect(TEXT("Com_Collider"), m_pColliderCom[COLLIDER_OBB]))
+					{
+						_float fDamage = pBullet->Get_Damage();
+						pBullet->Set_IsCollision(true);
+						if (m_fHp > 0.f)
+						{
+
+							vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Hit_Effect_ElectColumn_Pop"),_float4(1.0f,1.0f,1.0f,0.5f),false,true });
+							vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP,TEXT("Hit_Effect_LowpolySphere8_Size_Up"),_float4(0.1f,0.1f,0.8f,0.3f),false,true });
+							vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP_X,TEXT("Hit_Effect_hitRing_Size_Up_X"),_float4(0.9f,0.9f,0.9f,0.5f),false,true });
+
+
+
+							CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(fBonePos.x, fBonePos.y, fBonePos.z, 1.0f));
+
+
+
+
+
+							m_fHp -= fDamage;
+						}
+						m_bIsHit = true;
+					}
+				}
+			}
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	m_pGameInstance->Add_RenderObject(CRenderer::RENDER_NONBLEND, this);
+
+#ifdef _DEBUG
+	for (size_t i = 0; i < COLLIDER_END; i++)
+	{
+		if (m_pColliderCom[i] != nullptr)
+			m_pGameInstance->Add_DebugComponent(m_pColliderCom[i]);
+	}
+
+#endif
+
+
+
+
+
+
+
+
+
+	//__super::Late_Tick(fTimeDelta);
 }
 
 HRESULT CHandBoss::Render()
@@ -169,7 +281,7 @@ HRESULT CHandBoss::Add_Components()
 	
 
 
-
+	//손바닥 콜라이더
 	CBounding_OBB::BOUNDING_OBB_DESC		ColliderOBBDesc{};
 	
 	ColliderOBBDesc.eType = CCollider::TYPE_OBB;
@@ -180,18 +292,18 @@ HRESULT CHandBoss::Add_Components()
 	if (FAILED(__super::Add_Component(CLoader::m_eNextLevel, TEXT("Prototype_Component_Collider"),
 		TEXT("Com_Collider_OBB"), reinterpret_cast<CComponent**>(&m_pColliderCom[COLLIDER_OBB]), &ColliderOBBDesc)))
 		return E_FAIL;
-
-	/* For.Com_Collider_AABB */
-	CBounding_AABB::BOUNDING_AABB_DESC		ColliderAABBDesc{};
-	
-	ColliderAABBDesc.eType = CCollider::TYPE_AABB;
-	ColliderAABBDesc.vExtents = _float3(1.f, 0.7f, 0.3f);
-	ColliderAABBDesc.vCenter = _float3(0.f, ColliderAABBDesc.vExtents.y, 0.f);
-	
-	
-	if (FAILED(__super::Add_Component(CLoader::m_eNextLevel, TEXT("Prototype_Component_Collider"),
-		TEXT("Com_Collider_AABB"), reinterpret_cast<CComponent**>(&m_pColliderCom[COLLIDER_AABB]), &ColliderAABBDesc)))
-		return E_FAIL;
+	//
+	///* For.Com_Collider_AABB */
+	//CBounding_AABB::BOUNDING_AABB_DESC		ColliderAABBDesc{};
+	//
+	//ColliderAABBDesc.eType = CCollider::TYPE_AABB;
+	//ColliderAABBDesc.vExtents = _float3(1.f, 0.7f, 0.3f);
+	//ColliderAABBDesc.vCenter = _float3(0.f, ColliderAABBDesc.vExtents.y, 0.f);
+	//
+	//
+	//if (FAILED(__super::Add_Component(CLoader::m_eNextLevel, TEXT("Prototype_Component_Collider"),
+	//	TEXT("Com_Collider_AABB"), reinterpret_cast<CComponent**>(&m_pColliderCom[COLLIDER_AABB]), &ColliderAABBDesc)))
+	//	return E_FAIL;
 
 
 
@@ -340,6 +452,7 @@ NodeStates CHandBoss::DoTakeDown(_float fTimeDelta)
 				BulletDesc.vDir = vDirection;
 				BulletDesc.fRotatedAngle = RandomNum<_float>(0.f, 360.f);
 				BulletDesc.BulletState = &CBullet::Spread;  //만약 자식 클래스에서 재정의를 했다면 그 함수를 호출
+				BulletDesc.fDamage = 10.f;
 				m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_HandBullet"), &BulletDesc);
 			}
 
@@ -441,6 +554,25 @@ NodeStates CHandBoss::DoAttack_A_1(_float fTimeDelta)
 		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CHandBoss_STATES::STATES_ATTACK_A_1, false));
 		if (m_pModelCom->Get_AnimFinished())
 		{
+			_uint iFadeLayerSize = m_pGameInstance->Get_LayerSize(CLoader::m_eNextLevel, TEXT("Layer_Fade_In_Out"));
+
+			for (_uint i = 0; i < iFadeLayerSize; ++i)
+			{
+				Fade_In_Out* pFadeInOut = static_cast<Fade_In_Out*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_Fade_In_Out"), i));
+				pFadeInOut->Start_FadeIn();
+			}
+
+
+
+			//세그먼트 라인 위치 바꾸기
+			_uint iLayerSize = m_pGameInstance->Get_LayerSize(CLoader::m_eNextLevel, TEXT("Layer_1_Segment"));
+			_float fRandAngle = RandomNum<_float>(0.f, 360.f);
+			for (_uint i = 0; i < iLayerSize; ++i)
+			{
+				CGameObject* pSegment = m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_1_Segment"), i);
+				pSegment->Set_Rotation(XMConvertToRadians(fRandAngle));
+			}
+
 			m_eCurState = CHandBoss_STATES::STATES_ATTACK_A_2;
 			return NodeStates::SUCCESS;
 		}
@@ -911,6 +1043,39 @@ NodeStates CHandBoss::DoAttack_Groggy_End(_float fTimeDelta)
 		return NodeStates::FAILURE;
 
 	
+}
+
+NodeStates CHandBoss::DoIsAlive(_float fTimeDelta)
+{
+	vector<CParticle_Mesh::PARTICLE_DESC> vecDesc = {};
+
+	_matrix mBoneWorldMatrix = m_HandPalmMatrix * m_pTransformCom->Get_WorldMatrix();
+	_float4 fBonePos = {};
+	XMStoreFloat4(&fBonePos, mBoneWorldMatrix.r[3]);
+
+	if (m_eCurState == CHandBoss_STATES::STATES_SMASH)
+	{
+		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CHandBoss_STATES::STATES_SMASH, false));
+		if (m_pModelCom->Get_AnimFinished())
+		{
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Monster_Dead_spark.C_Spread"),_float4(0.8f, 0.9f, 1.0f, 0.3f) });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Monster_Dead_spark.B_Spread"),_float4(0.2f, 0.4f, 0.8f, 0.3f) });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Monster_Dead_spark.A_Spread"),_float4(0.2f, 0.4f, 0.8f, 0.3f) });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Monster_Dead_ElectColumn_Pop"),_float4(0.678f,0.847f,0.902f,0.3f) });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Monster_Dead_ElectColumn.001_Pop"),_float4(0.6f, 0.4f, 0.8f, 0.3f) });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP,TEXT("Monster_Dead_ElectColumnHit_Size_Up"),_float4(0.6f, 0.4f, 0.8f, 0.3f) });
+
+
+			CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(fBonePos.x, fBonePos.y, fBonePos.z, 1.0f), -m_pTransformCom->Get_State(CTransform::STATE_LOOK));
+
+			m_bIsDead = true;
+			return NodeStates::FAILURE;
+		}
+		else
+			return NodeStates::RUNNING;
+	}
+	else
+		return NodeStates::SUCCESS;
 }
 
 

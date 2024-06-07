@@ -37,9 +37,6 @@ HRESULT UI::Initialize(void * pArg)
 		m_fSizeY = pDesc->fSizeY;
 		m_fX = pDesc->fX;
 		m_fY = pDesc->fY;
-
-
-
 	}
 
 

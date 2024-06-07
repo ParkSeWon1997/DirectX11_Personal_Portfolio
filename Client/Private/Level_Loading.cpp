@@ -10,6 +10,7 @@
 #include "Level_Logo.h"
 #include "Level_GamePlay.h"
 #include"Level_Stage_1.h"
+#include"Level_Stage_2.h"
 #include "Level_Stage_Change.h"
 #pragma endregion
 #include"UI.h"
@@ -64,6 +65,9 @@ void CLevel_Loading::Tick(_float fTimeDelta)
 			case LEVEL_STAGE_1:
 				pNewLevel = CLevel_Stage_1::Create(m_pDevice, m_pContext);
 				break;
+			case LEVEL_STAGE_2:
+				pNewLevel = CLevel_Stage_2::Create(m_pDevice, m_pContext);
+				break;
 			case LEVEL_CHANGE_STAGE:
 				pNewLevel = CLevel_Stage_Change::Create(m_pDevice, m_pContext);
 				break;
@@ -85,6 +89,10 @@ void CLevel_Loading::Tick(_float fTimeDelta)
 
 HRESULT CLevel_Loading::Ready_Layer_BackGround(const wstring & strLayerTag)
 {
+
+	UI::UI_DESC desc;
+
+
 	/*CBackGround::BACKGROUND_DESC		ObjectDesc{};
 
 	ObjectDesc.fData = 10.f;
@@ -94,6 +102,9 @@ HRESULT CLevel_Loading::Ready_Layer_BackGround(const wstring & strLayerTag)
 
 	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_LOADING, strLayerTag, TEXT("Prototype_GameObject_BackGround"))))
 		return E_FAIL;
+
+	
+
 
 	return S_OK;
 }

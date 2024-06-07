@@ -73,6 +73,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	/* 플레이어의 Transform이란 녀석은 파츠가 될 바디와 웨폰의 부모 행렬정보를 가지는 컴포넌트가 될거다. */
 
 	m_fDamage = 10.f;
+	m_fHp = 100.f;
 	return S_OK;
 }
 
@@ -85,7 +86,7 @@ void CPlayer::Priority_Tick(_float fTimeDelta)
 void CPlayer::Tick(_float fTimeDelta)
 {
 
-	
+	//cout << m_fHp << endl;
 
 	_vector vPrePosition = m_pTransformCom->Get_State(CTransform::STATE::STATE_POSITION);
 	//cout << vPrePosition.m128_f32[0] << " " << vPrePosition.m128_f32[1] << " " << vPrePosition.m128_f32[2] << endl;
@@ -320,7 +321,28 @@ void CPlayer::Late_Tick(_float fTimeDelta)
 	}
 
 	m_pGameInstance->Add_RenderObject(CRenderer::RENDER_NONBLEND, this);
-	//m_pGameInstance->Add_RenderObject(CRenderer::RENDER_UI, this);
+	
+	CCollider* pPartObjCollider = dynamic_cast<CCollider*>(m_PartObjects[PART_BODY_MATILDA]->Get_Component(TEXT("Com_Collider")));
+
+
+	_uint iLayerSize = m_pGameInstance->Get_LayerSize(CLoader::m_eNextLevel, TEXT("Layer_Bullet"));
+
+	for (_uint i = 0; i < iLayerSize; ++i)
+	{
+		CBullet* pBullet = dynamic_cast<CBullet*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_Bullet"), i));
+		if (pBullet != nullptr)
+		{
+			if (!pBullet->Get_IsCollision() && pBullet->Intersect(TEXT("Com_Collider"), pPartObjCollider))
+			{
+				_float fDamage = pBullet->Get_Damage();
+				m_fHp -= fDamage;
+			
+				pBullet->Set_IsCollision(true);
+			}
+		}
+	}
+
+
 	
 }
 
@@ -468,8 +490,10 @@ void CPlayer::Move(_float fTimeDelta)
 	_vector vUp = m_pTransformCom->Get_State(CTransform::STATE::STATE_UP);
 	
 	
-	if (m_eCurState != STATE_COMBO_ATTACK_LEFT ||
-		m_eCurState!= STATE_COMBO_ATTACK_RIGHT)
+	if (m_eCurState != STATE_COMBO_ATTACK_LEFT &&
+		m_eCurState!= STATE_COMBO_ATTACK_RIGHT &&
+		m_eCurState!= STATE_ATTACK_SHOT &&
+		m_eCurState!= STATE_ATTACK_SHOT_CRITICAL)
 	{
 		if (m_eCurState != STATE_DASH)
 		{

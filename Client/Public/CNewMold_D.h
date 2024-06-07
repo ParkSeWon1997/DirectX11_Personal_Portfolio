@@ -38,13 +38,14 @@ public:
 
 private:
 
-	
 	NodeStates			DoIdle(_float fTimeDelta);
 	NodeStates			DoAttack(_float fTimeDelta);
 	NodeStates			DoMove(_float fTimeDelta);
 	NodeStates			DoHit(_float fTimeDelta);
-	_bool				DoDetact(_float fTimeDelta);
 	NodeStates			DoIsAlive();
+
+	CNewMold_D_STATES GetRandomState();
+	void Make_particle_Bullet(_float3 PlayerPos);
 
 
 
@@ -55,6 +56,11 @@ private:
 
 	CSequence* 					m_pRootNode = nullptr;
 	CNewMold_D_STATES				m_eCurState = STATES_IDLE;
+	_float						m_fChangeTime = 0.f;
+	_float						m_fTime = 0.f;
+	_float                      m_fRandomRotateTimer = 0.f;
+	_float                      m_fRandomMoveTimer = 0.f;
+	_float3						m_fPlayerPos = {};
 public:
 	virtual HRESULT Add_Components() override;
 	HRESULT Add_PartObjects();

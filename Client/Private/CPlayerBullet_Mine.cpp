@@ -89,7 +89,7 @@ HRESULT CPlayerBullet_Mine::Render()
 	
 	_uint	iNumMeshes = m_pModelCom->Get_NumMeshes();
 
-	for (size_t i = 0; i < iNumMeshes; i++)
+	for (_uint i = 0; i < iNumMeshes; i++)
 	{
 	
 		if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
@@ -122,6 +122,7 @@ HRESULT CPlayerBullet_Mine::Render()
 		CSwordThowDesc.vPosition = _float4(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f);
 		CSwordThowDesc.BulletState = &CBullet::Pop;
 		CSwordThowDesc.fLifeTime = 1.f;
+		CSwordThowDesc.fDamage= 10.f;
 		m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &CSwordThowDesc);
 
 
@@ -234,7 +235,7 @@ void CPlayerBullet_Mine::ComeBack(_float fTimeDelta)
 	_vector vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 	
 	m_fLookAcc += fTimeDelta * m_fSpeed;
-	cout << m_fLookAcc << endl;
+	
 
 	_float fLook= sin(XMConvertToRadians(m_fLookAcc));
 	

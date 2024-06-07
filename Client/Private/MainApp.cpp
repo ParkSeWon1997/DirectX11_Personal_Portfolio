@@ -5,9 +5,11 @@
 #include "CTotalSingleton.h"
 #include "Level_Loading.h"
 #include "BackGround.h"
+#include "UI.h"
+
 
 #include "Shader.h"
-
+#include"Fade_In_Out.h"
 CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::GetInstance() }
 	, m_pPotalSingleton{ CTotalSingleton::GetInstance() }
@@ -60,6 +62,11 @@ void CMainApp::Tick(float fTimeDelta)
 {
 	
 	m_pGameInstance->Tick_Engine(fTimeDelta);
+
+
+
+
+
 }
 
 HRESULT CMainApp::Render()
@@ -188,6 +195,14 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGround"), CBackGround::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI"),UI::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Fade_In_Out"), Fade_In_Out::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -205,8 +220,9 @@ HRESULT CMainApp::Ready_Prototype_Component()
 
 	/* For.Prototype_Component_Texture_Loading */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Loading"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/HeungDolLogo_v3.png"),1))))
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/HeungDolLogo_v3.jpg"),1))))
 		return E_FAIL;
+
 
 
 

@@ -38,16 +38,20 @@ public:
 
 private:
 
-	
 	NodeStates			DoIdle(_float fTimeDelta);
 	NodeStates			DoAttack(_float fTimeDelta);
 	NodeStates			DoMove(_float fTimeDelta);
 	NodeStates			DoHit(_float fTimeDelta);
-	NodeStates			DoSmash(_float fTimeDelta);
-	NodeStates			DoBigSmash(_float fTimeDelta);
-	_bool				DoDetact(_float fTimeDelta);
 	NodeStates			DoIsAlive();
 
+	CNewMold_C_STATES GetRandomState();
+	void Make_particle_Bullet(_float3 PlayerPos);
+
+
+
+	//_matrix HandMatrix = m_HandMatrix * m_pTransformCom->Get_WorldMatrix();
+	//_vector vMidBonePos = HandMatrix.r[3];
+	//_float4 fMidBonePos = {};
 
 
 private:
@@ -58,8 +62,15 @@ private:
 	const _float4x4*				m_pHandMatrix = { nullptr };
 	_matrix							m_HandMatrix = {};
 
-	CSequence* 					m_pRootNode = nullptr;
+	CSequence* 						m_pRootNode = nullptr;
 	CNewMold_C_STATES				m_eCurState = STATES_IDLE;
+
+
+	_float						m_fChangeTime = 0.f;
+	_float						m_fTime = 0.f;
+	_float                      m_fRandomRotateTimer = 0.f;
+	_float                      m_fRandomMoveTimer = 0.f;
+	_float3						m_fPlayerPos = {};
 public:
 	virtual HRESULT Add_Components() override;
 	HRESULT Add_PartObjects();

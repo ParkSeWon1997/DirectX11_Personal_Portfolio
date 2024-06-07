@@ -16,6 +16,7 @@
 #include"Particle_Mesh.h"
 
 #include"UI.h"
+#include"Fade_In_Out.h"
 CLevel_GamePlay::CLevel_GamePlay(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -38,6 +39,8 @@ HRESULT CLevel_GamePlay::Initialize()
 		return E_FAIL;
 
 	if (FAILED(Ready_UI(TEXT("Layer_Ui"))))
+		return E_FAIL;
+	if (FAILED(Ready_Layer_FadeIn_Out(TEXT("Layer_Fade_In_Out"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_0_Stage(TEXT("Layer_0_Stage"))))
@@ -64,11 +67,25 @@ HRESULT CLevel_GamePlay::Initialize()
 
 void CLevel_GamePlay::Tick(_float fTimeDelta)
 {
+
+	static _float  fTime = {};
+	fTime += fTimeDelta;
+	//m_pGameInstance->Render_Font(TEXT("Font_Default"), TEXT("담배 피러 가자"), _float2(0.f, 0.f), XMVectorSet(1.f, 1.f, 0.f, 1.f));
+
+
+	
+
+
+
 	static _bool   bisMosterClear = false;
 	_uint iLayerSize= m_pGameInstance->Get_LayerSize(LEVEL_GAMEPLAY, TEXT("Layer_2_Monster"));
 	vector<CParticle_Mesh::PARTICLE_DESC> vecDesc = {};
 	if (iLayerSize == 0)
 	{
+
+
+
+
 		if (bisMosterClear == false)
 		{
 			bisMosterClear = true;
@@ -102,8 +119,31 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 
 	if (CTotalSingleton::GetInstance()->GetPotalOn())
 	{
-		if (FAILED(m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_CHANGE_STAGE))))
-			return;
+		static _bool bFadeStart = false;
+
+		_uint iFadeLayerSize = m_pGameInstance->Get_LayerSize(LEVEL_GAMEPLAY, TEXT("Layer_Fade_In_Out"));
+		Fade_In_Out* pFadeInOut = nullptr;
+
+		
+			for (_uint i = 0; i < iFadeLayerSize; ++i)
+			{
+
+				pFadeInOut = static_cast<Fade_In_Out*>(m_pGameInstance->Get_Object(LEVEL_GAMEPLAY, TEXT("Layer_Fade_In_Out"), i));
+				pFadeInOut->Set_FadeDuration(1.f);
+				if (!bFadeStart)
+				{
+					pFadeInOut->Start_FadeIn();
+					bFadeStart = true;
+				}
+			}
+		
+
+
+		if (pFadeInOut->IsFade())
+		{
+			if (FAILED(m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_CHANGE_STAGE))))
+				return;
+		}
 		CTotalSingleton::GetInstance()->SetPotalOn(false);
 		return;
 	}
@@ -178,7 +218,58 @@ HRESULT CLevel_GamePlay::Ready_UI(const wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
 		return E_FAIL;
 
+
+
+
+
+
+
+	desc.strModelName = TEXT("ChargeBar");
+	desc.fSizeX = 512.f * 0.25f;
+	desc.fSizeY = 512.f * 0.25f;
+	desc.fX = 950.f;
+	desc.fY = 580.f;
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
+		return E_FAIL;
+
+	desc.strModelName = TEXT("Amanda_Icon");
+	desc.fSizeX = 512.f * 0.25f;
+	desc.fSizeY = 512.f * 0.25f;
+	desc.fX = 950.f;
+	desc.fY = 580.f;
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
+		return E_FAIL;
+	
+
+
+
+
+
+
+
+
+
+
 	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_FadeIn_Out(const wstring& strLayerTag)
+{
+	
+	
+	Fade_In_Out::Fade_In_Out_DESC FadeDesc;
+	FadeDesc.fSizeX = g_iWinSizeX;
+	FadeDesc.fSizeY = g_iWinSizeY;
+	FadeDesc.fX = g_iWinSizeX * 0.5f;
+	FadeDesc.fY = g_iWinSizeY * 0.5f;
+
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_Fade_In_Out"), &FadeDesc)))
+		return E_FAIL;
+
+
+
+	return S_OK;
+
 }
 
 HRESULT CLevel_GamePlay::Ready_Layer_Camera(const wstring & strLayerTag)
@@ -280,25 +371,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_2_Monster(const wstring & strLayerTag)
 	desc.m_pWorldMatrix = pWorldMatrix;
 	desc.vPosition = _float4(fRandomX(Gen), 0.f, fRandomZ(Gen),1.0f);
 	
-	
-	//desc.strModelName = TEXT("Boss_D");
-	//if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_Boss_D"), &desc)))
-	//	return E_FAIL;
 
-	//desc.strModelName = TEXT("Boss_D_Picker_New");
-	//desc.vPosition = _float4(0.f, 0.f, 20.f, 1.0f);
-	//if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_CBoss_D_Picker"), &desc)))
-	//	return E_FAIL;
-
-	//desc.strModelName = TEXT("Boss_B");
-	//desc.vPosition = _float4(0.0f, 0.f, 20.f, 1.0f);
-	//if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_Boss_B"), &desc)))
-	//	return E_FAIL;
-
-	//
-	//
-	
-	//for (int i = 0; i < 5; i++)
+	//for (int i = 0; i < 2; i++)
 	//{
 	//	desc.strModelName = TEXT("NewMoldTest");
 	//	desc.vPosition = _float4(fRandomX(Gen), 0.f, fRandomZ(Gen), 1.0f);
@@ -307,20 +381,39 @@ HRESULT CLevel_GamePlay::Ready_Layer_2_Monster(const wstring & strLayerTag)
 	//	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_NewMold"), &desc)))
 	//		return E_FAIL;
 	//}
+	//for (int i = 0; i < 2; i++)
+	//{
+	//	desc.strModelName = TEXT("NewMoldTest");
+	//	desc.vPosition = _float4(fRandomX(Gen), 0.f, fRandomZ(Gen), 1.0f);
+	//	desc.strDeconModelTag = TEXT("NewMold_Deco_Spike");
+	//	desc.fHp = 50.f;
+	//	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_NewMold"), &desc)))
+	//		return E_FAIL;
+	//}
+	// 
+	// 
 	
-	//desc.strModelName = TEXT("NewMoldTest");
-	//desc.vPosition = _float4(fRandomX(Gen), 0.f, fRandomZ(Gen), 1.0f);
-	//desc.strDeconModelTag = TEXT("NewMold_Deco_Spike");
-	//if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_NewMold"), &desc)))
-	//	return E_FAIL;
+
+
+
+
+
+
 	//
-	//desc.strModelName = TEXT("NewMoldMobile_C");
-	//desc.vPosition = _float4( fRandomX(Gen), 0.f, fRandomZ(Gen), 1.0f);
-	//if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_NewMold_C"), &desc)))
-	//	return E_FAIL;
-	//	
+	desc.strModelName = TEXT("NewMoldMobile_C");
+	desc.vPosition = _float4( fRandomX(Gen), 0.f, fRandomZ(Gen), 1.0f);
+	desc.fHp= 50.f;
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_NewMold_C"), &desc)))
+		return E_FAIL;
+	desc.strModelName = TEXT("NewMoldMobile_C");
+	desc.vPosition = _float4(fRandomX(Gen), 0.f, fRandomZ(Gen), 1.0f);
+	desc.fHp = 50.f;
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_NewMold_C"), &desc)))
+		return E_FAIL;
+		
 	//desc.strModelName = TEXT("NewMoldMobile_D");
 	//desc.vPosition = _float4(fRandomX(Gen), 0.f, fRandomZ(Gen), 1.0f);
+	//desc.fHp= 50.f;
 	//if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, strLayerTag, TEXT("Prototype_GameObject_NewMold_D"), &desc)))
 	//	return E_FAIL;
 	//

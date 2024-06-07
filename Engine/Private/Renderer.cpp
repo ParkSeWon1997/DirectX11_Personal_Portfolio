@@ -266,6 +266,7 @@ void CRenderer::Draw()
 	Render_FinalBlend();
 	Render_Effect();
 	Render_Blend();
+	Render_Post();
 	Render_UI();
 
 #ifdef _DEBUG
@@ -583,6 +584,18 @@ void  CRenderer::Render_Blend()
 		Safe_Release(pGameObject);
 	}
 	m_RenderGroup[RENDER_BLEND].clear();
+}
+
+void CRenderer::Render_Post()
+{
+	for (auto& pGameObject : m_RenderGroup[RENDER_POST])
+	{
+		if (nullptr != pGameObject)
+			pGameObject->Render();
+
+		Safe_Release(pGameObject);
+	}
+	m_RenderGroup[RENDER_POST].clear();
 }
 
 void CRenderer::Render_Effect()

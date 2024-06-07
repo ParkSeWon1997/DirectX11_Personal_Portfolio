@@ -28,7 +28,7 @@ HRESULT CBoneCollider::Initialize(void* pArg)
 
 	
 	m_pSocketMatrix = pDesc->pCombinedTransformationMatrix;
-	m_iNumSocketIndex = pDesc->pCombinedTransformationMatrix.size();
+	m_iNumSocketIndex = (_uint)pDesc->pCombinedTransformationMatrix.size();
 	m_pBoundingDesc= &pDesc->pBoundingDesc;
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;

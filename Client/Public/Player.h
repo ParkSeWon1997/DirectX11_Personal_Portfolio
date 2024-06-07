@@ -173,7 +173,7 @@ private:
 	_float							m_fMovePower = 0.f;
 	_float                          m_fQuestTime = 0.f;
 	_float                          m_fDamage = 0.f;
-
+	_float                          m_fHp = 0.f;
 	_bool                           m_bIsCollision = false;
 	_bool							m_bIsFire = false;
 	_bool							m_bNextAttack = false;

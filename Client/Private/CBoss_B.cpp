@@ -67,12 +67,14 @@ HRESULT CBoss_B::Initialize(void* pArg)
 	CActionNode* pRightHandAttackNode = CActionNode::create([this](_float deltaTime) { return DoRightHandAttack(deltaTime); });
 	CActionNode* pLeftHandAttackNode = CActionNode::create([this](_float deltaTime) { return DoLeftHandAttack(deltaTime); });
 	CActionNode* pPullUpAttackNode = CActionNode::create([this](_float deltaTime) { return DoPullUpAttack(deltaTime); });
+	CActionNode* pIsAliveNode = CActionNode::create([this](_float deltaTime) { return DoIsAlive(deltaTime); });
+
 
 
 	CSequence* pDoPowerfulAttackNode = CSequence::Create(pDoPowerfulAttack1Node, pDoPowerfulAttack2Node, pDoPowerfulAttack3Node);
 	CSelector* pAttackSelector = CSelector::Create(pDoPowerfulAttackNode, pJumpAttackNode, pRightHandAttackNode, pLeftHandAttackNode, pPullUpAttackNode);
 
-	m_pRootNode = CSequence::Create(pDoIdleNode, pDoMoveNode, pAttackSelector);
+	m_pRootNode = CSequence::Create(pIsAliveNode,pDoIdleNode, pDoMoveNode, pAttackSelector);
 
 	return S_OK;
 }
@@ -127,6 +129,9 @@ void CBoss_B::Tick(_float fTimeDelta)
 	{
 		pPartObject->Tick(fTimeDelta);
 	}
+
+	if (m_fHp <= 0.0f)
+		m_eCurState = CBoss_B_STATES::STATES_SMASH;
 
 	__super::Tick(fTimeDelta);
 }
@@ -189,7 +194,7 @@ NodeStates CBoss_B::DoMove(_float fTimeDelta)
 		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CBoss_B_STATES::STATES_MOVE, true));
 		_float3	vPlayerPos = m_pPlayer->Get_Position();
 		_float3	bossPos = this->Get_Position();
-		float distance = sqrt(pow(bossPos.x - vPlayerPos.x, 2) + pow(bossPos.y - vPlayerPos.y, 2) + pow(bossPos.z - vPlayerPos.z, 2));
+		float distance = (float)sqrt(pow(bossPos.x - vPlayerPos.x, 2) + pow(bossPos.y - vPlayerPos.y, 2) + pow(bossPos.z - vPlayerPos.z, 2));
 		m_pTransformCom->LookAt(m_pPlayer->Get_PositionVector());
 		m_pTransformCom->Go_Straight(fTimeDelta * 0.5f, m_pNavigationCom);
 		if (distance <= 10.0f)
@@ -207,323 +212,7 @@ NodeStates CBoss_B::DoMove(_float fTimeDelta)
 
 }
 
-//NodeStates CBoss_B::DoMove(_float fTimeDelta)
-//{
-//	if(m_eCurState==CBoss_B_STATES::STATES_GO_RANDPOS||
-//		m_eCurState==CBoss_B_STATES::STATES_ATTACK_C||
-//		m_eCurState==CBoss_B_STATES::STATES_GO_POWERFULATTACK ||
-//		m_eCurState==CBoss_B_STATES::STATES_GO_POWERFULATTACK2 ||
-//		m_eCurState==CBoss_B_STATES::STATES_GO_POWERFULATTACK3 ||
-//		m_eCurState== CBoss_B_STATES::STATES_ATTACK_D)
-//		return NodeStates::SUCCESS;
-//	CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_2_Player")));
-//
-//	if (nullptr == pPlayer)
-//		assert("No Player address");
-//
-//	_float3	vPlayerPos = pPlayer->Get_Position();
-//	_float3	bossPos = this->Get_Position();
-//	float distance = sqrt(pow(bossPos.x - vPlayerPos.x, 2) + pow(bossPos.y - vPlayerPos.y, 2) + pow(bossPos.z - vPlayerPos.z, 2));
-//	if (m_eCurState == CBoss_B_STATES::STATES_MOVE)
-//	{
-//		if (distance <= 4.0f)
-//		{
-//			m_eCurState=CBoss_B_STATES::STATES_END;
-//			return NodeStates::SUCCESS;
-//		}
-//		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CBoss_B_STATES::STATES_MOVE, true));
-//		m_pTransformCom->LookAt(pPlayer->Get_PositionVector());
-//		m_pTransformCom->Go_Straight(fTimeDelta*0.5f, m_pNavigationCom);
-//
-//		return NodeStates::SUCCESS;
-//	}
-//
-//	if (distance <= 6.0f)
-//	{
-//		//거리 안에 들어왔다 
-//		//그런데 다시 나가면 실행하고 있던 애니메이션을 재생하고 
-//
-//
-//		return NodeStates::SUCCESS;
-//	}
-//	else
-//	{
-//		//m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CBoss_B_STATES::STATES_MOVE, true));
-//		//m_pTransformCom->Go_Straight(fTimeDelta*0.5f,m_pNavigationCom);
-//		//m_eCurState = CBoss_B_STATES::STATES_IDLE;
-//		return NodeStates::FAILURE;
-//	}
-//}
-//
-//NodeStates CBoss_B::DoAttack_A(_float fTimeDelta)
-//{
-//	static int attackCount = 0;
-//	if (m_eCurState == CBoss_B_STATES::STATES_ATTACK_B||
-//		m_eCurState==CBoss_B_STATES::STATES_GO_RANDPOS||
-//		m_eCurState== CBoss_B_STATES::STATES_ATTACK_D ||
-//		m_eCurState== CBoss_B_STATES::STATES_ATTACK_C ||
-//		m_eCurState== CBoss_B_STATES::STATES_ATTACK_E ||
-//		m_eCurState== CBoss_B_STATES::STATES_GO_JUMPATTACK ||
-//		m_eCurState== CBoss_B_STATES::STATES_GO_POWERFULATTACK ||
-//		m_eCurState== CBoss_B_STATES::STATES_GO_POWERFULATTACK2 ||
-//		m_eCurState== CBoss_B_STATES::STATES_GO_POWERFULATTACK3||
-//		//m_eCurState== CBoss_B_STATES::STATES_IDLE||
-//		m_eCurState== CBoss_B_STATES::STATES_MOVE)
-//		return NodeStates::SUCCESS;
-//	else
-//	{
-//		if (m_fHp <= 50.0f)
-//		{
-//			m_eCurState = CBoss_B_STATES::STATES_GO_JUMPATTACK;
-//			return NodeStates::FAILURE;
-//		}
-//
-//		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CBoss_B_STATES::STATES_ATTACK_A, false));
-//		if (m_pModelCom->Get_AnimFinished())
-//		{
-//			attackCount++;
-//			m_pModelCom->Reset_Animation();
-//			if (attackCount >= 3)
-//			{
-//				attackCount = 0;
-//				return NodeStates::SUCCESS;
-//			}
-//			else
-//			{
-//				return NodeStates::FAILURE;
-//			}
-//
-//		}
-//	}
-//
-//
-//
-//}
-//
-//NodeStates CBoss_B::DoAttack_B(_float fTimeDelta)
-//{
-//	static int attackCount = 0;
-//	if (m_eCurState == CBoss_B_STATES::STATES_GO_RANDPOS ||
-//		m_eCurState== CBoss_B_STATES::STATES_ATTACK_D || 
-//		m_eCurState== CBoss_B_STATES::STATES_GO_POWERFULATTACK||
-//		m_eCurState== CBoss_B_STATES::STATES_GO_POWERFULATTACK2||
-//		m_eCurState== CBoss_B_STATES::STATES_GO_POWERFULATTACK3
-//		)
-//	{
-//			return NodeStates::FAILURE;
-//	}
-//	if (m_fHp <= 800.f && m_fHp >= 700.f)
-//	{
-//		m_eCurState = CBoss_B_STATES::STATES_ATTACK_B;
-//		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CBoss_B_STATES::STATES_ATTACK_B, false));
-//		if (m_pModelCom->Get_AnimFinished())
-//		{
-//			attackCount++;
-//			m_pModelCom->Reset_Animation();
-//			if (attackCount >= 2)
-//			{
-//				attackCount = 0;
-//				m_eCurState = CBoss_B_STATES::STATES_GO_RANDPOS;
-//				return NodeStates::FAILURE;
-//			}
-//			else
-//			{
-//				return NodeStates::RUNNING;
-//			}
-//		}
-//		else
-//		{
-//			return NodeStates::RUNNING;
-//		}
-//
-//
-//	}
-//
-//	else
-//	{
-//		return NodeStates::FAILURE;
-//	}
-//
-//
-//}
-//
-//NodeStates CBoss_B::DoGoOrigin(_float fTimeDelta)
-//{
-//	int iRandPos =(int)RandomNum<float>(0.0f, 3.0f);
-//	m_vMovePos[3];
-//	
-//	if (m_eCurState == CBoss_B_STATES::STATES_GO_RANDPOS)
-//	{
-//		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CBoss_B_STATES::STATES_MOVE, true));
-//		//m_pTransformCom->TurnToTarget(fTimeDelta, m_vMovePos[iRandPos]);
-//		m_pTransformCom->LookAt(m_vMovePos[0]);
-//		m_pTransformCom->Go_Straight(fTimeDelta,m_pNavigationCom);
-//	
-//		_float3	vOriginPos = {};
-//		_float3	bossPos = this->Get_Position();
-//		XMStoreFloat3(&vOriginPos, m_vMovePos[0]);
-//		float distance = sqrt(pow(vOriginPos.x - bossPos.x, 2) + pow(vOriginPos.y - bossPos.y, 2) + pow(vOriginPos.z - bossPos.z, 2));
-//		if (m_fHp <= 650.0f && m_fHp >= 500.0f)
-//		{
-//			m_eCurState = CBoss_B_STATES::STATES_ATTACK_C;
-//			return NodeStates::FAILURE;
-//		}
-//		if (distance <= 0.5f)
-//		{
-//			m_eCurState = CBoss_B_STATES::STATES_ATTACK_D;
-//			return NodeStates::FAILURE;
-//		}
-//		
-//	
-//	
-//		return NodeStates::RUNNING;
-//	}
-//	if (m_fHp <= 650.0f && m_fHp >= 500.0f)
-//	{
-//		if (m_eCurState == CBoss_B_STATES::STATES_END)
-//		{
-//			return NodeStates::FAILURE;
-//		}
-//		m_eCurState = CBoss_B_STATES::STATES_ATTACK_C;
-//		return NodeStates::FAILURE;
-//	}
-//	if (m_fHp <= 500.0f && m_fHp >= 300.0f)
-//	{
-//		if (m_eCurState == CBoss_B_STATES::STATES_END)
-//		{
-//			return NodeStates::FAILURE;
-//		}
-//			m_eCurState = CBoss_B_STATES::STATES_ATTACK_E;
-//		return NodeStates::FAILURE;
-//	}
-//	if (m_fHp <= 300.0f && m_fHp >= 100.0f)
-//	{
-//		m_eCurState = CBoss_B_STATES::STATES_ATTACK_A;
-//		return NodeStates::FAILURE;
-//	}
-//	if (m_fHp <= 0.0f)
-//	{
-//		
-//		m_eCurState = CBoss_B_STATES::STATES_SMASH;
-//			return NodeStates::FAILURE;
-//	
-//
-//	}
-//	
-//	else
-//	{
-//		return NodeStates::FAILURE;
-//	}
-//
-//}
-//
-//NodeStates CBoss_B::DoCheckPoint(_float fTimeDelta)
-//{
-//	static _uint iAttack_E_Count = 0;
-//	static _uint iAttack_C_Count = 0;
-//	if (m_eCurState == CBoss_B_STATES::STATES_ATTACK_D)
-//	{
-//		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CBoss_B_STATES::STATES_ATTACK_D, false));
-//		if (m_pModelCom->Get_AnimFinished())
-//		{
-//			//m_pModelCom->Reset_Animation();
-//			m_eCurState = CBoss_B_STATES::STATES_MOVE;
-//			return NodeStates::SUCCESS;
-//		}
-//		else
-//		{
-//			return NodeStates::RUNNING;
-//		}
-//	}
-//	if (m_eCurState == CBoss_B_STATES::STATES_ATTACK_C)
-//	{
-//		if (iAttack_C_Count >= 3)
-//		{
-//			m_eCurState = CBoss_B_STATES::STATES_END;
-//			iAttack_C_Count = 0;
-//			return NodeStates::SUCCESS;
-//		}
-//		
-//		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CBoss_B_STATES::STATES_ATTACK_C, false));
-//		if (m_pModelCom->Get_AnimFinished())
-//		{
-//			m_pModelCom->Reset_Animation();
-//			iAttack_C_Count++;
-//			//m_pModelCom->Reset_Animation();
-//			//m_eCurState = CBoss_B_STATES::STATES_GO_RANDPOS;
-//			return NodeStates::SUCCESS;
-//		}
-//		else
-//		{
-//			return NodeStates::RUNNING;
-//		}
-//
-//	}
-//	if (m_eCurState == CBoss_B_STATES::STATES_ATTACK_E)
-//	{
-//		
-//		if (iAttack_E_Count >= 2)
-//		{
-//			m_eCurState = CBoss_B_STATES::STATES_END;
-//
-//			iAttack_E_Count = 0;
-//			return NodeStates::SUCCESS;
-//		}
-//			m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CBoss_B_STATES::STATES_ATTACK_E, false));
-//
-//		if (m_pModelCom->Get_AnimFinished())
-//		{
-//			m_pModelCom->Reset_Animation();
-//			iAttack_E_Count++;
-//				return NodeStates::SUCCESS;
-//		}
-//		else
-//		{
-//			return NodeStates::RUNNING;
-//		}
-//
-//	}
-//	
-//
-//	else
-//	{
-//		return NodeStates::FAILURE;
-//	}
-//
-//
-//
-//
-//	return NodeStates();
-//}
-//
-//NodeStates CBoss_B::DoMoveJumpAttack(_float fTimeDelta)
-//{
-//	if (m_eCurState == CBoss_B_STATES::STATES_GO_JUMPATTACK)
-//	{
-//		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CBoss_B_STATES::STATES_ATTACK_D, false));
-//		if (m_pModelCom->Get_AnimFinished())
-//		{
-//			
-//
-//
-//
-//
-//			m_eCurState = CBoss_B_STATES::STATES_GO_RANDPOS;
-//			return NodeStates::SUCCESS;
-//		}
-//		else
-//		{
-//			return NodeStates::RUNNING;
-//		}
-//	}
-//	else
-//	{
-//		return NodeStates::FAILURE;
-//	}
-//
-//
-//	return NodeStates();
-//}
+
 
 NodeStates CBoss_B::DoPowerfulAttack1(_float fTimeDelta)
 {
@@ -546,6 +235,7 @@ NodeStates CBoss_B::DoPowerfulAttack1(_float fTimeDelta)
 			BulletDesc.vTargetPos = vPlayerPos;
 			BulletDesc.vDir = m_pTransformCom->Get_State(CTransform::STATE::STATE_LOOK);
 			BulletDesc.BulletState = &CBullet::Falling;  //만약 자식 클래스에서 재정의를 했다면 그 함수를 호출함
+			//BulletDesc.fDamage
  			m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_Boss_B_Bullet"), &BulletDesc);
 		}
 
@@ -871,6 +561,38 @@ NodeStates CBoss_B::DoPullUpAttack(_float fTimeDelta)
 	{
 		return NodeStates::FAILURE;
 	}
+}
+
+NodeStates CBoss_B::DoIsAlive(_float fTimeDelta)
+{
+	vector<CParticle_Mesh::PARTICLE_DESC> vecDesc = {};
+
+
+
+	if (m_eCurState == CBoss_B_STATES::STATES_SMASH)
+	{
+		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CBoss_B_STATES::STATES_SMASH, false));
+		if (m_pModelCom->Get_AnimFinished())
+		{
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Monster_Dead_spark.C_Spread"),_float4(0.8f, 0.9f, 1.0f, 0.3f) });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Monster_Dead_spark.B_Spread"),_float4(0.2f, 0.4f, 0.8f, 0.3f) });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Monster_Dead_spark.A_Spread"),_float4(0.2f, 0.4f, 0.8f, 0.3f) });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Monster_Dead_ElectColumn_Pop"),_float4(0.678f,0.847f,0.902f,0.3f) });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Monster_Dead_ElectColumn.001_Pop"),_float4(0.6f, 0.4f, 0.8f, 0.3f) });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP,TEXT("Monster_Dead_ElectColumnHit_Size_Up"),_float4(0.6f, 0.4f, 0.8f, 0.3f) });
+
+
+			CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f), -m_pTransformCom->Get_State(CTransform::STATE_LOOK));
+
+			m_bIsDead = true;
+			return NodeStates::FAILURE;
+		}
+		else
+			return NodeStates::RUNNING;
+	}
+	else
+		return NodeStates::SUCCESS;
+
 }
 
 void CBoss_B::Make_Falling_Bullet(_float fTimeDelta)

@@ -41,7 +41,7 @@ void CMold_CBullet::Priority_Tick(_float fTimeDelta)
 void CMold_CBullet::Tick(_float fTimeDelta)
 {
 	m_fLifeTime += fTimeDelta;
-	if (m_fLifeTime > 10.0f)
+	if (m_fLifeTime > 0.5f)
 		m_bIsDead = true;
 
 
@@ -64,7 +64,7 @@ HRESULT CMold_CBullet::Render()
 
 	_uint	iNumMeshes = m_pModelCom->Get_NumMeshes();
 
-	for (size_t i = 0; i < iNumMeshes; i++)
+	for (_uint i = 0; i < iNumMeshes; i++)
 	{
 
 		if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
@@ -76,7 +76,8 @@ HRESULT CMold_CBullet::Render()
 	if (m_bIsDead)
 	{
 
-		m_pGameInstance->Delete_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), this);
+		if (FAILED(m_pGameInstance->Delete_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Bullet"), this)))
+			return E_FAIL;
 	}
 
 

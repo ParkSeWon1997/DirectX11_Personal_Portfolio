@@ -205,6 +205,7 @@
     <ClInclude Include="..\Public\CSwordThow.h" />
     <ClInclude Include="..\Public\CTotalSingleton.h" />
     <ClInclude Include="..\Public\EnvironmentObj.h" />
+    <ClInclude Include="..\Public\Fade_In_Out.h" />
     <ClInclude Include="..\Public\ForkLift.h" />
     <ClInclude Include="..\public\FreeCamera.h" />
     <ClInclude Include="..\Public\LandObject.h" />
@@ -212,6 +213,7 @@
     <ClInclude Include="..\Public\Level_Loading.h" />
     <ClInclude Include="..\public\Level_Logo.h" />
     <ClInclude Include="..\Public\Level_Stage_1.h" />
+    <ClInclude Include="..\Public\Level_Stage_2.h" />
     <ClInclude Include="..\Public\Level_Stage_Change.h" />
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\MainApp.h" />
@@ -274,6 +276,7 @@
     <ClCompile Include="..\Private\CSwordThow.cpp" />
     <ClCompile Include="..\Private\CTotalSingleton.cpp" />
     <ClCompile Include="..\Private\EnvironmentObj.cpp" />
+    <ClCompile Include="..\Private\Fade_In_Out.cpp" />
     <ClCompile Include="..\Private\ForkLift.cpp" />
     <ClCompile Include="..\private\FreeCamera.cpp" />
     <ClCompile Include="..\Private\LandObject.cpp" />
@@ -281,6 +284,7 @@
     <ClCompile Include="..\Private\Level_Loading.cpp" />
     <ClCompile Include="..\private\Level_Logo.cpp" />
     <ClCompile Include="..\Private\Level_Stage_1.cpp" />
+    <ClCompile Include="..\Private\Level_Stage_2.cpp" />
     <ClCompile Include="..\Private\Level_Stage_Change.cpp" />
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\MainApp.cpp" />

@@ -62,21 +62,13 @@ HRESULT CNewMold::Initialize(void* pArg)
 	CActionNode* pDoHit= CActionNode::create([this](_float deltaTime) { return DoHit(deltaTime); });
 	CActionNode* pDoAttack= CActionNode::create([this](_float deltaTime) { return DoAttack(deltaTime); });
 	CActionNode* pDoIsAlive = CActionNode::create([this](_float deltaTime) { return DoIsAlive(); });
-	//CInverter* pNot = CInverter::Create(pDoMove);
-	
-	
 
+	
 
 	CSelector* pDefalutRoutineSelector = CSelector::Create(pDoAttack);
 
 
 
-
-
-	//vector<CNode*> pRootNodes;
-	//pRootNodes.push_back(pDoIdleNode);
-	//
-	//
 	m_pRootNode=CSequence::Create(pDoIsAlive,pDoHit,pDoIdleNode, pDoMove,pDefalutRoutineSelector);
 
 	
@@ -95,8 +87,7 @@ void CNewMold::Tick(_float fTimeDelta)
 	//m_pTransformCom->Go_Straight(fTimeDelta, m_pNavigationCom);
 
 	m_pRootNode->Evaluate(fTimeDelta);
-	int tmep = 0;
-	tmep = m_pModelCom->Get_AnimationCount();
+
 	
 
 	for (auto& pPartObject : m_PartObjects)
@@ -334,7 +325,6 @@ NodeStates CNewMold::DoAttack(_float fTimeDelta)
 		{
 			Make_particle_Bullet(m_fPlayerPos);
 
-			//m_pTransformCom->Go_Jump(fTimeDelta, 5.0f, Isfloor);
 			m_eCurState = CNewMold_STATES::STATES_IDLE;
 			return NodeStates::SUCCESS;
 		}
@@ -375,8 +365,7 @@ CNewMold::CNewMold_STATES CNewMold::GetRandomState()
 
 void CNewMold::Make_particle_Bullet(_float3 PlayerPos)
 {
-	//if (m_strDeconModelTag == TEXT("NewMold_Deco_Segment"))
-	{
+	
 		vector<CParticle_Mesh::PARTICLE_DESC> vecDesc = {
 				{CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_TEXTURE,TEXT("Boss_Attack_A")},
 				{CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_UP_AND_DOWN,TEXT("Effect_ExplosionFrag_Up_And_Down"),_float4(0.7f,0.7f,0.7f,0.8f)},
@@ -393,15 +382,8 @@ void CNewMold::Make_particle_Bullet(_float3 PlayerPos)
 		BulletDesc.vPosition = _float4(PlayerPos.x, 0.0f, PlayerPos.z, 1.0f);
 		BulletDesc.vDir = m_pTransformCom->Get_State(CTransform::STATE::STATE_LOOK);
 		BulletDesc.BulletState = &CBullet::Pop;
+		BulletDesc.fDamage = 0.5f;
 		m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_NoneTex_Bullet"), &BulletDesc);
-
-	}
-
-
-
-
-
-
 
 
 }
@@ -458,81 +440,8 @@ NodeStates CNewMold::DoHit(_float fTimeDelta)
 		return NodeStates::SUCCESS;
 
 }
-//
-//
-//
-//
-//_bool CNewMold::DoDetact(_float fTimeDelta)
-//{
-//	
-//	m_fTime += fTimeDelta;
-//	random_device randomDevice;
-//	mt19937_64 Gen(randomDevice());
-//
-//	if (m_bIsDetact == false)
-//	{
-//		uniform_real_distribution<float> fRandomRotateTime(3.f, 15.f);
-//		_float fRotateTime = fRandomRotateTime(Gen);
-//		if (m_fTime >= fRotateTime)
-//		{
-//			uniform_real_distribution<float> RandomDist(0.f, 360.f);
-//
-//			_float fRandomAngle = RandomDist(Gen);
-//
-//			//mt19937_64; << 굳이 써야할까?  정말 더 랜덤한 각도를 주려면 해봐도 될 듯
-//			//mt19937; << 이거 쓰면 충분할 듯
-//			
-//			//m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CNewMold_STATES::STATES_MOVE, true));
-//			m_pTransformCom->QuatRotation(m_pTransformCom->Get_State(CTransform::STATE_UP), fRandomAngle);
-//			m_fTime = 0;
-//			//m_pTransformCom->Go_Straight(fTimeDelta, m_pNavigationCom);
-//			
-//		}
-//		uniform_real_distribution<float> fRandomGoTime(1.f, 6.f);
-//		_float fGoTime = fRandomGoTime(Gen);
-//		if (m_fTime >= 1.0f)
-//		{
-//			m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CNewMold_STATES::STATES_MOVE, true));
-//			m_pTransformCom->Go_Straight(fTimeDelta*0.5f, m_pNavigationCom);
-//			return false;
-//		}
-//		
-//	}
-//	else if (m_bIsDetact == true)
-//	{
-//		CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_Object(LEVEL_GAMEPLAY, TEXT("Layer_2_Player")));
-//		if (nullptr == pPlayer)
-//			assert("No Player address");
-//
-//		_float  fDistance = 0.f;
-//		
-//		_vector	vPlayerPos =pPlayer->Get_PositionVector();
-//		_vector	vNewMoldPos=m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-//		fDistance= XMVectorGetX(XMVector3Length(vPlayerPos - vNewMoldPos));
-//
-//	if (fDistance <= 4.0f)
-//		m_eCurState = CNewMold_STATES::STATES_ATTACK;
-//	else
-//	{
-//		m_pTransformCom->LookAt(pPlayer->Get_PositionVector());
-//		m_pTransformCom->Go_Straight(fTimeDelta * 0.5f, m_pNavigationCom);
-//	}
-//
-//		//m_eCurState = CNewMold_STATES::STATES_ATTACK;
-//		return true;
-//	}
-//
-//	
-//
-//
-//	
-//
-//
-//
-//
-//
-//}
-//
+
+
 NodeStates CNewMold::DoIsAlive()
 {
 	if (m_eCurState== CNewMold_STATES::STATES_SMASH)

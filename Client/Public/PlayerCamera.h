@@ -8,7 +8,7 @@ BEGIN(Client)
 class CPlayerCamera final : public CCamera
 {
 public:
-	typedef struct : public CCamera::CAMERA_DESC
+	typedef struct Player_CAMERA_DESC : public CCamera::CAMERA_DESC
 	{
 		const _float4x4* pParentMatrix;
 		_float		fSensor = { 0.f };

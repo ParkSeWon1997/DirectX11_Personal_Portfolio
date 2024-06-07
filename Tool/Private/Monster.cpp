@@ -134,7 +134,7 @@ HRESULT CMonster::Add_Components()
 
 
 	/* For.Com_Model */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Boss_B_Cylinder"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Sequence_M_130525"),
 		TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
 		return E_FAIL;
 	

@@ -50,7 +50,7 @@ HRESULT CRank::Initialize(void * pArg)
 
 	
 	
-
+	m_fHp = 100.0f;
 
 	return S_OK;
 }
@@ -83,7 +83,7 @@ void CRank::Late_Tick(_float fTimeDelta)
 	CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_2_Player")));
 	if (nullptr == pPlayer)
 		return ;
-	if (pPlayer->Intersect(CPlayer::PART_BODY_MATILDA, TEXT("Com_Collider"), m_pColliderCom))
+	if (pPlayer->Intersect(CPlayer::PART_WEAPON, TEXT("Com_Collider"), m_pColliderCom))
 	{
 
 

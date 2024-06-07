@@ -43,7 +43,6 @@ private:
 	NodeStates			DoAttack(_float fTimeDelta);
 	NodeStates			DoMove(_float fTimeDelta);
 	NodeStates			DoHit(_float fTimeDelta);
-	//_bool				DoDetact(_float fTimeDelta);
 	NodeStates			DoIsAlive();
 
 	CNewMold_STATES GetRandomState();

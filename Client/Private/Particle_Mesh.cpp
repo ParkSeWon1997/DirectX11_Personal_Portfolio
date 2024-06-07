@@ -216,7 +216,7 @@ HRESULT CParticle_Mesh::Render()
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_NONE:
 		break;
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD:
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
@@ -229,7 +229,7 @@ HRESULT CParticle_Mesh::Render()
 		}
 		break;
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_DROP:
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
@@ -242,7 +242,7 @@ HRESULT CParticle_Mesh::Render()
 		}
 		break;
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_UP_AND_DOWN:
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
@@ -255,7 +255,7 @@ HRESULT CParticle_Mesh::Render()
 		}
 		break;
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_EXPLOSION:
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
@@ -267,7 +267,7 @@ HRESULT CParticle_Mesh::Render()
 		}
 		break;
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP:
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
@@ -281,7 +281,7 @@ HRESULT CParticle_Mesh::Render()
 	
 		break;
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_RANDOM_POP:
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
@@ -296,7 +296,7 @@ HRESULT CParticle_Mesh::Render()
 		break;
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP:
 
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
@@ -310,7 +310,7 @@ HRESULT CParticle_Mesh::Render()
 		break;
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_DOWN:
 
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
@@ -324,7 +324,7 @@ HRESULT CParticle_Mesh::Render()
 		break;
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_DOWN_X:
 
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
@@ -338,7 +338,7 @@ HRESULT CParticle_Mesh::Render()
 		break;
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_DOWN_Y:
 
-			for (size_t i = 0; i < iNumMeshes; i++)
+			for (_uint i = 0; i < iNumMeshes; i++)
 			{
 				if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 					return E_FAIL;
@@ -352,7 +352,7 @@ HRESULT CParticle_Mesh::Render()
 			break;
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_DOWN_Z:
 
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
@@ -365,7 +365,7 @@ HRESULT CParticle_Mesh::Render()
 		}
 		break;
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP_X:
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
@@ -378,7 +378,7 @@ HRESULT CParticle_Mesh::Render()
 		}
 		break;
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP_Y:
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
@@ -391,7 +391,7 @@ HRESULT CParticle_Mesh::Render()
 		}
 		break;
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP_Z:
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
@@ -405,7 +405,7 @@ HRESULT CParticle_Mesh::Render()
 		break;
 
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_HALF_ALHPA:
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
@@ -419,7 +419,7 @@ HRESULT CParticle_Mesh::Render()
 
 		break;
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_COLOR_CHANGE:
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
@@ -434,7 +434,7 @@ HRESULT CParticle_Mesh::Render()
 
 
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_TEXTURE:
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
@@ -447,7 +447,7 @@ HRESULT CParticle_Mesh::Render()
 		}
 		break;
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_X:
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
@@ -459,7 +459,7 @@ HRESULT CParticle_Mesh::Render()
 		}
 		break;
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_Y:
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
@@ -471,7 +471,7 @@ HRESULT CParticle_Mesh::Render()
 		}
 		break;
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_Z:
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
@@ -483,7 +483,7 @@ HRESULT CParticle_Mesh::Render()
 		}
 		break;
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_DOWN_Z_NONE_DISOLVE:
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
@@ -495,7 +495,7 @@ HRESULT CParticle_Mesh::Render()
 
 		}
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP_NONE_DISOLVE:
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
@@ -508,7 +508,7 @@ HRESULT CParticle_Mesh::Render()
 		}
 		break;
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP_NONE_DISOLVE:
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
@@ -521,7 +521,7 @@ HRESULT CParticle_Mesh::Render()
 		}
 		break;
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD_NONE_DISOLVE:
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
@@ -534,7 +534,7 @@ HRESULT CParticle_Mesh::Render()
 		}
 		break;
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_X_NONE_DISOLVE:
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
@@ -547,7 +547,7 @@ HRESULT CParticle_Mesh::Render()
 		}
 		break;
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_Y_NONE_DISOLVE:
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
@@ -560,7 +560,7 @@ HRESULT CParticle_Mesh::Render()
 		}
 		break;
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_Z_NONE_DISOLVE:
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
@@ -573,7 +573,7 @@ HRESULT CParticle_Mesh::Render()
 		}
 		break;
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_UP_AND_DOWN_TEXTURE:
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
@@ -586,7 +586,7 @@ HRESULT CParticle_Mesh::Render()
 		}
 		break;
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_X_TEXTURE:
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
@@ -599,7 +599,7 @@ HRESULT CParticle_Mesh::Render()
 		}
 		break;
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP_TEXTURE:
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
@@ -612,7 +612,7 @@ HRESULT CParticle_Mesh::Render()
 		}
 		break;
 	case Client::CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP_Z_TEXTURE:
-		for (size_t i = 0; i < iNumMeshes; i++)
+		for (_uint i = 0; i < iNumMeshes; i++)
 		{
 			if (FAILED(m_pModelCom->Bind_Material_Instance(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;

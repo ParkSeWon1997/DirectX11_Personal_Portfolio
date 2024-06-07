@@ -85,7 +85,7 @@ private:
 	NodeStates			DoAttack_E_1(_float fTimeDelta);
 	NodeStates			DoAttack_Groggy_Start(_float fTimeDelta);
 	NodeStates			DoAttack_Groggy_End(_float fTimeDelta);
-
+	NodeStates          DoIsAlive(_float fTimeDelta);
 
 
 private:
@@ -95,7 +95,7 @@ private:
 	void SetRandomData();
 private:
 	_vector							m_vOriginPos = {};
-
+	_float                          m_fHitTime = 0.f;
 	_float 							fChangeTime = 0.f;
 	_float							fRandTime = 0.f;
 	vector<class CGameObject*>		m_PartObjects;

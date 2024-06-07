@@ -11,9 +11,11 @@
 #include"CHandBoss.h"
 #include"Particle_Mesh.h"
 #include"CHandBullet.h"
+#include"CTotalSingleton.h"
 
 
 #include"UI.h"
+#include"Fade_In_Out.h"
 CLevel_Stage_1::CLevel_Stage_1(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -28,6 +30,8 @@ HRESULT CLevel_Stage_1::Initialize()
 	//if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 	//	return E_FAIL;
 	if (FAILED(Ready_UI(TEXT("Layer_Ui"))))
+		return E_FAIL;
+	if (FAILED(Ready_Layer_FadeIn_Out(TEXT("Layer_Fade_In_Out"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
@@ -55,13 +59,77 @@ HRESULT CLevel_Stage_1::Initialize()
 
 void CLevel_Stage_1::Tick(_float fTimeDelta)
 {
-	if (KEY_TAP(DIK_5))
+
+	static _bool   bisMosterClear = false;
+	_uint iLayerSize = m_pGameInstance->Get_LayerSize(LEVEL_STAGE_1, TEXT("Layer_2_Monster"));
+	vector<CParticle_Mesh::PARTICLE_DESC> vecDesc = {};
+	if (iLayerSize == 0)
 	{
-		if (FAILED(m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_CHANGE_STAGE))))
-			return;
-		
+		if (bisMosterClear == false)
+		{
+			bisMosterClear = true;
+			CEnvironmentObj::CEnvironmentObj_DESC desc;
+			desc.strModelName = TEXT("Ventilator");
+			desc.vPosition = _float4(0.1f, 0.f, 38.f, 1.0f);
+			desc.vScale = _float3(1.f, 1.f, 1.f);
+			desc.vRotation = _float3(0.f, 1.f, 0.f);
+			desc.vRotationAngle = 45.f;
+
+
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_Y_NONE_DISOLVE,TEXT("Potal_Effect_hitRing_Rotate_Y"),_float4(1.0f,1.0f,1.0f,0.3f),false ,true });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_Y_NONE_DISOLVE,TEXT("Potal_Effect_LowpolyCylinder6_Rotate_Y"),_float4(1.0f,1.0f,1.0f,0.3f),false ,true });
+
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Potal_Effect_atomTri_Spread"),_float4(1.0f,1.0f,1.0f,0.3f),false ,true });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Potal_Effect_atomTri.001_Spread"),_float4(1.0f,1.0f,1.0f,0.3f),false ,true });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Potal_Effect_atomTri.002_Spread"),_float4(1.0f,1.0f,1.0f,0.3f),false ,true });
+			CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(desc.vPosition.x, desc.vPosition.y + 1.0f, desc.vPosition.z, 1.0f));
+
+			if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_1, TEXT("Layer_Potal"), TEXT("Prototype_Potal"), &desc)))
+				return;
+			//if (FAILED(m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_CHANGE_STAGE))))
+			//	return;
+		}
+	}
+	else
+	{
+		bisMosterClear = false;
+	}
+
+
+	if (CTotalSingleton::GetInstance()->GetPotalOn())
+	{
+		static _bool bFadeStart = false;
+
+		_uint iFadeLayerSize = m_pGameInstance->Get_LayerSize(LEVEL_STAGE_1, TEXT("Layer_Fade_In_Out"));
+		Fade_In_Out* pFadeInOut = nullptr;
+
+
+
+		for (_uint i = 0; i < iFadeLayerSize; ++i)
+		{
+
+			pFadeInOut = static_cast<Fade_In_Out*>(m_pGameInstance->Get_Object(LEVEL_STAGE_1, TEXT("Layer_Fade_In_Out"), i));
+			pFadeInOut->Set_FadeDuration(1.f);
+			if (!bFadeStart)
+			{
+				pFadeInOut->Start_FadeIn();
+				bFadeStart = true;
+			}
+		}
+
+
+
+
+
+		if (pFadeInOut->IsFade())
+		{
+			if (FAILED(m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_CHANGE_STAGE))))
+				return;
+		}
+		CTotalSingleton::GetInstance()->SetPotalOn(false);
 		return;
 	}
+
 #ifdef _DEBUG
 	ostringstream oss;
 	oss << std::fixed << std::setprecision(2) << m_pGameInstance->Get_FPS(TEXT("Timer_60"));
@@ -129,6 +197,51 @@ HRESULT CLevel_Stage_1::Ready_UI(const wstring& strLayerTag)
 	desc.fY = 720.f - desc.fSizeY * 0.5f;     // Y 좌표: 화면 높이 - 크기의 반
 	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_1, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
 		return E_FAIL;
+
+
+
+
+	desc.strModelName = TEXT("ChargeBar");
+	desc.fSizeX = 512.f * 0.25f;
+	desc.fSizeY = 512.f * 0.25f;
+	desc.fX = 950.f;
+	desc.fY = 580.f;
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_1, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
+		return E_FAIL;
+
+	desc.strModelName = TEXT("Amanda_Icon");
+	desc.fSizeX = 512.f * 0.25f;
+	desc.fSizeY = 512.f * 0.25f;
+	desc.fX = 950.f;
+	desc.fY = 580.f;
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_1, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
+		return E_FAIL;
+
+
+
+
+
+
+
+
+
+
+
+	return S_OK;
+}
+
+HRESULT CLevel_Stage_1::Ready_Layer_FadeIn_Out(const wstring& strLayerTag)
+{
+	Fade_In_Out::Fade_In_Out_DESC FadeDesc;
+	FadeDesc.fSizeX = g_iWinSizeX;
+	FadeDesc.fSizeY = g_iWinSizeY;
+	FadeDesc.fX = g_iWinSizeX * 0.5f;
+	FadeDesc.fY = g_iWinSizeY * 0.5f;
+
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_1, strLayerTag, TEXT("Prototype_GameObject_Fade_In_Out"), &FadeDesc)))
+		return E_FAIL;
+
+
 
 	return S_OK;
 }
@@ -287,18 +400,18 @@ HRESULT CLevel_Stage_1::Ready_Layer_2_Monster(const wstring & strLayerTag)
 	//Prototype_GameObject_Hand_Boss
 	//Boss_C_Right_Hand
 
-	CHandBoss::CHandBoss_DESC HandDesc;
-	HandDesc.strModelName = TEXT("Boss_C_Right_Hand");
-	HandDesc.vPosition = _float4(0.0f, 0.f, 20.f, 1.0f);
-	HandDesc.ePart = CHandBoss::PARTS_HAND_R;
-	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_1, strLayerTag, TEXT("Prototype_GameObject_Hand_Boss"), &HandDesc)))
-	 return E_FAIL;
-	
-	HandDesc.strModelName = TEXT("Boss_C_Left_Hand");
-	HandDesc.vPosition = _float4(0.0f, 0.f, 20.f, 1.0f);
-	HandDesc.ePart = CHandBoss::PARTS_HAND_L;
-	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_1, strLayerTag, TEXT("Prototype_GameObject_Hand_Boss"), &HandDesc)))
-		return E_FAIL;
+	//CHandBoss::CHandBoss_DESC HandDesc;
+	//HandDesc.strModelName = TEXT("Boss_C_Right_Hand");
+	//HandDesc.vPosition = _float4(0.0f, 0.f, 20.f, 1.0f);
+	//HandDesc.ePart = CHandBoss::PARTS_HAND_R;
+	//if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_1, strLayerTag, TEXT("Prototype_GameObject_Hand_Boss"), &HandDesc)))
+	// return E_FAIL;
+	//
+	//HandDesc.strModelName = TEXT("Boss_C_Left_Hand");
+	//HandDesc.vPosition = _float4(0.0f, 0.f, 20.f, 1.0f);
+	//HandDesc.ePart = CHandBoss::PARTS_HAND_L;
+	//if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_1, strLayerTag, TEXT("Prototype_GameObject_Hand_Boss"), &HandDesc)))
+	//	return E_FAIL;
 	
 
 	

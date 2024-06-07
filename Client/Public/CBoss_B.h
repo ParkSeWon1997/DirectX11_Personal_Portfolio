@@ -78,7 +78,7 @@ private:
 	NodeStates          DoRightHandAttack(_float fTimeDelta);
 	NodeStates          DoLeftHandAttack(_float fTimeDelta);
 	NodeStates          DoPullUpAttack(_float fTimeDelta);
-
+	NodeStates          DoIsAlive(_float fTimeDelta);
 
 
 private:

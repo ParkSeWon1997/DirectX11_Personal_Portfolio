@@ -1,0 +1,50 @@
+MeshName :
+spark.A
+Instance :
+2
+OffsetPos.x :
+6.14
+OffsetPos.y :
+0
+OffsetPos.z :
+5.217
+PivotPos.x :
+0
+PivotPos.y :
+0
+PivotPos.z :
+0
+Range.x :
+1.754
+Range.y :
+2.631
+Range.z :
+0.87
+Size.x :
+5.934
+Size.y :
+6.032
+Speed.x :
+1.271
+Speed.y :
+1.813
+LifeTime.x :
+0.277
+LifeTime.y :
+0.659
+IsLoop :
+0
+TargetPos.x :
+0
+TargetPos.y :
+0
+TargetPos.z :
+0
+TypeIndex :
+0
+X_Size :
+0
+Y_Size :
+0
+Z_Size :
+0

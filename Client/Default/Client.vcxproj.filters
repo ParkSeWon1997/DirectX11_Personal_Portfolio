@@ -217,6 +217,12 @@
     <Filter Include="01.Levels\98. TotarSingleton">
       <UniqueIdentifier>{f7681c51-52f2-4662-800e-dc2023ca99e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\08. Fade_In/Out">
+      <UniqueIdentifier>{149386a6-b4e8-46ff-b778-7568caf71c68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\05. Stage_2">
+      <UniqueIdentifier>{a549d8f9-6c36-4702-909b-bf0ae21c1c08}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -421,6 +427,12 @@
     <ClInclude Include="..\Public\CTotalSingleton.h">
       <Filter>01.Levels\98. TotarSingleton</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Fade_In_Out.h">
+      <Filter>02.GameObjects\08. Fade_In/Out</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Stage_2.h">
+      <Filter>01.Levels\05. Stage_2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -615,6 +627,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\CTotalSingleton.cpp">
       <Filter>01.Levels\98. TotarSingleton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Fade_In_Out.cpp">
+      <Filter>02.GameObjects\08. Fade_In/Out</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Stage_2.cpp">
+      <Filter>01.Levels\05. Stage_2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

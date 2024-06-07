@@ -1,8 +1,8 @@
 #pragma once
 
-#include"Client_Defines.h""
+#include "Client_Defines.h"
 #include "GameObject.h"
-#include"VIBuffer_Instance.h"
+#include "VIBuffer_Instance.h"
 
 BEGIN(Engine)
 class CShader;

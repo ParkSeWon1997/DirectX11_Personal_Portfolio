@@ -38,6 +38,7 @@ private:
 	_float							m_fSpeed = 50.0f;
 	_float                          m_fTargetDownPos_Y = 0.0f;
 
+	_float                          m_fHp = 0.0f;
 
 public:
 	HRESULT Add_Components();

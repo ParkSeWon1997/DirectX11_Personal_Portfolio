@@ -13,7 +13,7 @@
 #include"CSelector.h"
 #include"CSequence.h"
 #include"CInverter.h"
-
+#include"Particle_Mesh.h"
 #include"Player.h"
 
 
@@ -54,29 +54,24 @@ HRESULT CNewMold_D::Initialize(void* pArg)
 	if (FAILED(Add_PartObjects()))
 		return E_FAIL;
 
-
 	CActionNode* pDoIdleNode = CActionNode::create([this](_float deltaTime) { return DoIdle(deltaTime); });
 	CActionNode* pDoMove = CActionNode::create([this](_float deltaTime) { return DoMove(deltaTime); });
-	CActionNode* pDoHit= CActionNode::create([this](_float deltaTime) { return DoHit(deltaTime); });
-	CActionNode* pDoAttack= CActionNode::create([this](_float deltaTime) { return DoAttack(deltaTime); });
+	CActionNode* pDoHit = CActionNode::create([this](_float deltaTime) { return DoHit(deltaTime); });
+	CActionNode* pDoAttack = CActionNode::create([this](_float deltaTime) { return DoAttack(deltaTime); });
 	CActionNode* pDoIsAlive = CActionNode::create([this](_float deltaTime) { return DoIsAlive(); });
+
+
+
+	CSelector* pDefalutRoutineSelector = CSelector::Create(pDoAttack);
+
+
+
+	m_pRootNode = CSequence::Create(pDoIsAlive, pDoHit, pDoIdleNode, pDoMove, pDefalutRoutineSelector);
+
+
+
+
 	
-	CInverter* pNot = CInverter::Create(pDoMove);
-	
-	
-
-
-	CSelector* pDefalutRoutineSelector = CSelector::Create(pDoIsAlive,pNot, pDoHit, pDoAttack, pDoIdleNode);
-
-
-
-
-
-	//vector<CNode*> pRootNodes;
-	//pRootNodes.push_back(pDoIdleNode);
-	//
-	//
-	m_pRootNode=CSequence::Create(pDefalutRoutineSelector);
 
 
 	return S_OK;
@@ -97,6 +92,25 @@ void CNewMold_D::Tick(_float fTimeDelta)
 	int tmep = 0;
 	tmep = m_pModelCom->Get_AnimationCount();
 	
+	if (m_fHp <= 0.0f)
+		m_eCurState = CNewMold_D_STATES::STATES_SMASH;
+
+
+	_bool Isfloor = false;
+	if (m_bIsHit)
+	{
+		m_pTransformCom->Go_Jump(fTimeDelta, 3.0f, 1.0f, Isfloor);
+		m_pTransformCom->LookAt(m_pPlayer->Get_PositionVector());
+		m_pTransformCom->Go_Backward(fTimeDelta, m_pNavigationCom);
+
+	}
+	if (Isfloor)
+	{
+		m_bIsHit = false;
+	}
+
+
+
 	__super::Tick(fTimeDelta);
 }
 
@@ -114,6 +128,167 @@ HRESULT CNewMold_D::Render()
 {
 	__super::Render();
 	return S_OK;
+}
+
+NodeStates CNewMold_D::DoIdle(_float fTimeDelta)
+{
+	if (m_eCurState == CNewMold_D_STATES::STATES_IDLE)
+	{
+		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CNewMold_D_STATES::STATES_IDLE, true));
+
+
+
+		m_fChangeTime += fTimeDelta;
+		if (m_fChangeTime >= 3.0f)
+		{
+			m_eCurState = GetRandomState();
+			m_fChangeTime = 0.0f;
+			return NodeStates::SUCCESS;
+		}
+
+
+		return NodeStates::FAILURE;
+	}
+	else
+		return NodeStates::SUCCESS;
+}
+
+NodeStates CNewMold_D::DoAttack(_float fTimeDelta)
+{
+	if (m_eCurState == CNewMold_D_STATES::STATES_ATTACK)
+	{
+		_bool Isfloor = false;
+		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CNewMold_D_STATES::STATES_ATTACK, false));
+		double fCurPos = m_pModelCom->Get_CurrentPosition();
+		if (fCurPos >= 0.02 && fCurPos <= 0.04)
+		{
+			vector<CParticle_Mesh::PARTICLE_DESC> vecDesc = {
+				{CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP,TEXT("Effect_BossAttack_Warning_Circle_001_SizeUp"),_float4(0.8f,0.1f,0.1f,0.8f)},
+				{CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP,TEXT("Effect_BossAttack_Warning_Circle_002_SizeUp"),_float4(1.0f,0.1f,0.1f,0.8f)}
+			};
+
+			m_fPlayerPos = m_pPlayer->Get_Position();
+
+			CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(m_fPlayerPos.x, 0.0f, m_fPlayerPos.z, 1.0f));
+
+			m_pTransformCom->Go_Jump(fTimeDelta, 5.0f, 1.0f, Isfloor);
+		}
+
+
+
+
+		if (m_pModelCom->Get_AnimFinished())
+		{
+			Make_particle_Bullet(m_fPlayerPos);
+
+			m_eCurState = CNewMold_D_STATES::STATES_IDLE;
+			return NodeStates::SUCCESS;
+		}
+		else
+			return NodeStates::RUNNING;
+	}
+	else
+	{
+
+		return NodeStates::FAILURE;
+	}
+
+}
+
+NodeStates CNewMold_D::DoMove(_float fTimeDelta)
+{
+	m_fTime += fTimeDelta;
+	if (m_eCurState == CNewMold_D_STATES::STATES_MOVE)
+	{
+		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CNewMold_D_STATES::STATES_MOVE, true));
+		m_pTransformCom->Go_Straight(fTimeDelta , m_pNavigationCom);
+		if (m_fTime >= 3.0f)
+		{
+			_float fRandomAngle = RandomNum<float>(0.0f, 360.f);
+			m_pTransformCom->QuatRotation(m_pTransformCom->Get_State(CTransform::STATE_UP), fRandomAngle);
+			m_eCurState = CNewMold_D_STATES::STATES_IDLE;
+			m_fTime = 0.0f;
+			return NodeStates::SUCCESS;
+		}
+		else
+			return NodeStates::RUNNING;
+
+
+	}
+	else
+		return NodeStates::SUCCESS;
+
+}
+
+NodeStates CNewMold_D::DoHit(_float fTimeDelta)
+{
+	if (m_bIsHit)
+	{
+		m_eCurState = CNewMold_D_STATES::STATES_HURT;
+
+		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CNewMold_D_STATES::STATES_HURT, false));
+
+
+		if (m_pModelCom->Get_AnimFinished())
+		{
+			m_eCurState = CNewMold_D_STATES::STATES_IDLE;
+			//m_bIsHit = false;
+		}
+		else
+		{
+			return NodeStates::RUNNING;
+		}
+
+	}
+	else
+		return NodeStates::SUCCESS;
+
+}
+
+NodeStates CNewMold_D::DoIsAlive()
+{
+	if (m_eCurState == CNewMold_D_STATES::STATES_SMASH)
+	{
+		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CNewMold_D_STATES::STATES_SMASH, false));
+		if (m_pModelCom->Get_AnimFinished())
+		{
+			m_bIsDead = true;
+			return NodeStates::FAILURE;
+		}
+		else
+			return NodeStates::RUNNING;
+	}
+	else
+		return NodeStates::SUCCESS;
+
+}
+
+CNewMold_D::CNewMold_D_STATES CNewMold_D::GetRandomState()
+{
+	CNewMold_D_STATES pRandomStates[] =
+	{
+		CNewMold_D_STATES::STATES_MOVE,
+		CNewMold_D_STATES::STATES_ATTACK,
+
+	};
+
+	random_device randomDevice;
+	mt19937_64 Gen(randomDevice());
+	uniform_int_distribution<> dis(0, sizeof(pRandomStates) / sizeof(pRandomStates[0]) - 1);
+	int iRandomIndex = dis(Gen);
+
+
+
+	return pRandomStates[(CNewMold_D_STATES)iRandomIndex];
+}
+
+void CNewMold_D::Make_particle_Bullet(_float3 PlayerPos)
+{
+
+
+
+
+
 }
 
 
@@ -223,179 +398,5 @@ void CNewMold_D::Free()
 
 
 
-NodeStates CNewMold_D::DoIdle(_float fTimeDelta)
-{
-	if (m_eCurState == CNewMold_D_STATES::STATES_IDLE)
-	{
-		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CNewMold_D_STATES::STATES_IDLE, true));
-		return NodeStates::SUCCESS;
-	}
-	else
-		return NodeStates::FAILURE;
-
-
-	
-}
-
-NodeStates CNewMold_D::DoAttack(_float fTimeDelta)
-{
-
-	if (m_eCurState == CNewMold_D_STATES::STATES_ATTACK)
-	{
-		//_bool Isfloor = false;
-		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CNewMold_D_STATES::STATES_ATTACK, false));
-		
-
-
-
-
-
-		if (m_pModelCom->Get_AnimFinished())
-		{
-			//m_pTransformCom->Go_Jump(fTimeDelta, 5.0f, Isfloor);
-			m_eCurState = CNewMold_D_STATES::STATES_IDLE;
-			return NodeStates::SUCCESS;
-		}
-		else
-			return NodeStates::RUNNING;
-	}
-	else
-	{
-
-		return NodeStates::FAILURE;
-	}
-
-
-
-	
-}
-
-NodeStates CNewMold_D::DoMove(_float fTimeDelta)
-{
-
-	if(DoDetact(fTimeDelta))
-		return NodeStates::SUCCESS;
-
-
-
-
-
-	return NodeStates::FAILURE;
-}
-
-NodeStates CNewMold_D::DoHit(_float fTimeDelta)
-{
-	_bool Isfloor = false;
-	if (m_bIsHit)
-	{
-		m_pTransformCom->Go_Jump(fTimeDelta, 5.0f,1.0f, Isfloor);
-		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CNewMold_D_STATES::STATES_HURT, true));
-		m_pTransformCom->Go_Backward(fTimeDelta, m_pNavigationCom);
-		if (Isfloor)
-		{
-			
-				m_eCurState = CNewMold_D_STATES::STATES_IDLE;
-				m_bIsHit = false;
-			
-		}
-		
-
-
-
-		return NodeStates::SUCCESS;
-	}
-	else
-		return NodeStates::FAILURE;
-
-}
-
-
-
-
-_bool CNewMold_D::DoDetact(_float fTimeDelta)
-{
-	
-	m_fTime += fTimeDelta;
-	random_device randomDevice;
-	mt19937_64 Gen(randomDevice());
-
-	if (m_bIsDetact == false)
-	{
-		uniform_real_distribution<float> fRandomRotateTime(3.f, 15.f);
-		_float fRotateTime = fRandomRotateTime(Gen);
-		if (m_fTime >= fRotateTime)
-		{
-			uniform_real_distribution<float> RandomDist(0.f, 360.f);
-
-			_float fRandomAngle = RandomDist(Gen);
-
-			//mt19937_64; << 굳이 써야할까?  정말 더 랜덤한 각도를 주려면 해봐도 될 듯
-			//mt19937; << 이거 쓰면 충분할 듯
-			
-			//m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CNewMold_D_STATES::STATES_MOVE, true));
-			m_pTransformCom->QuatRotation(m_pTransformCom->Get_State(CTransform::STATE_UP), fRandomAngle);
-			m_fTime = 0;
-			//m_pTransformCom->Go_Straight(fTimeDelta, m_pNavigationCom);
-			
-		}
-		uniform_real_distribution<float> fRandomGoTime(1.f, 6.f);
-		_float fGoTime = fRandomGoTime(Gen);
-		if (m_fTime >= 1.0f)
-		{
-			m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CNewMold_D_STATES::STATES_MOVE, true));
-			m_pTransformCom->Go_Straight(fTimeDelta*0.5f, m_pNavigationCom);
-			return false;
-		}
-		
-	}
-	else if (m_bIsDetact == true)
-	{
-		CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_2_Player")));
-		if (nullptr == pPlayer)
-			assert("No Player address");
-
-		_float  fDistance = 0.f;
-		
-		_vector	vPlayerPos =pPlayer->Get_PositionVector();
-		_vector	vNewMoldPos=m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		fDistance= XMVectorGetX(XMVector3Length(vPlayerPos - vNewMoldPos));
-
-	if (fDistance <= 4.0f)
-		m_eCurState = CNewMold_D_STATES::STATES_ATTACK;
-	else
-	{
-		m_pTransformCom->LookAt(pPlayer->Get_PositionVector());
-		m_pTransformCom->Go_Straight(fTimeDelta * 0.5f, m_pNavigationCom);
-	}
-
-		//m_eCurState = CNewMold_D_STATES::STATES_ATTACK;
-		return true;
-	}
-
-	
-
-
-	
-
-
-
-
-
-}
-
-NodeStates CNewMold_D::DoIsAlive()
-{
-
-
-	if (m_bIsDead)
-	{
-		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CNewMold_D_STATES::STATES_SMASH, false));
-
-		return NodeStates::SUCCESS;
-	}
-	else
-		return NodeStates::FAILURE;
-
-}
 
 
