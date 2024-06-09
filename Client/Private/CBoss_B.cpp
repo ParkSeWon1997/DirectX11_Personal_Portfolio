@@ -16,6 +16,7 @@
 #include"Player.h"
 #include"Particle_Mesh.h"
 #include"CBullet.h"
+#include"Fade_In_Out.h"
 CBoss_B::CBoss_B(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)
 {
@@ -121,7 +122,7 @@ void CBoss_B::Tick(_float fTimeDelta)
 
 	if(m_bIsBulletSpawn)
 		Make_Falling_Bullet(fTimeDelta);
-	cout << m_fHp << endl;
+	//cout << m_fHp << endl;
 
 
 	
@@ -235,7 +236,7 @@ NodeStates CBoss_B::DoPowerfulAttack1(_float fTimeDelta)
 			BulletDesc.vTargetPos = vPlayerPos;
 			BulletDesc.vDir = m_pTransformCom->Get_State(CTransform::STATE::STATE_LOOK);
 			BulletDesc.BulletState = &CBullet::Falling;  //만약 자식 클래스에서 재정의를 했다면 그 함수를 호출함
-			//BulletDesc.fDamage
+			BulletDesc.fDamage= 5.0f;
  			m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_Boss_B_Bullet"), &BulletDesc);
 		}
 
@@ -435,6 +436,7 @@ NodeStates CBoss_B::DoRightHandAttack(_float fTimeDelta)
 
 		if (m_pModelCom->Get_AnimFinished())
 		{
+
 			m_bIsBulletSpawn = true;
 			//fChangeTime = 0.0f;
 			m_eCurState = CBoss_B_STATES::STATES_IDLE;
@@ -474,6 +476,7 @@ NodeStates CBoss_B::DoLeftHandAttack(_float fTimeDelta)
 			BulletDesc.vTargetPos = vPlayerPos;
 			BulletDesc.vDir = m_pTransformCom->Get_State(CTransform::STATE::STATE_LOOK);
 			BulletDesc.BulletState = &CBullet::Falling;  //만약 자식 클래스에서 재정의를 했다면 그 함수를 호출함
+			BulletDesc.fDamage = 1.0f;
 			m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_Boss_B_Bullet"), &BulletDesc);
 		}
 
@@ -571,6 +574,8 @@ NodeStates CBoss_B::DoIsAlive(_float fTimeDelta)
 
 	if (m_eCurState == CBoss_B_STATES::STATES_SMASH)
 	{
+		CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_2_Player")));
+		pPlayer->Set_CameraShake(true, 0.2f);
 		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CBoss_B_STATES::STATES_SMASH, false));
 		if (m_pModelCom->Get_AnimFinished())
 		{
@@ -637,7 +642,7 @@ void CBoss_B::Make_Falling_Bullet(_float fTimeDelta)
 			_float fRandZ = RandomNum<_float>(1.f, 47.f);
 			CBullet::CBullet_DESC BulletDesc{};
 			BulletDesc.strModelName = TEXT("BossAttack_C");
-			BulletDesc.fSpeedPerSec = 40.f;
+			BulletDesc.fSpeedPerSec = 20.f;
 			BulletDesc.vPosition = _float4(fRandX, 50.f, fRandZ, 1.0f);
 			BulletDesc.vDir = m_pTransformCom->Get_State(CTransform::STATE::STATE_LOOK);
 			BulletDesc.BulletState = &CBullet::Falling;
@@ -814,6 +819,33 @@ void CBoss_B::CreateEffect_By_Motion(_float fTimeDelta)
 		}
 		if (fCurPos >= 1.75 && fCurPos <= 1.77)
 		{
+
+			_uint iFadeLayerSize = m_pGameInstance->Get_LayerSize(CLoader::m_eNextLevel, TEXT("Layer_Fade_In_Out"));
+
+			for (_uint i = 0; i < iFadeLayerSize; ++i)
+			{
+				Fade_In_Out* pFadeInOut = static_cast<Fade_In_Out*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_Fade_In_Out"), i));
+				pFadeInOut->Start_FadeIn();
+			}
+
+			//세그먼트 라인 위치 바꾸기
+			_uint iLayerSize = m_pGameInstance->Get_LayerSize(CLoader::m_eNextLevel, TEXT("Layer_1_Segment"));
+			_float fRandAngle = RandomNum<_float>(0.f, 360.f);
+			for (_uint i = 0; i < iLayerSize; ++i)
+			{
+				CGameObject* pSegment = m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_1_Segment"), i);
+				pSegment->Set_Rotation(XMConvertToRadians(fRandAngle));
+			}
+
+
+
+
+
+
+			CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_2_Player")));
+			pPlayer->Set_CameraShake(true,0.3f);
+
+
 			vector<CParticle_Mesh::PARTICLE_DESC> vecDesc = {
 				{CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP,TEXT("HitRing_Boss_B"),_float4(0.3f,0.3f,0.3f,0.5f)},
 				{CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP,TEXT("Boss_HitRing_SizeUp"),_float4(0.3f,0.3f,0.3f,0.5f)},

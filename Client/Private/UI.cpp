@@ -37,6 +37,7 @@ HRESULT UI::Initialize(void * pArg)
 		m_fSizeY = pDesc->fSizeY;
 		m_fX = pDesc->fX;
 		m_fY = pDesc->fY;
+		m_iPassIndex = pDesc->iPassIndex;
 	}
 
 
@@ -69,11 +70,26 @@ HRESULT UI::Render()
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
-	m_pShaderCom->Begin(0);
+	
+	m_pShaderCom->Bind_RawValue("g_iIsSelected", &m_iIsSelect, sizeof(int));
+	m_pShaderCom->Bind_RawValue("g_fHealth", &m_fHp, sizeof(float));
+	m_pShaderCom->Bind_RawValue("g_fMaxHealth", &m_fMaxHp, sizeof(float));
+
+
+	m_pShaderCom->Begin(m_iPassIndex);
 
 	m_pVIBufferCom->Bind_Buffers();
 
 	m_pVIBufferCom->Render();
+
+
+	if (m_bIsDead)
+	{
+		m_pGameInstance->Delete_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Ui"), this);
+		m_pGameInstance->Delete_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Ui_Changer_Icon"), this);
+	}
+
+
 
 	return S_OK;
 }

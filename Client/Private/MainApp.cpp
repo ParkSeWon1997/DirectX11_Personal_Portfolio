@@ -6,10 +6,13 @@
 #include "Level_Loading.h"
 #include "BackGround.h"
 #include "UI.h"
+#include "UI_Changer.h"
+#include"UI_PlayerIcon.h"
 
 
 #include "Shader.h"
 #include"Fade_In_Out.h"
+
 CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::GetInstance() }
 	, m_pPotalSingleton{ CTotalSingleton::GetInstance() }
@@ -199,9 +202,17 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI"),UI::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Changer"), UI_Changer::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Fade_In_Out"), Fade_In_Out::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_PlayerIcon"), UI_PlayerIcon::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+
+
 
 	return S_OK;
 }

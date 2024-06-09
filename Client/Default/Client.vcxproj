@@ -204,6 +204,7 @@
     <ClInclude Include="..\Public\CStage_SM.h" />
     <ClInclude Include="..\Public\CSwordThow.h" />
     <ClInclude Include="..\Public\CTotalSingleton.h" />
+    <ClInclude Include="..\Public\CutScene.h" />
     <ClInclude Include="..\Public\EnvironmentObj.h" />
     <ClInclude Include="..\Public\Fade_In_Out.h" />
     <ClInclude Include="..\Public\ForkLift.h" />
@@ -214,6 +215,7 @@
     <ClInclude Include="..\public\Level_Logo.h" />
     <ClInclude Include="..\Public\Level_Stage_1.h" />
     <ClInclude Include="..\Public\Level_Stage_2.h" />
+    <ClInclude Include="..\Public\Level_Stage_3.h" />
     <ClInclude Include="..\Public\Level_Stage_Change.h" />
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\MainApp.h" />
@@ -232,6 +234,8 @@
     <ClInclude Include="..\public\Terrain.h" />
     <ClInclude Include="..\public\Timer.h" />
     <ClInclude Include="..\Public\UI.h" />
+    <ClInclude Include="..\Public\UI_Changer.h" />
+    <ClInclude Include="..\Public\UI_PlayerIcon.h" />
     <ClInclude Include="..\Public\UpgradeMachine.h" />
     <ClInclude Include="..\Public\UpgradeMachineTop.h" />
     <ClInclude Include="..\Public\Weapon.h" />
@@ -275,6 +279,7 @@
     <ClCompile Include="..\Private\CStage_SM.cpp" />
     <ClCompile Include="..\Private\CSwordThow.cpp" />
     <ClCompile Include="..\Private\CTotalSingleton.cpp" />
+    <ClCompile Include="..\Private\CutScene.cpp" />
     <ClCompile Include="..\Private\EnvironmentObj.cpp" />
     <ClCompile Include="..\Private\Fade_In_Out.cpp" />
     <ClCompile Include="..\Private\ForkLift.cpp" />
@@ -285,6 +290,7 @@
     <ClCompile Include="..\private\Level_Logo.cpp" />
     <ClCompile Include="..\Private\Level_Stage_1.cpp" />
     <ClCompile Include="..\Private\Level_Stage_2.cpp" />
+    <ClCompile Include="..\Private\Level_Stage_3.cpp" />
     <ClCompile Include="..\Private\Level_Stage_Change.cpp" />
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\MainApp.cpp" />
@@ -303,6 +309,8 @@
     <ClCompile Include="..\private\Terrain.cpp" />
     <ClCompile Include="..\private\Timer.cpp" />
     <ClCompile Include="..\Private\UI.cpp" />
+    <ClCompile Include="..\Private\UI_Changer.cpp" />
+    <ClCompile Include="..\Private\UI_PlayerIcon.cpp" />
     <ClCompile Include="..\Private\UpgradeMachine.cpp" />
     <ClCompile Include="..\Private\UpgradeMachineTop.cpp" />
     <ClCompile Include="..\Private\Weapon.cpp" />

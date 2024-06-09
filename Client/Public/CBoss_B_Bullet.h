@@ -29,6 +29,7 @@ private:
 	_bool   m_IsAllCreate = false;
 	_float  m_fHp = 0.f;
 
+	_bool  m_bIsHit = false;
 
 	const _float4x4* m_pBoneMatrix[3] = {nullptr,nullptr,nullptr};
 	_matrix m_BoneMatrix[3] = { {},{},{} };

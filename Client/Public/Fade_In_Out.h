@@ -43,6 +43,9 @@ public:
 	void Set_FadeDuration(float fDuration) {
 		m_fFadeDuration = fDuration;
 	};
+	void Set_UiOpen(bool bIsOpen) {
+		m_bIsUiopen = bIsOpen;
+	};
 private:
 	CShader*						m_pShaderCom = { nullptr };
 	CTexture*						m_pTextureCom = { nullptr };	
@@ -55,10 +58,11 @@ private:
 	_bool  m_bIsFadeStart = false;
 	_bool  m_bIsFadeEnd = false;
 	_bool m_bIsFade = false;
+	_bool m_bIsUiopen = false;
 	float m_fFadeDuration = 0.1f;
 	float m_fFadeStartTime = 0.f;
 	float m_fCurrentTime= 0.f;
-
+	float m_fFadeAlpha = 0.f;
 
 private:
 	HRESULT Add_Components();

@@ -220,8 +220,20 @@
     <Filter Include="02.GameObjects\08. Fade_In/Out">
       <UniqueIdentifier>{149386a6-b4e8-46ff-b778-7568caf71c68}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\05. Stage_2">
+    <Filter Include="02.GameObjects\07. UI\Changer">
+      <UniqueIdentifier>{675e3e5b-c2a3-4f1a-8ac8-06ebe368052f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\05.Stage_2">
       <UniqueIdentifier>{a549d8f9-6c36-4702-909b-bf0ae21c1c08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\06. Stage_3">
+      <UniqueIdentifier>{5840fa90-b91b-46ba-9908-e72db82c0b64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\10. CutScene">
+      <UniqueIdentifier>{022914bc-1c6a-4f99-a61a-33e58f2c959b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\07. UI\PlayerIcon">
+      <UniqueIdentifier>{01586974-e544-41e6-96fc-61a1f776dbe2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -431,7 +443,19 @@
       <Filter>02.GameObjects\08. Fade_In/Out</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Stage_2.h">
-      <Filter>01.Levels\05. Stage_2</Filter>
+      <Filter>01.Levels\05.Stage_2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Changer.h">
+      <Filter>02.GameObjects\07. UI\Changer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Stage_3.h">
+      <Filter>01.Levels\06. Stage_3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CutScene.h">
+      <Filter>02.GameObjects\10. CutScene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_PlayerIcon.h">
+      <Filter>02.GameObjects\07. UI\PlayerIcon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -632,7 +656,19 @@
       <Filter>02.GameObjects\08. Fade_In/Out</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Stage_2.cpp">
-      <Filter>01.Levels\05. Stage_2</Filter>
+      <Filter>01.Levels\05.Stage_2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Changer.cpp">
+      <Filter>02.GameObjects\07. UI\Changer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Stage_3.cpp">
+      <Filter>01.Levels\06. Stage_3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CutScene.cpp">
+      <Filter>02.GameObjects\10. CutScene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_PlayerIcon.cpp">
+      <Filter>02.GameObjects\07. UI\PlayerIcon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

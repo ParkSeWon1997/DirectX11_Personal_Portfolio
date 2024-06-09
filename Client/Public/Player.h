@@ -15,31 +15,13 @@ BEGIN(Client)
 class CPlayer final : public CGameObject
 {
 public:
-	struct Player_Abililty
-	{
-		enum SKILL_COOL_TIME
-		{
-			COOL_TIME_SKILL_Z = 0,
-			COOL_TIME_SKILL_X,
-			COOL_TIME_SKILL_C,
-			COOL_TIME_SKILL_X_C,
-			COOL_TIME_SKILL_Z_SPACE,
-			COOL_TIME_SKILL_END
-		};
-		float fDashPower = 5.f;
-		_uint iComboCount = 0;
-		float fDashCoolTime = 1.f;
-		_uint	  iDashCount = 0;
-		float fSkillCoolTime[COOL_TIME_SKILL_END] = { 0.0f,0.f,0.f ,0.f ,0.f };
-	};
-public:
-	enum PART {PART_CAMERA, PART_BODY_MATILDA, PART_BODY_AMANDA, PART_WEAPON,PART_END };
-	enum STATE { 
-		STATE_DEFAULT_IDLE=0, 
+	enum PART { PART_CAMERA, PART_BODY_MATILDA, PART_BODY_AMANDA, PART_WEAPON, PART_END };
+	enum STATE {
+		STATE_DEFAULT_IDLE = 0,
 		STATE_BEFORE_ATTACK_MOTION,
 		STATE_AFTER_ATTACK_IDLE,
 		STATE_WALK,
-		STATE_RUN, 
+		STATE_RUN,
 		STATE_COMBO_ATTACK_LEFT,
 		STATE_COMBO_ATTACK_RIGHT,
 		STATE_ATTACK_DEFAULT_END,
@@ -75,7 +57,18 @@ public:
 		STATE_ATTACK_SHOT_UPPER,
 		STATE_ATTACK_GHOST_CROUCH,
 
-		STATE_END };
+		STATE_END
+	};
+
+	enum CHRACTER_TYPE
+	{
+		CHRACTER_SWORD_MASTER = 0,
+		CHRACTER_GUN_SLINGER,
+		CHRACTER_END
+	};
+
+
+
 	enum SWORD_MASTER_TYPE
 	{
 		SWORD_BALANCE = 0,
@@ -92,13 +85,38 @@ public:
 		GUN_REVERSE,
 		GUN_END
 	};
-	enum CHRACTER_TYPE
+
+
+
+public:
+	struct Player_Abililty
 	{
-		CHRACTER_SWORD_MASTER = 0,
-		CHRACTER_GUN_SLINGER,
-		CHRACTER_END
+		enum SKILL_COOL_TIME
+		{
+			COOL_TIME_SKILL_Z = 0,
+			COOL_TIME_SKILL_X,
+			COOL_TIME_SKILL_C,
+			COOL_TIME_SKILL_X_C,
+			COOL_TIME_SKILL_Z_SPACE,
+			COOL_TIME_SKILL_END
+		};
+
+
+		float fDashPower = 0.f;
+		float fMoveSpeed = 1.f;
+		float fHp = 0.f;
+		float fMaxHp = 0.f;
+		float fDamage = 10.f;
+		_uint iComboCount = 0;
+		float fDashCoolTime = 1.f;
+		_uint	  iDashCount = 0;
+		float fSkillCoolTime[COOL_TIME_SKILL_END] = { 0.0f,0.f,0.f ,0.f ,0.f };
+		SWORD_MASTER_TYPE eSwordMasterType = SWORD_END;
+		GUN_SLINGER_TYPE eGunSlingerType = GUN_END;
+
+		_bool bIsFirstData = false;
 	};
-	
+
 private:
 	CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CPlayer(const CPlayer& rhs);
@@ -124,16 +142,26 @@ public:
 	void SetMovePower(_float fPower) { m_fMovePower = fPower; }
 	void SetFire(_bool bFire) { m_bIsFire = bFire; }
 
+	void SetPlayerSwordType(SWORD_MASTER_TYPE eType) { m_Ability.eSwordMasterType = eType; }
+	void SetPlayerGunType(GUN_SLINGER_TYPE eType) { m_Ability.eGunSlingerType = eType; }
+
+	
 public:
 		_vector GetLookDir() { return m_pTransformCom->Get_State(CTransform::STATE_LOOK); }
 public:
 	HRESULT Add_Components();	
 	HRESULT Add_PartObjects();
 	_bool Intersect(PART ePartObjID, const wstring& strComponetTag,  CCollider* pTargetCollider);
-	_float GetDamage() { return m_fDamage; }
+	_float GetDamage() { return m_Ability.fDamage; }
 
 	void SetIsCollision(_bool bIsCollision) { m_bIsCollision = bIsCollision; }
 	_bool GetIsCollision() { return m_bIsCollision; }
+
+
+	void Set_CameraShake(_bool bIsCutScene,_float fShakeTime);
+	void Set_CameraTargetPos(_vector vTargetPos);
+
+
 
 private:
 	void Move(_float fTimeDelta);
@@ -166,14 +194,15 @@ private:
 	Player_Abililty					m_Ability = {};
 	STATE							m_eCurState = STATE_DEFAULT_IDLE;
 	CHRACTER_TYPE					m_eCharacterType = CHRACTER_GUN_SLINGER;
-	CHRACTER_TYPE                   m_eBeforeCharacterType = CHRACTER_END;
-	SWORD_MASTER_TYPE				m_eSwordMasterType = SWORD_BALANCE;
-	GUN_SLINGER_TYPE				m_eGunSlingerType = GUN_BALANCE;
+	SWORD_MASTER_TYPE				m_eSwordMasterType = SWORD_END;
+	GUN_SLINGER_TYPE				m_eGunSlingerType = GUN_END;
 
+	_vector                         m_vCloseTargetPos = {};
 	_float							m_fMovePower = 0.f;
 	_float                          m_fQuestTime = 0.f;
-	_float                          m_fDamage = 0.f;
-	_float                          m_fHp = 0.f;
+	
+	
+	_bool                           m_bIsMonsterHave = false;
 	_bool                           m_bIsCollision = false;
 	_bool							m_bIsFire = false;
 	_bool							m_bNextAttack = false;

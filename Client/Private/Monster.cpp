@@ -57,7 +57,7 @@ void CMonster::Priority_Tick(_float fTimeDelta)
 
 void CMonster::Tick(_float fTimeDelta)
 {
-
+	
 
 
 
@@ -213,6 +213,7 @@ HRESULT CMonster::Render()
 		m_pShaderCom->Begin(0);
 
 		m_pModelCom->Render(i);
+		
 	}
 	if (m_bIsDead)
 	{

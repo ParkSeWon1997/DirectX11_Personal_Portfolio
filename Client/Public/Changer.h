@@ -41,9 +41,14 @@ public:
 	virtual HRESULT Render() override;
 	
 
-
+public:
 	void   Rotate(_float fTimeDelta);
 	void   Up_And_Down(_float fTimeDelta);
+	void Set_isCreateChangerUi(_bool bIsCreateChangerUi) { m_bIsCeateChangerUi = bIsCreateChangerUi; }
+
+	void Make_Changer_Ui();
+
+	float GetCalculatedDistance(const _float3& pos1, const _float3& pos2);
 private:
 	CShader*						m_pShaderCom = { nullptr };
 	CModel*							m_pModelCom = { nullptr };
@@ -55,6 +60,9 @@ private:
 	_float                          m_fTargetDownPos_Y = 0.0f;
 	Chnager_Func					m_ChangerState = nullptr;
 	CGameObject*					m_pChanger = nullptr;
+
+	_bool 							m_bIsCeateChangerUi=false;
+
 public:
 	HRESULT Add_Components();
 	HRESULT Bind_ShaderResources();

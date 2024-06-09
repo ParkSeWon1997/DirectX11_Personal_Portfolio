@@ -112,7 +112,7 @@ HRESULT CHandBullet::Add_Components()
 	CBounding_Sphere::BOUNDING_SPHERE_DESC		ColliderDesc{};
 
 	ColliderDesc.eType = CCollider::TYPE_SPHERE;
-	ColliderDesc.fRadius = 0.5f;
+	ColliderDesc.fRadius = 1.0f;
 	ColliderDesc.vCenter = _float3(0.f, 0.f, 0.f);
 	
 	if (FAILED(__super::Add_Component(CLoader::m_eNextLevel, TEXT("Prototype_Component_Collider"),

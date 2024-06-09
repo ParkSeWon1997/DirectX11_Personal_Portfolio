@@ -383,7 +383,8 @@ void CNewMold::Make_particle_Bullet(_float3 PlayerPos)
 		BulletDesc.vDir = m_pTransformCom->Get_State(CTransform::STATE::STATE_LOOK);
 		BulletDesc.BulletState = &CBullet::Pop;
 		BulletDesc.fDamage = 0.5f;
-		m_pGameInstance->Add_CloneObject(LEVEL_GAMEPLAY, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_NoneTex_Bullet"), &BulletDesc);
+		
+		m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_NoneTex_Bullet"), &BulletDesc);
 
 
 }

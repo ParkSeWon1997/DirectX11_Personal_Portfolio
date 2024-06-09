@@ -19,6 +19,10 @@
 #include"Monster.h"
 #include"CPlayerBullet.h"
 #include"CPlayerBullet_Mine.h"
+#include"CTotalSingleton.h"
+#include"UI_PlayerIcon.h"
+
+#include"UI.h"
 
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject{ pDevice, pContext }
@@ -57,23 +61,33 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 
 
-	m_Ability.fDashPower = 2.f;
-	m_Ability.fDashCoolTime = 1.f;
-	m_Ability.iDashCount = 3;
-	m_Ability.fSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_Z] = 0.5f;
-	m_Ability.fSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X] = 1.0f;
-	m_Ability.fSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_C] = 2.0f;
-	m_Ability.fSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X_C] = 3.0f;
-	m_Ability.fSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_Z_SPACE] = 7.0f;
+	if (CTotalSingleton::GetInstance()->GetPlayerAbility().bIsFirstData==false)
+	{
+		m_Ability.fDashPower = 2.f;
+		m_Ability.fDashCoolTime = 1.f;
+		m_Ability.iDashCount = 3;
+		m_Ability.fMoveSpeed = 1.0f;
+		m_Ability.fHp = 100.f;
+		m_Ability.fMaxHp = 100.f;
+		m_Ability.fSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_Z] = 0.5f;
+		m_Ability.fSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X] = 1.0f;
+		m_Ability.fSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_C] = 2.0f;
+		m_Ability.fSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X_C] = 3.0f;
+		m_Ability.fSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_Z_SPACE] = 7.0f;
+		m_Ability.eSwordMasterType = SWORD_BALANCE;
+		m_Ability.eGunSlingerType = GUN_BALANCE;
 
+		m_Ability.bIsFirstData = true;
+	}
+	else
+	{
+		m_Ability = CTotalSingleton::GetInstance()->GetPlayerAbility();
 
-
+	}
 
 
 	/* 플레이어의 Transform이란 녀석은 파츠가 될 바디와 웨폰의 부모 행렬정보를 가지는 컴포넌트가 될거다. */
 
-	m_fDamage = 10.f;
-	m_fHp = 100.f;
 	return S_OK;
 }
 
@@ -85,12 +99,66 @@ void CPlayer::Priority_Tick(_float fTimeDelta)
 
 void CPlayer::Tick(_float fTimeDelta)
 {
+	CMonster* pClosestMonster = nullptr;
+	float fClosestDistance = FLT_MAX;
+	_vector vPlayerPos = this->Get_PositionVector();
 
-	//cout << m_fHp << endl;
+	_uint iLayerSize = m_pGameInstance->Get_LayerSize(CLoader::m_eNextLevel, TEXT("Layer_2_Monster"));
+	CMonster* pMonster = nullptr;
+	for (int i = 0; i < iLayerSize; i++)
+	{
+		pMonster = static_cast<CMonster*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_2_Monster"), i));
+		if (pMonster != nullptr)
+		{
+			_vector vMonsterPos = pMonster->Get_PositionVector();
+			float fDistance = XMVectorGetX(XMVector3Length(vMonsterPos - vPlayerPos));
+			if (fDistance < fClosestDistance)
+			{
+				fClosestDistance = fDistance;
+				pClosestMonster = pMonster;
+			}
+		}
+
+	}
+	if (pClosestMonster != nullptr)
+	{
+		_vector vMonsterPos = pClosestMonster->Get_PositionVector();
+
+		m_bIsMonsterHave= true;
+		m_vCloseTargetPos = vMonsterPos;
+	}
+
+
+
+
+
+
+	UI* pUi = dynamic_cast<UI*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_Player_Ui"), 0));
+	if (pUi)
+	{
+		pUi->Set_MaxHp(m_Ability.fMaxHp);
+		pUi->Set_Hp(m_Ability.fHp);
+	}
+
+	cout << m_Ability.fHp << endl;
+
+
+
+
+
+
+
+	CTotalSingleton::GetInstance()->SetPlayerAbility(m_Ability);
+	m_eSwordMasterType = m_Ability.eSwordMasterType;
+	m_eGunSlingerType = m_Ability.eGunSlingerType;
 
 	_vector vPrePosition = m_pTransformCom->Get_State(CTransform::STATE::STATE_POSITION);
 	//cout << vPrePosition.m128_f32[0] << " " << vPrePosition.m128_f32[1] << " " << vPrePosition.m128_f32[2] << endl;
 
+	_uint iPlayerIconLayerSize = m_pGameInstance->Get_LayerSize(CLoader::m_eNextLevel, TEXT("Layer_Player_Ui"));
+
+	UI_PlayerIcon* pPlayerIcon = nullptr;
+	pPlayerIcon = dynamic_cast<UI_PlayerIcon*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_Player_Ui"), 1));
 
 		_float fMaskOnPlayerPos = 0.0;
 		fMaskOnPlayerPos =m_pGameInstance->PickMaskMap(this->Get_Position());
@@ -98,12 +166,15 @@ void CPlayer::Tick(_float fTimeDelta)
 		CHRACTER_TYPE ePreCharacterType = m_eCharacterType;
 		if (fMaskOnPlayerPos == 0.0f)
 		{
+			pPlayerIcon->Set_TexIndex(0);
+
 			m_eCharacterType = CHRACTER_TYPE::CHRACTER_SWORD_MASTER;
 			
 
 		}
 		else if (fMaskOnPlayerPos == 1.0f)
 		{
+			pPlayerIcon->Set_TexIndex(1);
 			m_eCharacterType = CHRACTER_TYPE::CHRACTER_GUN_SLINGER;
 			
 		}
@@ -130,30 +201,6 @@ void CPlayer::Tick(_float fTimeDelta)
 
 
 	//Test
-	if (KEY_TAP(DIK_1))
-	{
-		m_eSwordMasterType = SWORD_BALANCE;
-		m_eGunSlingerType= GUN_BALANCE;
-	}
-
-	if (KEY_TAP(DIK_2))
-	{
-		m_eSwordMasterType = SWORD_TECHNNIC;
-		m_eGunSlingerType = GUN_TECHNNIC;
-	}
-
-	if (KEY_TAP(DIK_3))
-	{
-		m_eSwordMasterType = SWORD_POWER;
-		m_eGunSlingerType = GUN_POWER;
-	}
-
-	if (KEY_TAP(DIK_4))
-	{
-		m_eSwordMasterType = SWORD_REVERSE;
-		m_eGunSlingerType = GUN_REVERSE;
-	}
-
 
 	if (KEY_TAP(DIK_Z))
 	{
@@ -335,13 +382,13 @@ void CPlayer::Late_Tick(_float fTimeDelta)
 			if (!pBullet->Get_IsCollision() && pBullet->Intersect(TEXT("Com_Collider"), pPartObjCollider))
 			{
 				_float fDamage = pBullet->Get_Damage();
-				m_fHp -= fDamage;
+				m_Ability.fHp -= fDamage;
 			
 				pBullet->Set_IsCollision(true);
 			}
 		}
 	}
-
+	
 
 	
 }
@@ -376,7 +423,20 @@ HRESULT CPlayer::Add_Components()
 
 HRESULT CPlayer::Add_PartObjects()
 {
+	_vector vTargetPos = XMVectorSet(0.0f, 10.0f, -10.0f, 0.0f);
+	_float fAngle = 40.f;
+	if (CLoader::m_eNextLevel == LEVEL_STAGE_1)
+	{
+		vTargetPos= XMVectorSet(0.0f, 15.0f, -10.0f, 0.0f); 
+		fAngle=60.f;
+	}
+	if (CLoader::m_eNextLevel == LEVEL_STAGE_3)
+	{
+		vTargetPos = XMVectorSet(0.0f, 20.0f, -3.0f, 0.0f);
+		fAngle = 70.f;
+	}
 
+	
 	/*카메라 복제*/
 	//Prototype_GameObject_FreeCamera
 
@@ -391,6 +451,8 @@ HRESULT CPlayer::Add_PartObjects()
 	CameraDesc.fSpeedPerSec = 20.f;
 	CameraDesc.fRotationPerSec = XMConvertToRadians(90.f);
 	CameraDesc.pParentMatrix = m_pTransformCom->Get_WorldFloat4x4();
+	CameraDesc.fAngle = fAngle;
+	CameraDesc.vTargetPos = vTargetPos;
 	CGameObject* pCamera = m_pGameInstance->Clone_Object(TEXT("Prototype_GameObject_PlayerCamera"),&CameraDesc);
 	if (nullptr == pCamera)
 		return E_FAIL;
@@ -485,6 +547,22 @@ _bool CPlayer::Intersect(PART ePartObjID, const wstring& strComponetTag, CCollid
 	 
 }
 
+void CPlayer::Set_CameraShake(_bool bIsCutScene, _float fShakeTime)
+{
+
+
+	dynamic_cast<CPlayerCamera*>(m_PartObjects[PART_CAMERA])->Set_Shake(bIsCutScene, fShakeTime);
+
+
+
+}
+
+void CPlayer::Set_CameraTargetPos(_vector vTargetPos)
+{
+	dynamic_cast<CPlayerCamera*>(m_PartObjects[PART_CAMERA])->Set_TargetPos(vTargetPos);
+
+}
+
 void CPlayer::Move(_float fTimeDelta)
 {
 	_vector vUp = m_pTransformCom->Get_State(CTransform::STATE::STATE_UP);
@@ -495,73 +573,83 @@ void CPlayer::Move(_float fTimeDelta)
 		m_eCurState!= STATE_ATTACK_SHOT &&
 		m_eCurState!= STATE_ATTACK_SHOT_CRITICAL)
 	{
-		if (m_eCurState != STATE_DASH)
+		if (CTotalSingleton::GetInstance()->GetUiOpen() == false)
 		{
-			if (KEY_HOLD(DIK_UP) && KEY_HOLD(DIK_LEFT))
+
+			if (m_eCurState != STATE_DASH)
 			{
-				CParticle_Mesh::PARTICLE_DESC desc;
-				desc.vStartPos = _float4(0.f, 0.f, 0.f, 1.0f);
-				
-				m_pTransformCom->Go_Straight(fTimeDelta, m_pNavigationCom);
-				m_pTransformCom->Rotation(vUp, XMConvertToRadians(-45.f));
-				m_eCurState = STATE_RUN;
+
+				if (KEY_HOLD(DIK_UP) && KEY_HOLD(DIK_LEFT))
+				{
+					CParticle_Mesh::PARTICLE_DESC desc;
+					desc.vStartPos = _float4(0.f, 0.f, 0.f, 1.0f);
+
+					m_pTransformCom->Go_Straight(fTimeDelta, m_pNavigationCom);
+					m_pTransformCom->Rotation(vUp, XMConvertToRadians(-45.f));
+					m_eCurState = STATE_RUN;
+				}
+				else if (KEY_HOLD(DIK_UP) && KEY_HOLD(DIK_RIGHT))
+				{
+					m_pTransformCom->Go_Straight(fTimeDelta, m_pNavigationCom);
+					m_pTransformCom->Rotation(vUp, XMConvertToRadians(45.f));
+					m_eCurState = STATE_RUN;
+				}
+				else if (KEY_HOLD(DIK_DOWN) && KEY_HOLD(DIK_LEFT))
+				{
+					m_pTransformCom->Go_Straight(fTimeDelta, m_pNavigationCom);
+					m_pTransformCom->Rotation(vUp, XMConvertToRadians(-135.f));
+					m_eCurState = STATE_RUN;
+				}
+				else if (KEY_HOLD(DIK_DOWN) && KEY_HOLD(DIK_RIGHT))
+				{
+					m_pTransformCom->Go_Straight(fTimeDelta, m_pNavigationCom);
+					m_pTransformCom->Rotation(vUp, XMConvertToRadians(135.f));
+					m_eCurState = STATE_RUN;
+				}
+
+
+				else if (KEY_HOLD(DIK_UP))
+				{
+
+					m_pTransformCom->Go_Straight(fTimeDelta, m_pNavigationCom);
+					m_pTransformCom->Rotation(vUp, XMConvertToRadians(0.f));
+					m_eCurState = STATE_RUN;
+				}
+
+				else if (KEY_HOLD(DIK_DOWN))
+				{
+					m_pTransformCom->Go_Straight(fTimeDelta, m_pNavigationCom);
+					m_pTransformCom->Rotation(vUp, XMConvertToRadians(180.f));
+					m_eCurState = STATE_RUN;
+				}
+
+
+				else if (KEY_HOLD(DIK_LEFT))
+				{
+					m_pTransformCom->Go_Straight(fTimeDelta, m_pNavigationCom);
+					m_pTransformCom->Rotation(vUp, XMConvertToRadians(-90.f));
+					m_eCurState = STATE_RUN;
+				}
+
+				else if (KEY_HOLD(DIK_RIGHT))
+				{
+					m_pTransformCom->Go_Straight(fTimeDelta, m_pNavigationCom);
+					m_pTransformCom->Rotation(vUp, XMConvertToRadians(90.f));
+					m_eCurState = STATE_RUN;
+				}
 			}
-			else if (KEY_HOLD(DIK_UP) && KEY_HOLD(DIK_RIGHT))
+			if (KEY_TAP(DIK_SPACE))
 			{
-				m_pTransformCom->Go_Straight(fTimeDelta, m_pNavigationCom);
-				m_pTransformCom->Rotation(vUp, XMConvertToRadians(45.f));
-				m_eCurState = STATE_RUN;
-			}
-			else if (KEY_HOLD(DIK_DOWN) && KEY_HOLD(DIK_LEFT))
-			{
-				m_pTransformCom->Go_Straight(fTimeDelta, m_pNavigationCom);
-				m_pTransformCom->Rotation(vUp, XMConvertToRadians(-135.f));
-				m_eCurState = STATE_RUN;
-			}
-			else if (KEY_HOLD(DIK_DOWN) && KEY_HOLD(DIK_RIGHT))
-			{
-				m_pTransformCom->Go_Straight(fTimeDelta, m_pNavigationCom);
-				m_pTransformCom->Rotation(vUp, XMConvertToRadians(135.f));
-				m_eCurState = STATE_RUN;
+
+				m_eCurState = STATE_DASH;
+
+
+
 			}
 
 
-			else if (KEY_HOLD(DIK_UP))
-			{
-
-				m_pTransformCom->Go_Straight(fTimeDelta, m_pNavigationCom);
-				m_pTransformCom->Rotation(vUp, XMConvertToRadians(0.f));
-				m_eCurState = STATE_RUN;
-			}
-
-			else if (KEY_HOLD(DIK_DOWN))
-			{
-				m_pTransformCom->Go_Straight(fTimeDelta, m_pNavigationCom);
-				m_pTransformCom->Rotation(vUp, XMConvertToRadians(180.f));
-				m_eCurState = STATE_RUN;
-			}
-
-
-			else if (KEY_HOLD(DIK_LEFT))
-			{
-				m_pTransformCom->Go_Straight(fTimeDelta, m_pNavigationCom);
-				m_pTransformCom->Rotation(vUp, XMConvertToRadians(-90.f));
-				m_eCurState = STATE_RUN;
-			}
-
-			else if (KEY_HOLD(DIK_RIGHT))
-			{
-				m_pTransformCom->Go_Straight(fTimeDelta, m_pNavigationCom);
-				m_pTransformCom->Rotation(vUp, XMConvertToRadians(90.f));
-				m_eCurState = STATE_RUN;
-			}
 		}
-		if (KEY_TAP(DIK_SPACE))
-		{
-			
-			m_eCurState = STATE_DASH;
 
-		}
 	}
 
 }
@@ -575,6 +663,12 @@ void CPlayer::SetStatePressZ(_float fTimeDelta)
 		{
 			if (m_bNextAttack)
 			{
+				if (m_bIsMonsterHave)
+				{
+					_vector vCloseTargetPos2D = XMVectorSet(XMVectorGetX(m_vCloseTargetPos), 0.0f, XMVectorGetZ(m_vCloseTargetPos), 1.0f);
+					m_pTransformCom->LookAt(vCloseTargetPos2D);
+				}
+				//m_pTransformCom->Set_Look(m_vCloseTargetDir);
 				
 				m_eCurState = STATE_COMBO_ATTACK_LEFT;
 				m_Ability.iComboCount++;
@@ -585,6 +679,11 @@ void CPlayer::SetStatePressZ(_float fTimeDelta)
 		{
 			if (m_bNextAttack)
 			{
+				if (m_bIsMonsterHave)
+				{
+					_vector vCloseTargetPos2D = XMVectorSet(XMVectorGetX(m_vCloseTargetPos), 0.0f, XMVectorGetZ(m_vCloseTargetPos), 1.0f);
+					m_pTransformCom->LookAt(vCloseTargetPos2D);
+				}
 				m_eCurState = STATE_COMBO_ATTACK_RIGHT;
 				m_Ability.iComboCount = 0;
 			}
@@ -600,19 +699,16 @@ void CPlayer::SetStatePressZ(_float fTimeDelta)
 			
 			if (m_bIsFire)
 			{
-				//CModel* pModelCom = dynamic_cast<CModel*>(m_PartObjects[PART_BODY_AMANDA]->Get_Component(TEXT("Com_Model")));
-				//CBullet::CBullet_DESC BulletDesc{};
-				//BulletDesc.fSpeedPerSec = 40.f;
-				//BulletDesc.strModelName = TEXT("Shell");
-				//BulletDesc.vDir = m_pTransformCom->Get_State(CTransform::STATE::STATE_LOOK);
-				//BulletDesc.m_pWorldMatrix = XMLoadFloat4x4(pModelCom->Get_BoneCombinedTransformationMatrix("Bone Weapon003"));
-				//XMStoreFloat4(&BulletDesc.vPosition, dynamic_cast<CPartObject*>(m_PartObjects[PART_WEAPON])->Get_WorldMatrix().r[3]);
-				//m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_Bullet"), &BulletDesc);
+			
 				m_bIsFire = false;
 			}
 			if (m_bNextAttack)
 			{
-				
+				if (m_bIsMonsterHave)
+				{
+					_vector vCloseTargetPos2D = XMVectorSet(XMVectorGetX(m_vCloseTargetPos), 0.0f, XMVectorGetZ(m_vCloseTargetPos), 1.0f);
+					m_pTransformCom->LookAt(vCloseTargetPos2D);
+				}
 					m_eCurState = STATE_ATTACK_SHOT;
 					m_Ability.iComboCount++;
 				
@@ -623,16 +719,12 @@ void CPlayer::SetStatePressZ(_float fTimeDelta)
 		
 				if (m_bNextAttack)
 				{
-					//m_PartObjects[PART_WEAPON]->Get_PositionVector();
-					//
-					//CBullet::CBullet_DESC BulletDesc{};
-					//BulletDesc.fSpeedPerSec = 40.f;
-					//BulletDesc.strModelName = TEXT("Shell");
-					//BulletDesc.vDir = m_pTransformCom->Get_State(CTransform::STATE::STATE_LOOK);
-					//XMStoreFloat4(&BulletDesc.vPosition, m_PartObjects[PART_WEAPON]->Get_PositionVector());
-					////XMStoreFloat4(&BulletDesc.vPosition, m_pTransformCom->Get_State(CTransform::STATE::STATE_POSITION));
-					//m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_Bullet"), &BulletDesc);
-
+					
+					if (m_bIsMonsterHave)
+					{
+						_vector vCloseTargetPos2D = XMVectorSet(XMVectorGetX(m_vCloseTargetPos), 0.0f, XMVectorGetZ(m_vCloseTargetPos), 1.0f);
+						m_pTransformCom->LookAt(vCloseTargetPos2D);
+					}
 					m_eCurState = STATE_ATTACK_SHOT_CRITICAL;
 					m_Ability.iComboCount = 0;
 				}
@@ -913,6 +1005,11 @@ void CPlayer::SetStatePressC(_float fTimeDelta)
 				CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f), -vPlayerLook);
 				break;
 			case Client::CPlayer::SWORD_POWER:
+				if (m_bIsMonsterHave)
+				{
+					_vector vCloseTargetPos2D = XMVectorSet(XMVectorGetX(m_vCloseTargetPos), 0.0f, XMVectorGetZ(m_vCloseTargetPos), 1.0f);
+					m_pTransformCom->LookAt(vCloseTargetPos2D);
+				}
 				m_eCurState = STATE_ATTACK_STOMP;
 				m_bIsJump = true;
 				break;
@@ -1018,6 +1115,11 @@ void CPlayer::SetStatePress_X_C(_float fTimeDelta)
 			switch (m_eGunSlingerType)
 			{
 			case Client::CPlayer::GUN_BALANCE:
+				if (m_bIsMonsterHave)
+				{
+					_vector vCloseTargetPos2D = XMVectorSet(XMVectorGetX(m_vCloseTargetPos), 0.0f, XMVectorGetZ(m_vCloseTargetPos), 1.0f);
+					m_pTransformCom->LookAt(vCloseTargetPos2D);
+				}
 				m_eCurState = STATE_ATTACK_ULTIMATE_BALANCE;
 				break;
 			case Client::CPlayer::GUN_TECHNNIC:

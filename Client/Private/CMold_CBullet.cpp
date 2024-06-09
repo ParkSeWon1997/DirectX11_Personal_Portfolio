@@ -41,7 +41,7 @@ void CMold_CBullet::Priority_Tick(_float fTimeDelta)
 void CMold_CBullet::Tick(_float fTimeDelta)
 {
 	m_fLifeTime += fTimeDelta;
-	if (m_fLifeTime > 0.5f)
+	if (m_fLifeTime > 10.5f)
 		m_bIsDead = true;
 
 

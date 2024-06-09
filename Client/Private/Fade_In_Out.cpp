@@ -4,6 +4,8 @@
 #include "GameInstance.h"
 #include"Loader.h"
 
+#include"Changer.h"
+
 Fade_In_Out::Fade_In_Out(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CGameObject(pDevice, pContext)
 {
@@ -56,6 +58,20 @@ void Fade_In_Out::Priority_Tick(_float fTimeDelta)
 
 void Fade_In_Out::Tick(_float fTimeDelta)
 {
+	//CChanger* pChanger = static_cast<CChanger*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_Changer")));
+	//
+	//
+	//if (pChanger != nullptr)
+	//{
+	//
+	//
+	//
+	//
+	//}
+	if (m_bIsUiopen)
+		m_fFadeAlpha = 0.8f;
+	else
+		m_fFadeAlpha = 0.f;
 
 	if (m_bIsFadeStart)
 	{
@@ -146,6 +162,9 @@ HRESULT Fade_In_Out::Bind_ShaderResources()
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Bind_RawValue("g_fCurrentTime", &m_fCurrentTime, sizeof(float))))
 		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_fAlphaValue", &m_fFadeAlpha, sizeof(float))))
+		return E_FAIL;
+
 
 
 

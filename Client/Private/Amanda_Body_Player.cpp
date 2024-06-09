@@ -19,7 +19,7 @@
 #include"CMyNode.h"
 
 
-
+#include"Fade_In_Out.h"
 #include"CPlayerBullet.h"
 #include"Particle_Mesh.h"
 #include"Monster.h"
@@ -1148,6 +1148,7 @@ NodeStates Amanda_Body_Player::DoAttackUltimateBalance()
 			m_AnimSpeed = 1.0f;
 			if (m_pModelCom->Get_AnimFinished())
 			{
+			
 				m_eCurState = CPlayer::STATE_ATTACK_SHOT_CROUCH;
 				dynamic_cast<CPlayer*>(m_pPlayer)->SetState(m_eCurState);
 				return NodeStates::FAILURE;
@@ -1657,6 +1658,16 @@ NodeStates Amanda_Body_Player::DoAttack_Shot_Crouch()
 
 		if (dNowFramePos >= 0.02 && dNowFramePos <= 0.04)
 		{
+			_uint iFadeLayerSize = m_pGameInstance->Get_LayerSize(CLoader::m_eNextLevel, TEXT("Layer_Fade_In_Out"));
+
+			for (_uint i = 0; i < iFadeLayerSize; ++i)
+			{
+				Fade_In_Out* pFadeInOut = static_cast<Fade_In_Out*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_Fade_In_Out"), i));
+				pFadeInOut->Start_FadeIn();
+			}
+			
+			
+
 
 			PlayerBulletdesc.strModelName = TEXT("swordThrowing");
 			PlayerBulletdesc.eColliderType = CCollider::TYPE_OBB;
@@ -1700,6 +1711,7 @@ NodeStates Amanda_Body_Player::DoAttack_Shot_Crouch()
 			m_eCurState = CPlayer::STATE_BACKSTEP;
 			dynamic_cast<CPlayer*>(m_pPlayer)->SetState(m_eCurState);
 			dynamic_cast<CPlayer*>(m_pPlayer)->SetJump(true);
+			
 			return NodeStates::SUCCESS;
 		}
 		else

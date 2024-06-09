@@ -52,6 +52,8 @@ void CBoss_B_Bullet::Tick(_float fTimeDelta)
 	if (pPlayer == nullptr)
 		return;
 
+	cout << m_fHp << endl;
+
 	_vector vPlayerPos = pPlayer->Get_PositionVector();
 
 	for (int i = 0; i < 3; i++)
@@ -85,15 +87,54 @@ void CBoss_B_Bullet::Late_Tick(_float fTimeDelta)
 	if (m_pColliderCom == nullptr)
 		return;
 			
-	_uint iLayerSize = m_pGameInstance->Get_LayerSize(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"));
 
+	vector<CParticle_Mesh::PARTICLE_DESC> vecDesc = {};
+	_uint iLayerSize = m_pGameInstance->Get_LayerSize(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"));
+	for (_uint i = 0; i < iLayerSize; ++i)
+	{
+		CBullet* pBullet = dynamic_cast<CBullet*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), i));
+		if (pBullet != nullptr)
+		{
+			if (!pBullet->Get_IsCollision() && pBullet->Intersect(TEXT("Com_Collider"), m_pColliderCom))
+			{
+				_float fDamage = pBullet->Get_Damage();
+				pBullet->Set_IsCollision(true);
+				if (m_fHp > 0.f)
+				{
+
+					vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Hit_Effect_ElectColumn_Pop"),_float4(1.0f,1.0f,1.0f,0.5f),false,true });
+					vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP,TEXT("Hit_Effect_LowpolySphere8_Size_Up"),_float4(0.1f,0.1f,0.8f,0.3f),false,true });
+					vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP_X,TEXT("Hit_Effect_hitRing_Size_Up_X"),_float4(0.9f,0.9f,0.9f,0.5f),false,true });
+
+					CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f));
+
+
+					m_fHp -= fDamage;
+				}
+				m_bIsHit = true;
+			}
+		}
+	}
 
 
 	CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_2_Player")));
 	if (nullptr == pPlayer)
 		return;
 
-
+	if (pPlayer->Intersect(CPlayer::PART_WEAPON, TEXT("Com_Collider"), m_pColliderCom))
+	{
+		if (pPlayer->IsAttacking() && !pPlayer->GetIsCollision())
+		{
+			_float fDamage = pPlayer->GetDamage();
+			pPlayer->SetIsCollision(true);
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Hit_Effect_ElectColumn_Pop"),_float4(1.0f,1.0f,1.0f,0.5f),false,true });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP,TEXT("Hit_Effect_LowpolySphere8_Size_Up"),_float4(0.1f,0.1f,0.8f,0.3f),false,true });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP_X,TEXT("Hit_Effect_hitRing_Size_Up_X"),_float4(0.9f,0.9f,0.9f,0.5f),false,true });
+			CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f));
+			m_fHp -= fDamage;
+			m_bIsHit = true;
+		}
+	}
 
 
 
@@ -116,6 +157,11 @@ HRESULT CBoss_B_Bullet::Render()
 
 		if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
+		float HitStatus = m_bIsHit ? 1.0f : 0.0f;
+
+		m_pShaderCom->Bind_RawValue("g_HitStatus", &HitStatus, sizeof(float));
+		//if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_Texture", i, aiTextureType_NORMALS)))
+
 
 		//if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_NormalTexture", i, aiTextureType_NORMALS)))
 		//	return E_FAIL;
@@ -124,7 +170,7 @@ HRESULT CBoss_B_Bullet::Render()
 
 		m_pModelCom->Render(i);
 	}
-
+	m_bIsHit = false;
 
 
 

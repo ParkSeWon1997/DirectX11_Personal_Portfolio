@@ -10,6 +10,18 @@
 #include"Particle_Mesh.h"
 #include"Level_Loading.h"
 
+#include"Fade_In_Out.h"
+#include"UI_Changer.h"
+
+
+
+
+
+
+
+
+
+
 CChanger::CChanger(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CGameObject{ pDevice, pContext }
 {
@@ -73,8 +85,10 @@ void CChanger::Tick(_float fTimeDelta)
 
 void CChanger::Late_Tick(_float fTimeDelta)
 {
-	
 
+
+	Fade_In_Out* pFade = dynamic_cast<Fade_In_Out*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_Fade_In_Out")));
+	UI_Changer* pUiChanger = dynamic_cast<UI_Changer*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_Ui_Changer")));
 	for (_uint i = 0; i < COLLIDER_END; ++i)
 	{
 		if (m_pColliderCom == nullptr)
@@ -85,12 +99,68 @@ void CChanger::Late_Tick(_float fTimeDelta)
 	}
 	CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_2_Player")));
 	if (nullptr == pPlayer)
-		return ;
-	if (pPlayer->Intersect(CPlayer::PART_BODY_MATILDA, TEXT("Com_Collider"), m_pColliderCom))
 	{
+		assert("No Player address");
+	}
+		
 
+
+
+	if (m_pColliderCom)
+	{
+		if (pPlayer->Intersect(CPlayer::PART_BODY_MATILDA, TEXT("Com_Collider"), m_pColliderCom))
+		{
+			if (m_bIsCeateChangerUi == false)
+			{
+
+				if (m_strModelName == TEXT("Changer_Icon_Gun"))
+				{
+					
+						UI_Changer::UI_Changer_DESC desc;
+
+
+						desc.strModelName = TEXT("PauseFrame_HowtoPlay");
+						desc.fSizeX = 1024.f;
+						desc.fSizeY = 384.f;
+						desc.fX = g_iWinSizeX * 0.5f;
+						desc.fY = g_iWinSizeY * 0.5f;
+						desc.iChangerType = 1;
+						m_pGameInstance->Add_CloneObject(LEVEL_CHANGE_STAGE, TEXT("Layer_Ui_Changer"), TEXT("Prototype_GameObject_UI_Changer"), &desc);
+							
+				}
+				if (m_strModelName == TEXT("Changer_Icon_Sword"))
+				{
+					UI_Changer::UI_Changer_DESC desc;
+
+
+					desc.strModelName = TEXT("PauseFrame_HowtoPlay");
+					desc.fSizeX = 1024.f;
+					desc.fSizeY = 384.f;
+					desc.fX = g_iWinSizeX * 0.5f;
+					desc.fY = g_iWinSizeY * 0.5f;
+					desc.iChangerType = 0;
+					m_pGameInstance->Add_CloneObject(LEVEL_CHANGE_STAGE, TEXT("Layer_Ui_Changer"), TEXT("Prototype_GameObject_UI_Changer"), &desc);
+
+				}
+
+
+
+
+				m_bIsCeateChangerUi = true;
+			}
+		}
 
 	}
+
+	//만약 플레이어가 일정거리 이상 멀어지면 다시 활성화 시키기
+	//pPlayer->Get_Position()
+	float Distance=GetCalculatedDistance(pPlayer->Get_Position(), this->Get_Position());
+	if (Distance >= 3.0f)
+	{
+		m_bIsCeateChangerUi = false;
+	}
+
+
 
 	m_pGameInstance->Add_RenderObject(CRenderer::RENDER_NONBLEND, this);
 	
@@ -158,6 +228,14 @@ void CChanger::Up_And_Down(_float fTimeDelta)
 
 }
 
+float CChanger::GetCalculatedDistance(const _float3& pos1, const _float3& pos2)
+{
+	return std::sqrt(
+		(pos1.x - pos2.x) * (pos1.x - pos2.x) +
+		(pos1.z - pos2.z) * (pos1.z - pos2.z)
+	);
+}
+
 
 
 HRESULT CChanger::Add_Components()
@@ -186,11 +264,15 @@ HRESULT CChanger::Add_Components()
 	ColliderOBBDesc.vCenter = _float3(0.f, 0.f, 0.f);
 	ColliderOBBDesc.vRotation = _float3(0.f, XMConvertToRadians(45.0f), 0.f);
 
-	if (FAILED(__super::Add_Component(CLoader::m_eNextLevel, TEXT("Prototype_Component_Collider"),
-		TEXT("Com_Collider_OBB"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderOBBDesc)))
-		return E_FAIL;
 
+	if (m_strModelName == TEXT("Changer_Icon_Gun")|| m_strModelName == TEXT("Changer_Icon_Sword"))
+	{
+		
+		if (FAILED(__super::Add_Component(CLoader::m_eNextLevel, TEXT("Prototype_Component_Collider"),
+			TEXT("Com_Collider_OBB"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderOBBDesc)))
+			return E_FAIL;
 
+	}
 
 	return S_OK;
 }

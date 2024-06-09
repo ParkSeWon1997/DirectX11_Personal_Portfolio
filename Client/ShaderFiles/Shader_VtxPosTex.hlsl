@@ -14,8 +14,11 @@ float g_fFadeStartTime;
 // 현재 시간 (Update에서 계산하여 전달)
 float g_fCurrentTime;
 
+float g_fAlphaValue;
 
-
+int g_iIsSelected;
+float g_fHealth;
+float g_fMaxHealth;
 
 struct VS_IN
 {
@@ -165,12 +168,134 @@ PS_OUT FadeIn_And_Out(PS_IN In)
     float fAlpha = CalculateFadeAlpha(g_fCurrentTime, g_fFadeStartTime, g_fFadeDuration);
 
     // 페이드 효과 적용
-    Out.vColor.a *= fAlpha;
+    Out.vColor.a *= fAlpha + g_fAlphaValue;
 
     return Out;
 }
 
 
+
+
+PS_OUT Blend_Ui(PS_IN In)
+{
+    PS_OUT Out = (PS_OUT) 0;
+
+    Out.vColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
+    float4 fGrayColor = float4(0.0f, 0.0f, 0.0f, 0.4f);
+    
+    
+    Out.vColor = g_Texture.Sample(PointSampler, In.vTexcoord);
+    if (In.vTexcoord.x < 0.001f)
+    {
+        Out.vColor.rgb = float3(0.f, 0.f, 0.f);
+    }
+    else if (In.vTexcoord.x > 0.99f)
+    {
+        Out.vColor.rgb = float3(0.f, 0.f, 0.f);
+    }
+    else if (In.vTexcoord.y < 0.01f)
+    {
+        Out.vColor.rgb = float3(0.f, 0.f, 0.f);
+    }
+    else if (In.vTexcoord.y > 0.99f)
+    {
+        Out.vColor.rgb = float3(0.f, 0.f, 0.f);
+    }
+
+    
+    
+    
+    if (g_iIsSelected == 0)
+    {
+        Out.vColor = lerp(Out.vColor, fGrayColor, fGrayColor.a);
+
+    }
+    
+    
+    if (Out.vColor.a < 0.1f)
+        discard;
+
+    return Out;
+}
+
+
+PS_OUT Hp_bar(PS_IN In)
+{
+    PS_OUT Out = (PS_OUT) 0;
+
+    Out.vColor = g_Texture.Sample(PointSampler, In.vTexcoord);
+    Out.vColor.a = 0.7f;
+    
+    float healthRatio = g_fHealth / g_fMaxHealth;
+    
+    
+    if (In.vTexcoord.x < 0.01f || In.vTexcoord.x > 0.99f ||
+        In.vTexcoord.y < 0.2f || In.vTexcoord.y > 0.8f)
+    {
+        Out.vColor = float4(0.f, 0.f, 0.f, 1.0f);
+    }
+    else
+    {
+        if (In.vTexcoord.x < healthRatio)
+        {
+            Out.vColor = float4(1.0f, 0.0f, 0.0f, 0.7f); // 빨간색
+        }
+       
+    }
+    
+    if (Out.vColor.a < 0.1f)
+        discard;
+
+    return Out;
+}
+
+
+
+PS_OUT Player_Icon(PS_IN In)
+{
+    PS_OUT Out = (PS_OUT) 0;
+
+    Out.vColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
+    
+    float4 colorTint = float4(1.0f, 0.0f, 0.0f, 1.0f); // 빨간색
+    if (g_iIsSelected == 1)
+    {
+        colorTint = float4(1.0f, 0.0f, 0.0f, 0.5f);
+    }
+    if (g_iIsSelected == 0)
+    {
+        colorTint = float4(0.0f, 0.0f, 1.0f, 0.5f);
+    }
+    
+    // 텍스처 색상에 색상을 곱함
+    Out.vColor *= colorTint;
+    
+    
+    //if (In.vTexcoord.x < 0.1f)
+    //{
+    //    Out.vColor.rgb = float3(0.f, 0.f, 0.f);
+    //}
+    //else if (In.vTexcoord.x > 0.99f)
+    //{
+    //    Out.vColor.rgb = float3(0.f, 0.f, 0.f);
+    //}
+    //else if (In.vTexcoord.y < 0.1f)
+    //{
+    //    Out.vColor.rgb = float3(0.f, 0.f, 0.f);
+    //}
+    //else if (In.vTexcoord.y > 0.99f)
+    //{
+    //    Out.vColor.rgb = float3(0.f, 0.f, 0.f);
+    //}
+    //
+    
+ 
+    
+    if (Out.vColor.a < 0.1f)
+        discard;
+
+    return Out;
+}
 
 
 technique11 DefaultTechnique
@@ -208,7 +333,7 @@ technique11 DefaultTechnique
     pass FadeIn_And_Out
     {
         SetRasterizerState(RS_Default);
-        SetDepthStencilState(DSS_Default, 0);
+        SetDepthStencilState(DSS_None_Test_None_Write, 0);
         SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
         
         VertexShader = compile vs_5_0 VS_MAIN();
@@ -216,5 +341,45 @@ technique11 DefaultTechnique
         HullShader = NULL;
         DomainShader = NULL;
         PixelShader = compile ps_5_0 FadeIn_And_Out();
+    }
+    
+    pass Blend_Ui
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_None_Test_None_Write, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = NULL;
+        HullShader = NULL;
+        DomainShader = NULL;
+        PixelShader = compile ps_5_0 Blend_Ui();
+    }
+
+    pass Hp_bar
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_None_Test_None_Write, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = NULL;
+        HullShader = NULL;
+        DomainShader = NULL;
+        PixelShader = compile ps_5_0 Hp_bar();
+
+    }
+    pass Player_Icon
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_None_Test_None_Write, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = NULL;
+        HullShader = NULL;
+        DomainShader = NULL;
+        PixelShader = compile ps_5_0 Player_Icon();
+
     }
 }

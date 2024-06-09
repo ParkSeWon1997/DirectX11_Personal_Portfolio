@@ -27,11 +27,12 @@ HRESULT CPlayerCamera::Initialize(void* pArg)
 
 	m_fSensor = pDesc->fSensor;
 	m_pParentMatrix = pDesc->pParentMatrix;
+	m_vTargetPos = pDesc->vTargetPos;
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	m_pTransformCom->Rotation(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), XMConvertToRadians(40.f));
+	m_pTransformCom->Rotation(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), XMConvertToRadians(pDesc->fAngle));
 
 	return S_OK;
 }
@@ -42,30 +43,41 @@ void CPlayerCamera::Priority_Tick(_float fTimeDelta)
 
 void CPlayerCamera::Tick(_float fTimeDelta)
 {
-	//플레이어의 현재 위치
-	//_matrix pPlayerMatrix = XMLoadFloat4x4(m_pParentMatrix);
-	//_vector vPlayerPos = pPlayerMatrix.r[CTransform::STATE_POSITION];
-	//
-	//_vector vDistance= vPlayerPos - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	//
-	//
-	//_vector vToFarPos = { 0.0f,5.0f,-10.f };
-	//vPlayerPos += vToFarPos;
-	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPlayerPos);
-	//m_pTransformCom->Rotation(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), XMConvertToRadians(80.f));
-	_matrix pPlayerMatrix = XMLoadFloat4x4(m_pParentMatrix);
-	_vector vPlayerPos = pPlayerMatrix.r[CTransform::STATE_POSITION];
 
-	_vector vPlayerToFarHeigt = vPlayerPos + XMVectorSet(0.0f, 10.0f, -10.0f, 0.0f);
-	_vector vCamerTargetPos = vPlayerToFarHeigt - (pPlayerMatrix.r[CTransform::STATE_LOOK] * m_fSensor);
+	
+		_matrix pPlayerMatrix = XMLoadFloat4x4(m_pParentMatrix);
+		_vector vPlayerPos = pPlayerMatrix.r[CTransform::STATE_POSITION];
 
-	_vector vCurrentCameraPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		_vector vPlayerToFarHeigt = vPlayerPos + m_vTargetPos;
+		_vector vCamerTargetPos = vPlayerToFarHeigt - (pPlayerMatrix.r[CTransform::STATE_LOOK] * m_fSensor);
 
-	_vector vCameraPos = XMVectorLerp(vCurrentCameraPos, vCamerTargetPos, fTimeDelta * 2.0f);
+		_vector vCurrentCameraPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		_vector vCameraPos = XMVectorLerp(vCurrentCameraPos, vCamerTargetPos, fTimeDelta * 2.0f);
 
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, (vCameraPos));
 
+		if (m_bShake)
+		{
+			m_fShakeTime += fTimeDelta;
+
+			if (m_fShakeTime > m_fShakeMaxTime)
+			{
+				m_fShakeTime = 0.0f;
+				m_bShake = false;
+			}
+			float fshake = 0.1f;
+			float fshakeX = RandomNum<_float>(-1.0, 1.0) * fshake;
+			float fshakeY = RandomNum<_float>(-1.0, 1.0) * fshake;
+			float fshakeZ = RandomNum<_float>(-1.0, 1.0) * fshake;
+
+			_vector vShake = XMVectorSet(fshakeX, fshakeY, fshakeZ, 0.f);
+
+			vCameraPos += vShake;
+		}
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, (vCameraPos));
+		
 
 	//m_fFovy= XMConvertToRadians(90.f);
 

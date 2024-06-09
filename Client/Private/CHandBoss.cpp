@@ -563,6 +563,8 @@ NodeStates CHandBoss::DoAttack_A_1(_float fTimeDelta)
 			}
 
 
+			CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_2_Player")));
+			pPlayer->Set_CameraShake(true, 0.2f);
 
 			//세그먼트 라인 위치 바꾸기
 			_uint iLayerSize = m_pGameInstance->Get_LayerSize(CLoader::m_eNextLevel, TEXT("Layer_1_Segment"));
@@ -720,6 +722,7 @@ NodeStates CHandBoss::DoAttack_C_1(_float fTimeDelta)
 				BulletDesc.vTargetPos = vPlayerPos;
 				BulletDesc.vDir =  m_pTransformCom->Get_State(CTransform::STATE::STATE_LOOK);
 				BulletDesc.BulletState = &CBullet::Go;
+				BulletDesc.fDamage = 10.f;
 				m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_HandBullet"), &BulletDesc);
 				m_iBulletCount++;
 		
@@ -736,6 +739,7 @@ NodeStates CHandBoss::DoAttack_C_1(_float fTimeDelta)
 				BulletDesc.vTargetPos = vPlayerPos;
 				BulletDesc.vDir = m_pTransformCom->Get_State(CTransform::STATE::STATE_LOOK);
 				BulletDesc.BulletState = &CBullet::Go;
+				BulletDesc.fDamage = 10.f;
 				m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_HandBullet"), &BulletDesc);
 				m_iBulletCount++;
 			}
@@ -752,6 +756,7 @@ NodeStates CHandBoss::DoAttack_C_1(_float fTimeDelta)
 				BulletDesc.vTargetPos = vPlayerPos;
 				BulletDesc.vDir = m_pTransformCom->Get_State(CTransform::STATE::STATE_LOOK);
 				BulletDesc.BulletState = &CBullet::Go;
+				BulletDesc.fDamage = 10.f;
 				m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_HandBullet"), &BulletDesc);
 				m_iBulletCount++;
 			}
@@ -872,6 +877,7 @@ NodeStates CHandBoss::DoAttack_D_1(_float fTimeDelta)
 			BulletDesc.vPosition = _float4(pPlayer->Get_Position().x, 50.f, pPlayer->Get_Position().z, 1.0f);
 			BulletDesc.vDir = m_pTransformCom->Get_State(CTransform::STATE::STATE_LOOK);
 			BulletDesc.BulletState = &CBullet::Falling;
+			BulletDesc.fDamage = 10.f;
 			m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_HandBullet"), &BulletDesc);
 
 			if (m_fHp < 1000.f)
@@ -887,6 +893,7 @@ NodeStates CHandBoss::DoAttack_D_1(_float fTimeDelta)
 					BulletDesc.vDir = m_pTransformCom->Get_State(CTransform::STATE::STATE_LOOK);
 					BulletDesc.BulletState = &CBullet::Falling;
 					BulletDesc.fRotatedAngle = RandomNum<_float>(0.f, 360.f);
+					BulletDesc.fDamage = 10.f;
 					m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_HandBullet"), &BulletDesc);
 
 					CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(fRandX,0.0f, fRandZ,1.0f));
@@ -1055,6 +1062,10 @@ NodeStates CHandBoss::DoIsAlive(_float fTimeDelta)
 
 	if (m_eCurState == CHandBoss_STATES::STATES_SMASH)
 	{
+
+		CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_2_Player")));
+		pPlayer->Set_CameraShake(true, 0.2f);
+
 		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CHandBoss_STATES::STATES_SMASH, false));
 		if (m_pModelCom->Get_AnimFinished())
 		{

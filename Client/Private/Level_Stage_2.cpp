@@ -31,6 +31,8 @@ HRESULT CLevel_Stage_2::Initialize()
 	//	return E_FAIL;
 	if (FAILED(Ready_UI(TEXT("Layer_Ui"))))
 		return E_FAIL;
+	if (FAILED(Ready_Player_UI(TEXT("Layer_Player_Ui"))))
+		return E_FAIL;
 
 	if (FAILED(Ready_Layer_FadeIn_Out(TEXT("Layer_Fade_In_Out"))))
 		return E_FAIL;
@@ -157,7 +159,7 @@ HRESULT CLevel_Stage_2::Ready_Lights()
 	LightDesc.vAmbient = _float4(0.4f, 0.4f, 0.4f, 1.f);
 	LightDesc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
 
-	m_pGameInstance->Add_Light(LightDesc);
+	//m_pGameInstance->Add_Light(LightDesc);
 
 	return S_OK;
 }
@@ -205,21 +207,42 @@ HRESULT CLevel_Stage_2::Ready_UI(const wstring& strLayerTag)
 		return E_FAIL;
 
 
-
-
-	desc.strModelName = TEXT("ChargeBar");
-	desc.fSizeX = 512.f * 0.25f;
-	desc.fSizeY = 512.f * 0.25f;
-	desc.fX = 950.f;
-	desc.fY = 580.f;
+	desc.strModelName = TEXT("Icon_Keyboard_X");
+	desc.fSizeX = 64.f * 0.5f;
+	desc.fSizeY = 64.f * 0.5f;
+	desc.fX = (g_iWinSizeX * 0.6f) + desc.fSizeX;
+	desc.fY = (g_iWinSizeY * 0.7f) + (desc.fSizeY);
 	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_2, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
 		return E_FAIL;
 
-	desc.strModelName = TEXT("Amanda_Icon");
-	desc.fSizeX = 512.f * 0.25f;
-	desc.fSizeY = 512.f * 0.25f;
-	desc.fX = 950.f;
-	desc.fY = 580.f;
+	desc.strModelName = TEXT("Icon_Keyboard_C");
+	desc.fSizeX = 64.f * 0.5f;
+	desc.fSizeY = 64.f * 0.5f;
+	desc.fX = (g_iWinSizeX * 0.6f) + desc.fSizeX + 125.f;
+	desc.fY = (g_iWinSizeY * 0.7f) + (desc.fSizeY);
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_2, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
+		return E_FAIL;
+
+
+	desc.strModelName = TEXT("Icon_Keyboard_X");
+	desc.fSizeX = 64.f * 0.5f;
+	desc.fSizeY = 64.f * 0.5f;
+	desc.fX = (g_iWinSizeX * 0.6f) + desc.fSizeX + 250.f;
+	desc.fY = (g_iWinSizeY * 0.7f) + (desc.fSizeY);
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_2, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
+		return E_FAIL;
+	desc.strModelName = TEXT("Icon_Sametime");
+	desc.fSizeX = 64.f * 0.5f;
+	desc.fSizeY = 64.f * 0.5f;
+	desc.fX = (g_iWinSizeX * 0.6f) + desc.fSizeX + desc.fSizeX + 250.f;
+	desc.fY = (g_iWinSizeY * 0.7f) + (desc.fSizeY);
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_2, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
+		return E_FAIL;
+	desc.strModelName = TEXT("Icon_Keyboard_C");
+	desc.fSizeX = 64.f * 0.5f;
+	desc.fSizeY = 64.f * 0.5f;
+	desc.fX = (g_iWinSizeX * 0.6f) + desc.fSizeX + desc.fSizeX + desc.fSizeX + 250.f;
+	desc.fY = (g_iWinSizeY * 0.7f) + (desc.fSizeY);
 	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_2, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
 		return E_FAIL;
 
@@ -231,6 +254,38 @@ HRESULT CLevel_Stage_2::Ready_UI(const wstring& strLayerTag)
 
 
 
+
+
+
+	return S_OK;
+}
+
+HRESULT CLevel_Stage_2::Ready_Player_UI(const wstring& strLayerTag)
+{
+	UI::UI_DESC desc;
+
+
+
+	desc.strModelName = TEXT("HPBar_New_Player_A");
+	desc.fSizeX = 1024.f * 0.5f;
+	desc.fSizeY = 39.f * 0.5f;
+	desc.fX = (g_iWinSizeX * 0.5f) - (desc.fSizeX * 0.4f);
+	//desc.fX = (g_iWinSizeX * 0.5f);
+	desc.fY = (g_iWinSizeY * 0.8f) + (desc.fSizeY);
+	desc.iPassIndex = 4;
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_2, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
+		return E_FAIL;
+
+
+
+
+	desc.fSizeX = 512.f * 0.5f;
+	desc.fSizeY = 512.f * 0.5f;
+	desc.fX = (g_iWinSizeX * 0.5f) - (desc.fSizeX + 300.f);
+	desc.fY = (g_iWinSizeY * 0.5f) + (desc.fSizeY);
+	desc.iPassIndex = 4;
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_2, strLayerTag, TEXT("Prototype_GameObject_UI_PlayerIcon"), &desc)))
+		return E_FAIL;
 
 
 	return S_OK;
@@ -352,23 +407,23 @@ HRESULT CLevel_Stage_2::Ready_Layer_2_Monster(const wstring & strLayerTag)
 	desc.m_pWorldMatrix = pWorldMatrix;
 	desc.vPosition = _float4(fRandomX(Gen), 0.f, fRandomZ(Gen),1.0f);
 	
-	//for (int i = 0; i < 2; i++)
-	//{
-	//	desc.strModelName = TEXT("NewMoldTest");
-	//	desc.vPosition = _float4(fRandomX(Gen), 0.f, fRandomZ(Gen), 1.0f);
-	//	desc.strDeconModelTag = TEXT("NewMold_Deco_Segment");
-	//	desc.fHp = 50.f;
-	//	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_2, strLayerTag, TEXT("Prototype_GameObject_NewMold"), &desc)))
-	//		return E_FAIL;
-	//}
-	//for (int i = 0; i < 2; i++)
-	//{
-	//	desc.strModelName = TEXT("NewMoldMobile_C");
-	//	desc.vPosition = _float4(fRandomX(Gen), 0.f, fRandomZ(Gen), 1.0f);
-	//	desc.fHp = 50.f;
-	//	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_2, strLayerTag, TEXT("Prototype_GameObject_NewMold_C"), &desc)))
-	//		return E_FAIL;
-	//}
+	for (int i = 0; i < 4; i++)
+	{
+		desc.strModelName = TEXT("NewMoldTest");
+		desc.vPosition = _float4(fRandomX(Gen), 0.f, fRandomZ(Gen), 1.0f);
+		desc.strDeconModelTag = TEXT("NewMold_Deco_Segment");
+		desc.fHp = 50.f;
+		if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_2, strLayerTag, TEXT("Prototype_GameObject_NewMold"), &desc)))
+			return E_FAIL;
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		desc.strModelName = TEXT("NewMoldMobile_C");
+		desc.vPosition = _float4(fRandomX(Gen), 0.f, fRandomZ(Gen), 1.0f);
+		desc.fHp = 50.f;
+		if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_2, strLayerTag, TEXT("Prototype_GameObject_NewMold_C"), &desc)))
+			return E_FAIL;
+	}
 
 	
 	

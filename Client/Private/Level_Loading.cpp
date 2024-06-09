@@ -11,6 +11,8 @@
 #include "Level_GamePlay.h"
 #include"Level_Stage_1.h"
 #include"Level_Stage_2.h"
+#include"Level_Stage_3.h"
+
 #include "Level_Stage_Change.h"
 #pragma endregion
 #include"UI.h"
@@ -67,6 +69,9 @@ void CLevel_Loading::Tick(_float fTimeDelta)
 				break;
 			case LEVEL_STAGE_2:
 				pNewLevel = CLevel_Stage_2::Create(m_pDevice, m_pContext);
+				break;
+			case LEVEL_STAGE_3:
+				pNewLevel = CLevel_Stage_3::Create(m_pDevice, m_pContext);
 				break;
 			case LEVEL_CHANGE_STAGE:
 				pNewLevel = CLevel_Stage_Change::Create(m_pDevice, m_pContext);

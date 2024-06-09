@@ -164,7 +164,7 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Models/Sequence_M/Sequence_M.fbx", PreTransformMatrix))))
 		return E_FAIL;
 
-		PreTransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
+		PreTransformMatrix = XMMatrixRotationY(XMConvertToRadians(0.0f));
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Sequence_M_130525"),
 		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Models/Sequence_M_130525/Sequence_M.fbx", PreTransformMatrix))))
 		return E_FAIL;
