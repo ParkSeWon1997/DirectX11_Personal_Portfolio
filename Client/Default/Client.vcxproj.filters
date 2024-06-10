@@ -235,6 +235,9 @@
     <Filter Include="02.GameObjects\07. UI\PlayerIcon">
       <UniqueIdentifier>{01586974-e544-41e6-96fc-61a1f776dbe2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\07. UI\PlayeSkill">
+      <UniqueIdentifier>{c48f1d6e-87b9-4b4a-938d-6dc9d1776431}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -457,6 +460,9 @@
     <ClInclude Include="..\Public\UI_PlayerIcon.h">
       <Filter>02.GameObjects\07. UI\PlayerIcon</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_PlayerSkill.h">
+      <Filter>02.GameObjects\07. UI\PlayeSkill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -669,6 +675,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_PlayerIcon.cpp">
       <Filter>02.GameObjects\07. UI\PlayerIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_PlayerSkill.cpp">
+      <Filter>02.GameObjects\07. UI\PlayeSkill</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

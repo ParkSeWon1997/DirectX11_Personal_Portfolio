@@ -528,6 +528,10 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Panel_Frame_InGame_Deco_Right_Top.png"), 1))))
 		return E_FAIL;
 
+
+
+
+
 	/*Ui.Skill.Amanda*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Amanda_Skill_Balance_X"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Skill/Icon_Skill_GS_A.png"), 1))))
@@ -568,6 +572,15 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Amanda_Skill_Reverse_XC"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Skill/Icon_Skill_D_GS_C.png"), 1))))
 		return E_FAIL;
+
+
+
+
+
+
+
+
+
 
 
 	/*Ui.Skill.Matilda*/
@@ -645,6 +658,46 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("HPBar_New_Player_A"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerIcon/HPBar_New_Player_A.png"), 1))))
 		return E_FAIL;
+
+
+
+
+
+	/*Ui.PlayerSkill_Amanda.Icon*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Amanda_X"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Amanda_X_%d.png"), 4))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Amanda_C"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Amanda_C_%d.png"), 4))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Amanda_XC"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Amanda_XC_%d.png"), 4))))
+		return E_FAIL;
+
+	/*Ui.PlayerSkill_Matilda.Icon*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Matilda_X"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Matilda_X_%d.png"), 4))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Matilda_C"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Matilda_C_%d.png"), 4))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Matilda_XC"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Matilda_XC_%d.png"), 4))))
+		return E_FAIL;
+
+
+
+
+//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Amanda_C"),
+//	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Amanda_C_%d.png"), 4))))
+//	return E_FAIL;
+//if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Amanda_XC"),
+//	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Amanda_XC_%d.png"), 4))))
+//	return E_FAIL;
+
+
+
+
 
 
 

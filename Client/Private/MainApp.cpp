@@ -8,7 +8,7 @@
 #include "UI.h"
 #include "UI_Changer.h"
 #include"UI_PlayerIcon.h"
-
+#include"UI_PlayerSkill.h"
 
 #include "Shader.h"
 #include"Fade_In_Out.h"
@@ -211,6 +211,8 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_PlayerIcon"), UI_PlayerIcon::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_PlayerSkill"), UI_PlayerSkill::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 
 

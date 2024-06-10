@@ -219,7 +219,7 @@ void Amanda_Body_Player::Late_Tick(_float fTimeDelta)
 	XMStoreFloat4x4(&m_WorldMatrix, m_pTransformCom->Get_WorldMatrix() * XMLoadFloat4x4(m_pParentMatrix));
 
 	m_pGameInstance->Add_RenderObject(CRenderer::RENDER_NONBLEND, this);
-	m_pGameInstance->Add_RenderObject(CRenderer::RENDER_SHADOWOBJ, this);
+	//m_pGameInstance->Add_RenderObject(CRenderer::RENDER_SHADOWOBJ, this);
 
 
 #ifdef _DEBUG
@@ -1091,7 +1091,7 @@ NodeStates Amanda_Body_Player::DoAttackJumpEnd()
 
 	}
 
-
+	
 }
 
 
@@ -1281,6 +1281,10 @@ NodeStates Amanda_Body_Player::DoAttackUltimateReverse()
 		switch (m_eCharacterType)
 		{
 		case Client::CPlayer::CHRACTER_SWORD_MASTER:
+
+		
+
+
 			if (m_pModelCom->Get_AnimationIndex() == Player_Amanda_AnimationType::Amanda_ANIMATION_SLASH_CRITICAL_GO)
 			{
 				if (m_pModelCom->Get_AnimFinished())
@@ -1293,6 +1297,8 @@ NodeStates Amanda_Body_Player::DoAttackUltimateReverse()
 					return NodeStates::RUNNING;
 
 			}
+			
+
 
 			if (m_eCurState == CPlayer::STATE_ATTACK_ULTIMATE_REVERSE)
 			{
@@ -1317,7 +1323,6 @@ NodeStates Amanda_Body_Player::DoAttackUltimateReverse()
 						return NodeStates::RUNNING;
 				}
 			}
-
 			break;
 		case Client::CPlayer::CHRACTER_GUN_SLINGER:
 			m_iAnimIndex = Player_Amanda_AnimationType::Amanda_ANIMATION_SHOT_CROUCH_READY;
@@ -1334,8 +1339,6 @@ NodeStates Amanda_Body_Player::DoAttackUltimateReverse()
 			}
 			else
 				return NodeStates::RUNNING;
-
-
 			break;
 		case Client::CPlayer::CHRACTER_END:
 			break;
@@ -1344,6 +1347,8 @@ NodeStates Amanda_Body_Player::DoAttackUltimateReverse()
 		}
 
 	}
+	else
+		return NodeStates::FAILURE;
 
 
 }

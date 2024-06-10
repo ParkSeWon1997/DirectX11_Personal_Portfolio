@@ -298,6 +298,45 @@ PS_OUT Player_Icon(PS_IN In)
 }
 
 
+
+PS_OUT Player_Skill(PS_IN In)
+{
+    PS_OUT Out = (PS_OUT) 0;
+
+    Out.vColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
+
+    // 텍스처 색상에 색상을 곱함
+    
+    
+      
+    if (In.vTexcoord.x < 0.05f)
+    {
+        Out.vColor.rgb = float3(0.f, 0.f, 0.f);
+    }
+    else if (In.vTexcoord.x > 0.95f)
+    {
+        Out.vColor.rgb = float3(0.f, 0.f, 0.f);
+    }
+    else if (In.vTexcoord.y < 0.05f)
+    {
+        Out.vColor.rgb = float3(0.f, 0.f, 0.f);
+    }
+    else if (In.vTexcoord.y > 0.95f)
+    {
+        Out.vColor.rgb = float3(0.f, 0.f, 0.f);
+    }
+    
+ 
+    
+    if (Out.vColor.a < 0.1f)
+        discard;
+
+    return Out;
+}
+
+
+
+
 technique11 DefaultTechnique
 {
 	
@@ -380,6 +419,19 @@ technique11 DefaultTechnique
         HullShader = NULL;
         DomainShader = NULL;
         PixelShader = compile ps_5_0 Player_Icon();
+
+    }
+    pass Player_Skill
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_None_Test_None_Write, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = NULL;
+        HullShader = NULL;
+        DomainShader = NULL;
+        PixelShader = compile ps_5_0 Player_Skill();
 
     }
 }

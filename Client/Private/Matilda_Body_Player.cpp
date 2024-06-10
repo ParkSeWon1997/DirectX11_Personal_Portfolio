@@ -1102,7 +1102,7 @@ NodeStates Matilda_Body_Player::DoAttackJumpEnd()
 
 	}
 
-
+	
 }
 
 
@@ -1202,20 +1202,8 @@ NodeStates Matilda_Body_Player::DoAttackUltimateBalance()
 			return NodeStates::FAILURE;
 			break;
 		}
-	
-
-
-
-
-
-
-
 
 		return NodeStates::FAILURE;
-
-
-
-
 
 	}
 
@@ -1330,6 +1318,8 @@ NodeStates Matilda_Body_Player::DoAttackUltimateReverse()
 		switch (m_eCharacterType)
 		{
 		case Client::CPlayer::CHRACTER_SWORD_MASTER:
+		
+
 			if (m_pModelCom->Get_AnimationIndex() == Player_Matilda_AnimationType::Matilda_ANIMATION_SLASH_CRITICAL_GO)
 			{
 				double dNowFramePos = m_pModelCom->Get_CurrentPosition();
@@ -1420,6 +1410,8 @@ NodeStates Matilda_Body_Player::DoAttackUltimateReverse()
 
 
 	}
+	else
+		return NodeStates::FAILURE;
 
 }
 
