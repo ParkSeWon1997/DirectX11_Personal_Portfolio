@@ -56,64 +56,63 @@ HRESULT Amanda_Body_Player::Initialize(void * pArg)
 
 
 
-	CActionNode* pIdle = CActionNode::create(bind(&Amanda_Body_Player::DoIdle, this));
-	CActionNode* pHit = CActionNode::create(bind(&Amanda_Body_Player::DoHit, this));
-	CActionNode* pRun = CActionNode::create(bind(&Amanda_Body_Player::DoRun, this));
-	CActionNode* pDash = CActionNode::create(bind(&Amanda_Body_Player::DoDash, this));
-	CActionNode* pMoveStop = CActionNode::create(bind(&Amanda_Body_Player::DoMoveAfterStop, this));
-	CActionNode* pAttackLfet = CActionNode::create(bind(&Amanda_Body_Player::DoAttack_Left, this));
-	CActionNode* pAttackRight = CActionNode::create(bind(&Amanda_Body_Player::DoAttack_Right, this));
-	CActionNode* pAttackEnd = CActionNode::create(bind(&Amanda_Body_Player::DoAttack_End, this));
-	CActionNode* pAttackEnd2 = CActionNode::create(bind(&Amanda_Body_Player::DoAttack_End2, this));
-	CActionNode* pBackDash = CActionNode::create(bind(&Amanda_Body_Player::DoBackDash, this));
-	CActionNode* pThrowWeapon = CActionNode::create(bind(&Amanda_Body_Player::DoThrowWeapon, this));
-	CActionNode* pAttackBefore = CActionNode::create(bind(&Amanda_Body_Player::DoAttack_Before, this));
-	CActionNode* pAfterAttackIdle = CActionNode::create(bind(&Amanda_Body_Player::DoAttack_After_Idle, this));
-	CActionNode* pMatildaHidden_D_Short = CActionNode::create(bind(&Amanda_Body_Player::DoMatildaHidden_D_Short, this));
-	CActionNode* pAttackStinger = CActionNode::create(bind(&Amanda_Body_Player::DoAttackStinger, this));
-	CActionNode* pAttackSpin = CActionNode::create(bind(&Amanda_Body_Player::DoAttakcSpin, this));
-	CActionNode* pAttackSpinEnd = CActionNode::create(bind(&Amanda_Body_Player::DoAttackSpinEnd, this));
-	CActionNode* pAttackStomp = CActionNode::create(bind(&Amanda_Body_Player::DoAttackStomp, this));
-	CActionNode* pAttackSThrow = CActionNode::create(bind(&Amanda_Body_Player::DoAttackThrow, this));
-	CActionNode* pAttackJumpEnd = CActionNode::create(bind(&Amanda_Body_Player::DoAttackJumpEnd, this));
-	CActionNode* pAttackUltimateBalance = CActionNode::create(bind(&Amanda_Body_Player::DoAttackUltimateBalance, this));
-	CActionNode* pAttackUltimateTechnic = CActionNode::create(bind(&Amanda_Body_Player::DoAttackUltimateTechnic, this));
-	CActionNode* pAttackUltimatePower = CActionNode::create(bind(&Amanda_Body_Player::DoAttackUltimatePower, this));
-	CActionNode* pAttackUltimateEnd = CActionNode::create(bind(&Amanda_Body_Player::DoAttackUltimateReverse, this));
+		CActionNode* pIdle									= CActionNode::create(bind(&Amanda_Body_Player::DoIdle, this));
+		CActionNode* pHit									= CActionNode::create(bind(&Amanda_Body_Player::DoHit, this));
+		CActionNode* pRun									= CActionNode::create(bind(&Amanda_Body_Player::DoRun, this));
+		CActionNode* pDash									= CActionNode::create(bind(&Amanda_Body_Player::DoDash, this));
+		CActionNode* pMoveStop								= CActionNode::create(bind(&Amanda_Body_Player::DoMoveAfterStop, this));
+		CActionNode* pAttackLfet								= CActionNode::create(bind(&Amanda_Body_Player::DoAttack_Left, this));
+		CActionNode* pAttackRight							= CActionNode::create(bind(&Amanda_Body_Player::DoAttack_Right, this));
+		CActionNode* pAttackEnd								= CActionNode::create(bind(&Amanda_Body_Player::DoAttack_End, this));
+		CActionNode* pAttackEnd2								= CActionNode::create(bind(&Amanda_Body_Player::DoAttack_End2, this));
+		CActionNode* pBackDash								= CActionNode::create(bind(&Amanda_Body_Player::DoBackDash, this));
+		CActionNode* pThrowWeapon							= CActionNode::create(bind(&Amanda_Body_Player::DoThrowWeapon, this));
+		CActionNode* pAttackBefore							= CActionNode::create(bind(&Amanda_Body_Player::DoAttack_Before, this));
+		CActionNode* pAfterAttackIdle						= CActionNode::create(bind(&Amanda_Body_Player::DoAttack_After_Idle, this));
+		CActionNode* pMatildaHidden_D_Short					= CActionNode::create(bind(&Amanda_Body_Player::DoMatildaHidden_D_Short, this));
+		CActionNode* pAttackStinger							= CActionNode::create(bind(&Amanda_Body_Player::DoAttackStinger, this));
+		CActionNode* pAttackSpin								= CActionNode::create(bind(&Amanda_Body_Player::DoAttakcSpin, this));
+		CActionNode* pAttackSpinEnd							= CActionNode::create(bind(&Amanda_Body_Player::DoAttackSpinEnd, this));
+		CActionNode* pAttackStomp							= CActionNode::create(bind(&Amanda_Body_Player::DoAttackStomp, this));
+		CActionNode* pAttackSThrow							= CActionNode::create(bind(&Amanda_Body_Player::DoAttackThrow, this));
+		CActionNode* pAttackJumpEnd							= CActionNode::create(bind(&Amanda_Body_Player::DoAttackJumpEnd, this));
+		CActionNode* pAttackUltimateBalance					= CActionNode::create(bind(&Amanda_Body_Player::DoAttackUltimateBalance, this));
+		CActionNode* pAttackUltimateTechnic					= CActionNode::create(bind(&Amanda_Body_Player::DoAttackUltimateTechnic, this));
+		CActionNode* pAttackUltimatePower					= CActionNode::create(bind(&Amanda_Body_Player::DoAttackUltimatePower, this));
+		CActionNode* pAttackUltimateEnd						= CActionNode::create(bind(&Amanda_Body_Player::DoAttackUltimateReverse, this));
+	
+		CActionNode* pDoAttack_Shot							= CActionNode::create(bind(&Amanda_Body_Player::DoAttack_Shot, this));
+		CActionNode* pDoAttack_Shot_Critical					= CActionNode::create(bind(&Amanda_Body_Player::DoAttack_Shot_Critical, this));
+		CActionNode* pDoAttack_Shot_Dash						= CActionNode::create(bind(&Amanda_Body_Player::DoAttack_Shot_Dash, this));
+		CActionNode* pDoAttack_Dash_Buck						= CActionNode::create(bind(&Amanda_Body_Player::DoAttack_Dash_Buck, this));
+		CActionNode* pDoAttack_Dash_Buck_Next				= CActionNode::create(bind(&Amanda_Body_Player::DoAttack_Dash_Buck_Next, this));
+		CActionNode* pDoAttack_Dash_Slide_Shot				= CActionNode::create(bind(&Amanda_Body_Player::DoAttack_Dash_Slide_Shot, this));
+		CActionNode* pDoAttack_Shot_Crouch					= CActionNode::create(bind(&Amanda_Body_Player::DoAttack_Shot_Crouch, this));
+		CActionNode* pDoAttack_Shot_Upper					= CActionNode::create(bind(&Amanda_Body_Player::DoAttack_Shot_Upper, this));
+		CActionNode* pDoAttack_Shot_Ghost_Crouch				= CActionNode::create(bind(&Amanda_Body_Player::DoAttack_Shot_Ghost_Crouch, this));
 
-	CActionNode* pDoAttack_Shot = CActionNode::create(bind(&Amanda_Body_Player::DoAttack_Shot, this));
-	CActionNode* pDoAttack_Shot_Critical = CActionNode::create(bind(&Amanda_Body_Player::DoAttack_Shot_Critical, this));
-	CActionNode* pDoAttack_Shot_Dash = CActionNode::create(bind(&Amanda_Body_Player::DoAttack_Shot_Dash, this));
-	CActionNode* pDoAttack_Dash_Buck = CActionNode::create(bind(&Amanda_Body_Player::DoAttack_Dash_Buck, this));
-	CActionNode* pDoAttack_Dash_Buck_Next = CActionNode::create(bind(&Amanda_Body_Player::DoAttack_Dash_Buck_Next, this));
-	CActionNode* pDoAttack_Dash_Slide_Shot = CActionNode::create(bind(&Amanda_Body_Player::DoAttack_Dash_Slide_Shot, this));
-	CActionNode* pDoAttack_Shot_Crouch = CActionNode::create(bind(&Amanda_Body_Player::DoAttack_Shot_Crouch, this));
-	CActionNode* pDoAttack_Shot_Upper = CActionNode::create(bind(&Amanda_Body_Player::DoAttack_Shot_Upper, this));
-	CActionNode* pDoAttack_Shot_Ghost_Crouch = CActionNode::create(bind(&Amanda_Body_Player::DoAttack_Shot_Ghost_Crouch, this));
-
-	CSelector* pRunOrStop = CSelector::Create(pRun, pDash, pMoveStop);
-
-
-	CSelector* pComboAttackSelector = CSelector::Create(pAttackLfet, pAttackRight, pDoAttack_Shot, pDoAttack_Shot_Critical);
-
-	CSequence* pBackDashSeq = CSequence::Create(pBackDash, pThrowWeapon, pAttackEnd);
-
-	CSequence* pAttackSpinSeq = CSequence::Create(pAttackSpin, pAttackSpinEnd);
-
-
-	CSequence* pListAttackThrowSeq = CSequence::Create(pAttackSThrow, pAttackJumpEnd);
-
-	CSelector* pUltimateSelector = CSelector::Create(pAttackUltimateBalance, pDoAttack_Shot_Crouch, pAttackUltimateTechnic, pAttackUltimatePower, pDoAttack_Shot_Upper, pAttackUltimateEnd, pDoAttack_Shot_Ghost_Crouch);
-
-	CSelector* pAttackSelector = CSelector::Create(pComboAttackSelector, pBackDashSeq, pDoAttack_Shot_Dash, pDoAttack_Dash_Buck, pDoAttack_Dash_Buck_Next, pDoAttack_Dash_Slide_Shot, pMatildaHidden_D_Short, pAttackStinger, pAttackSpinSeq, pAttackStomp, pListAttackThrowSeq, pUltimateSelector);
-
-	CSelector* pOtherAnimSelect = CSelector::Create(pRunOrStop, pAttackSelector);
-
-	CSequence* pEndAttackSeq = CSequence::Create(pAttackBefore, pAfterAttackIdle);
-
-	CSelector* pIdleOrOther = CSelector::Create(pIdle, pHit, pAttackEnd2, pEndAttackSeq, pOtherAnimSelect);
-
-
+		CSelector* pRunOrStop								= CSelector::Create(pRun, pDash, pMoveStop);
+		
+		
+		CSelector* pComboAttackSelector					= CSelector::Create(pAttackLfet, pAttackRight, pDoAttack_Shot, pDoAttack_Shot_Critical);
+		
+		CSequence* pBackDashSeq							= CSequence::Create(pBackDash, pThrowWeapon, pAttackEnd);
+		
+		CSequence* pAttackSpinSeq							= CSequence::Create(pAttackSpin, pAttackSpinEnd);
+		
+		CSequence* pListAttackThrowSeq					= CSequence::Create(pAttackSThrow, pAttackJumpEnd);
+		
+		CSelector* pUltimateSelector						= CSelector::Create(pAttackUltimateBalance, pDoAttack_Shot_Crouch, pAttackUltimateTechnic, pAttackUltimatePower, pDoAttack_Shot_Upper, pAttackUltimateEnd, pDoAttack_Shot_Ghost_Crouch);
+		
+		CSelector* pAttackSelector						= CSelector::Create(pComboAttackSelector, pBackDashSeq, pDoAttack_Shot_Dash, pDoAttack_Dash_Buck, pDoAttack_Dash_Buck_Next, pDoAttack_Dash_Slide_Shot, pMatildaHidden_D_Short, pAttackStinger, pAttackSpinSeq, pAttackStomp, pListAttackThrowSeq, pUltimateSelector);
+		
+		CSelector* pOtherAnimSelect						= CSelector::Create(pRunOrStop, pAttackSelector);
+		
+		CSequence* pEndAttackSeq							= CSequence::Create(pAttackBefore, pAfterAttackIdle);
+		
+		CSelector* pIdleOrOther							= CSelector::Create(pIdle, pHit, pAttackEnd2, pEndAttackSeq, pOtherAnimSelect);
+	
+	
 	m_pRootNode = CSequence::Create(pIdleOrOther);
 
 
@@ -219,7 +218,8 @@ void Amanda_Body_Player::Late_Tick(_float fTimeDelta)
 	XMStoreFloat4x4(&m_WorldMatrix, m_pTransformCom->Get_WorldMatrix() * XMLoadFloat4x4(m_pParentMatrix));
 
 	m_pGameInstance->Add_RenderObject(CRenderer::RENDER_NONBLEND, this);
-	//m_pGameInstance->Add_RenderObject(CRenderer::RENDER_SHADOWOBJ, this);
+	if(m_bIsShadowOn)
+		m_pGameInstance->Add_RenderObject(CRenderer::RENDER_SHADOWOBJ, this);
 
 
 #ifdef _DEBUG
@@ -770,6 +770,7 @@ NodeStates Amanda_Body_Player::DoBackDash()
 				case Client::CPlayer::GUN_BALANCE:
 					m_eCurState = CPlayer::STATE_BEFORE_ATTACK_MOTION;
 					dynamic_cast<CPlayer*>(m_pPlayer)->SetState(m_eCurState);
+
 					break;
 				case Client::CPlayer::GUN_TECHNNIC:
 					m_eCurState = CPlayer::STATE_BEFORE_ATTACK_MOTION;
@@ -1146,6 +1147,16 @@ NodeStates Amanda_Body_Player::DoAttackUltimateBalance()
 			m_iAnimIndex = Player_Amanda_AnimationType::Amanda_ANIMATION_SHOT_CROUCH_READY;
 			m_bLoop = false;
 			m_AnimSpeed = 1.0f;
+			if (dNowFramePos >= 0.24 && dNowFramePos <= 0.26)
+			{
+				m_pGameInstance->Play_Sound_Z(TEXT("SFX_Rifle005 [1].wav"), SOUND_EFFECT, 0.6f);
+
+			}
+
+
+
+
+
 			if (m_pModelCom->Get_AnimFinished())
 			{
 			
@@ -1163,12 +1174,7 @@ NodeStates Amanda_Body_Player::DoAttackUltimateBalance()
 		default:
 			return NodeStates::FAILURE;
 			break;
-		}
-
-
-
-
-	
+		}	
 		return NodeStates::FAILURE;
 
 
@@ -1347,8 +1353,7 @@ NodeStates Amanda_Body_Player::DoAttackUltimateReverse()
 		}
 
 	}
-	else
-		return NodeStates::FAILURE;
+
 
 
 }
@@ -1480,6 +1485,10 @@ NodeStates Amanda_Body_Player::DoAttack_Shot_Dash()
 		{
 			if (fCurPos >= 0.02 && fCurPos < 0.04)
 			{
+				dynamic_cast<CPlayer*>(m_pPlayer)->Set_CameraShake(true, 0.1f);
+
+				m_pGameInstance->Play_Sound_Z(TEXT("SFX_Rifle003_Short [1].wav"), SOUND_EFFECT, 0.4f);
+
 				PlayerBulletdesc.strModelName = TEXT("swordThrowing");
 				PlayerBulletdesc.eColliderType = CCollider::TYPE_OBB;
 				PlayerBulletdesc.vExtents = _float3(1.1f, 1.1f, 5.1f);
@@ -1509,6 +1518,7 @@ NodeStates Amanda_Body_Player::DoAttack_Shot_Dash()
 		dynamic_cast<CPlayer*>(m_pPlayer)->SetAttackEndTime(false);
 		if (m_pModelCom->Get_AnimFinished())
 		{
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Rifle004 [1].wav"), SOUND_EFFECT, 0.4f);
 			m_eCurState = CPlayer::STATE_DASH;
 			dynamic_cast<CPlayer*>(m_pPlayer)->SetMove_After_Skill(true);
 			dynamic_cast<CPlayer*>(m_pPlayer)->SetState(m_eCurState);
@@ -1661,8 +1671,12 @@ NodeStates Amanda_Body_Player::DoAttack_Shot_Crouch()
 		m_bLoop = false;
 		m_AnimSpeed = 1.0f;
 
+
 		if (dNowFramePos >= 0.02 && dNowFramePos <= 0.04)
 		{
+			
+
+
 			_uint iFadeLayerSize = m_pGameInstance->Get_LayerSize(CLoader::m_eNextLevel, TEXT("Layer_Fade_In_Out"));
 
 			for (_uint i = 0; i < iFadeLayerSize; ++i)
@@ -1764,8 +1778,6 @@ NodeStates Amanda_Body_Player::DoAttack_Shot_Upper()
 		if (m_pModelCom->Get_AnimFinished())
 		{
 			
-
-			//ÃÑ¾Ë »ý¼º
 			m_eCurState = CPlayer::STATE_BEFORE_ATTACK_MOTION;
 			dynamic_cast<CPlayer*>(m_pPlayer)->SetState(m_eCurState);
 			return NodeStates::SUCCESS;

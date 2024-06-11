@@ -3,11 +3,12 @@
 
 #include "GameInstance.h"
 #include"Loader.h"
+#include"CTotalSingleton.h"
 
 #include "Player.h"
 #include"UpgradeMachineTop.h"
 #include"Particle_Mesh.h"
-
+#include"Item.h"
 CUpgradeMachine::CUpgradeMachine(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CGameObject{ pDevice, pContext }
 {
@@ -100,15 +101,57 @@ void CUpgradeMachine::Tick(_float fTimeDelta)
 			m_pTransformCom->Set_Scale(vSize.x, 1.f, vSize.z);
 			if(m_bIsFullCharge)
 			{
+				m_pGameInstance->Play_Sound_Z(TEXT("SFX_UpgradeMachine_Down [1].wav"), SOUND_EFFECT, 0.8f);
+				CItem::CItem_DESC ItemDesc = {};
 				switch (m_eMachineType)
 				{
 				case Client::CUpgradeMachine::MACHINE_ADD_HP:
+
+					for (int i = 0; i < 10; i++)
+					{
+						_float fRandX = RandomNum<_float>(-5.f, 5.f) + this->Get_Position().x;
+						_float fRandZ = RandomNum<_float>(-5.f, 5.f) + this->Get_Position().z;
+
+						_float fRandX_Test = RandomNum<_float>(-5.f, 5.f);
+						_float fRandZ_Test = RandomNum<_float>(-5.f, 5.f);
+
+						ItemDesc.strModelName = TEXT("Item_HP");
+						ItemDesc.vPosition = _float4(this->Get_Position().x+ fRandX_Test, this->Get_Position().y + 1.f, this->Get_Position().z+ fRandZ_Test, 1.0f);
+						ItemDesc.vScale = _float3(1.f, 1.f, 1.f);
+						ItemDesc.vRotation = _float3(0.f, 1.f, 0.f);
+						ItemDesc.vRotationAngle = 45.f;
+						ItemDesc.vTargetPos = XMVectorSet(fRandX, 1.f, fRandZ, 1.0f);
+						m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Environment"), TEXT("Prototype_Item"), &ItemDesc);
+							
+					}
+					CTotalSingleton::GetInstance()->AddCoin(-100);
+
 					break;
 				case Client::CUpgradeMachine::MACHINE_ADD_SHIELD:
 					break;
 				case Client::CUpgradeMachine::MACHINE_ADD_MOVE_SPEED:
 					break;
 				case Client::CUpgradeMachine::MACHINE_ADD_ATTACK_SPEED:
+					for (int i = 0; i < 10; i++)
+					{
+						_float fRandX = RandomNum<_float>(-5.f, 5.f) + this->Get_Position().x;
+						_float fRandZ = RandomNum<_float>(-5.f, 5.f) + this->Get_Position().z;
+
+						_float fRandX_Test = RandomNum<_float>(-5.f, 5.f);
+						_float fRandZ_Test = RandomNum<_float>(-5.f, 5.f);
+
+						ItemDesc.strModelName = TEXT("Item_Life");
+						ItemDesc.vPosition = _float4(this->Get_Position().x + fRandX_Test, this->Get_Position().y + 1.f, this->Get_Position().z + fRandZ_Test, 1.0f);
+						ItemDesc.vScale = _float3(1.f, 1.f, 1.f);
+						ItemDesc.vRotation = _float3(0.f, 1.f, 0.f);
+						ItemDesc.vRotationAngle = 45.f;
+						ItemDesc.vTargetPos = XMVectorSet(fRandX, 1.f, fRandZ, 1.0f);
+						m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Environment"), TEXT("Prototype_Item"), &ItemDesc);
+
+					}
+
+					CTotalSingleton::GetInstance()->SetAnimSpeed(0.1f);
+					CTotalSingleton::GetInstance()->AddCoin(-500);
 					break;
 				case Client::CUpgradeMachine::MACHINE_ADD_ATTACK_DAMAGE:
 					break;
@@ -123,7 +166,7 @@ void CUpgradeMachine::Tick(_float fTimeDelta)
 				}
 				m_pMachineTop->Set_Activated(true);
 
-				
+				m_bIsFullCharge = false;
 
 
 

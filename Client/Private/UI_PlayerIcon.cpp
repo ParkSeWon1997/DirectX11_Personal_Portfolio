@@ -71,6 +71,7 @@ HRESULT UI_PlayerIcon::Render()
 
 	m_pVIBufferCom->Bind_Buffers();
 
+
 	m_pVIBufferCom->Render();
 
 	

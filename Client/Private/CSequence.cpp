@@ -98,7 +98,7 @@ template<typename... T>
 CSequence* CSequence::Create(T... nodes)
 {
 	CSequence* pInstance = new CSequence();
-	auto initializer = { (pInstance->Initialize(nodes),0)... };
+	auto initializer = { (pInstance->Initialize(nodes))... };
 	//if (FAILED(pInstance->Initialize(nodes)))
 	//{
 	//	Safe_Release(pInstance);

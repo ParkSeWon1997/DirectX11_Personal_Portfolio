@@ -336,6 +336,9 @@
     <ClInclude Include="..\Public\BlendObject.h">
       <Filter>01.Utility\02.GameObjects\BlendObject</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\SoundMgr.h">
+      <Filter>00.System\00.Device\Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -490,6 +493,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\BlendObject.cpp">
       <Filter>01.Utility\02.GameObjects\BlendObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SoundMgr.cpp">
+      <Filter>00.System\00.Device\Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

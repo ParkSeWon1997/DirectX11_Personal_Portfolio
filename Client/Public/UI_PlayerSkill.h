@@ -35,8 +35,8 @@ public:
 	virtual void Late_Tick(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 	
-
-	
+	void Set_SkillNum(int iSkillNum) { m_iSkillNum = iSkillNum; }
+	void Set_SkillCoolTime(_float fCoolTime,_float fMaxCoolTime,_bool IsSkillOn);
 private:
 	virtual HRESULT Add_Components()override;
 	virtual HRESULT Bind_ShaderResources()override;
@@ -44,8 +44,9 @@ private:
 
 	
 
-
-	
+	int       m_iSkillNum = 0;
+	_float    m_fCoolTime = 0.f;
+	_bool     m_bIsSkillOn = false;
 public:
 	static UI_PlayerSkill* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;

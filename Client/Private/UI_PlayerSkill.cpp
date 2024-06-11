@@ -67,18 +67,27 @@ HRESULT UI_PlayerSkill::Render()
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
-	m_pShaderCom->Begin(6);
+	m_pShaderCom->Begin(m_iPassIndex);
 
 	m_pVIBufferCom->Bind_Buffers();
 
 	m_pVIBufferCom->Render();
-
+	
 	
 	
 
 
 
 	return S_OK;
+}
+
+void UI_PlayerSkill::Set_SkillCoolTime(_float fCoolTime, _float fMaxCoolTime,_bool IsSkillOn)
+{
+
+
+	m_fCoolTime = fCoolTime / fMaxCoolTime;
+
+	m_bIsSkillOn = IsSkillOn;
 }
 
 HRESULT UI_PlayerSkill::Add_Components()
@@ -112,7 +121,14 @@ HRESULT UI_PlayerSkill::Bind_ShaderResources()
 	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return E_FAIL;
 
-	if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", 0)))
+	if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", m_iSkillNum)))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Bind_float("g_CoolTime", &m_fCoolTime)))
+		return E_FAIL;
+
+
+	if (FAILED(m_pShaderCom->Bind_Bool("g_iSEventOn", m_bIsSkillOn)))
 		return E_FAIL;
 
 	return S_OK;

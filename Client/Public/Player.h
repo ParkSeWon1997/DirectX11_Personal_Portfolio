@@ -110,7 +110,11 @@ public:
 		_uint iComboCount = 0;
 		float fDashCoolTime = 1.f;
 		_uint	  iDashCount = 0;
-		float fSkillCoolTime[COOL_TIME_SKILL_END] = { 0.0f,0.f,0.f ,0.f ,0.f };
+		float fMatildaSkillCoolTime[COOL_TIME_SKILL_END] = { 0.0f,0.f,0.f ,0.f ,0.f };
+		_bool bMatildaSkillCoolTimeOn[COOL_TIME_SKILL_END] = { false,false,false,false,false };
+		float fAmandaSkillCoolTime[COOL_TIME_SKILL_END] = { 0.0f,0.f,0.f ,0.f ,0.f };
+		_bool bAmandaSkillCoolTimeOn[COOL_TIME_SKILL_END] = { false,false,false,false,false };
+
 		SWORD_MASTER_TYPE eSwordMasterType = SWORD_END;
 		GUN_SLINGER_TYPE eGunSlingerType = GUN_END;
 
@@ -160,6 +164,7 @@ public:
 
 	void Set_CameraShake(_bool bIsCutScene,_float fShakeTime);
 	void Set_CameraTargetPos(_vector vTargetPos);
+	void Set_CameraRotation(_float fAngle);
 
 
 
@@ -176,13 +181,20 @@ private:
 
 	void DoMove_After_Skill();
 
+	void MakeDrone(_int DroneCount, _float fDistance, wstring DroneName);
+
+	void MakeChangeparticle(_float fTimeDelta);
+	void CheckCoolTime(_float fTimeDelta);
+
+
+
+	void CloseTargetPos(_float fTimeDelta);
+
+
+
 	template<typename T,typename U>
 	_bool CoolTimeCheck(T val,U fTimedelta);
 	
-
-	void MakeDrone(_int DroneCount,_float fDistance,wstring DroneName);
-	
-	void MakeChangeparticle(_float fTimeDelta);
 
 private:
 	vector<class CGameObject*>		m_PartObjects;

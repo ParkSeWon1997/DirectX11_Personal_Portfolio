@@ -164,6 +164,22 @@ HRESULT CShader::Bind_float(const _char* pConstantName, _float* pFloat)
 	return pScalarVariable->SetFloat(*pFloat);
 }
 
+HRESULT CShader::Bind_Bool(const _char* pConstantName, _bool bBool)
+{
+	ID3DX11EffectVariable* pVariable = m_pEffect->GetVariableByName(pConstantName);
+	if (nullptr == pVariable)
+		return E_FAIL;
+
+	ID3DX11EffectScalarVariable* pScalarVariable = pVariable->AsScalar();
+	if (nullptr == pScalarVariable)
+		return E_FAIL;
+
+	int iBool = bBool ?  1 : 0;
+
+	return pScalarVariable->SetInt(iBool);
+	
+}
+
 HRESULT CShader::Bind_intArray(const _char* pConstantName, const int* pIntArray, _uint iNumArrayElemnts)
 {
 	ID3DX11EffectVariable* pVariable = m_pEffect->GetVariableByName(pConstantName);

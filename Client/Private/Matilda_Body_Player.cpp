@@ -19,9 +19,12 @@
 #include"CMyNode.h"
 
 
+#include"Fade_In_Out.h"
+
 #include"CBullet.h"
 #include"CPlayerBullet.h"
 #include"Particle_Mesh.h"
+#include"CTotalSingleton.h"
 
 Matilda_Body_Player::Matilda_Body_Player(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CPartObject{ pDevice, pContext }
@@ -134,7 +137,7 @@ void Matilda_Body_Player::Tick(_float fTimeDelta)
 
 
  	CModel::ANIMATION_DESC		AnimDesc{ 0, true };
-	m_pRootNode->Evaluate();
+ 	m_pRootNode->Evaluate();
 	
 	AnimDesc.iAnimIndex = m_iAnimIndex;
 	AnimDesc.isLoop = m_bLoop;
@@ -154,7 +157,9 @@ void Matilda_Body_Player::Late_Tick(_float fTimeDelta)
 	XMStoreFloat4x4(&m_WorldMatrix, m_pTransformCom->Get_WorldMatrix() * XMLoadFloat4x4(m_pParentMatrix));
 
 	m_pGameInstance->Add_RenderObject(CRenderer::RENDER_NONBLEND, this);
-	m_pGameInstance->Add_RenderObject(CRenderer::RENDER_SHADOWOBJ, this);
+	if(m_bIsShadowOn)
+		m_pGameInstance->Add_RenderObject(CRenderer::RENDER_SHADOWOBJ, this);
+
 #ifdef _DEBUG
 	m_pGameInstance->Add_DebugComponent(m_pColliderCom);
 #endif
@@ -420,9 +425,10 @@ NodeStates Matilda_Body_Player::DoAttack_Left()
 {
 	if (m_eCurState == CPlayer::STATE_COMBO_ATTACK_LEFT)
 	{
+		
 		m_iAnimIndex = Player_Matilda_AnimationType::Matilda_ANIMATION_ATTACK_SLASH_LEFT;
 		m_bLoop = false;
-		m_AnimSpeed=1.0f;
+		m_AnimSpeed= CTotalSingleton::GetInstance()->GetAnimSpeed();
 		double dNowFramePos = m_pModelCom->Get_CurrentPosition();
 		dynamic_cast<CPlayer*>(m_pPlayer)->SetNextAttack(false);
 		if (dNowFramePos >= 0.09 && dNowFramePos <= 0.13)
@@ -464,7 +470,7 @@ NodeStates Matilda_Body_Player::DoAttack_Right()
 	{
 		m_iAnimIndex = Player_Matilda_AnimationType::Matilda_ANIMATION_ATTACK_SLASH_RIGHT;
 		m_bLoop = false;
-		m_AnimSpeed = 1.0f;
+		m_AnimSpeed = CTotalSingleton::GetInstance()->GetAnimSpeed();
 		double dNowFramePos = m_pModelCom->Get_CurrentPosition();
 		dynamic_cast<CPlayer*>(m_pPlayer)->SetNextAttack(false);
 		if (dNowFramePos >= 0.17 && dNowFramePos <= 0.19)
@@ -590,8 +596,15 @@ NodeStates Matilda_Body_Player::DoDash()
 		m_AnimSpeed = 1.0f;
 		dynamic_cast<CPlayer*>(m_pPlayer)->SetAttackEndTime(false);
 		double dNowFramePos = m_pModelCom->Get_CurrentPosition();
-		if (dNowFramePos >= 0.1 && dNowFramePos <= 0.14)
+		if (dNowFramePos >= 0.1 && dNowFramePos <= 0.11)
 		{
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Actor_Dash002 [1].wav"), SOUND_EFFECT, 0.8f);
+		}
+
+
+		if (dNowFramePos >= 0.1 && dNowFramePos <= 0.12)
+		{
+			
 			dynamic_cast<CPlayer*>(m_pPlayer)->SetMove_After_Skill(true);
 			dynamic_cast<CPlayer*>(m_pPlayer)->SetMovePower(2.0f);
 		}
@@ -704,6 +717,14 @@ NodeStates Matilda_Body_Player::DoBackDash()
 		m_iAnimIndex = Player_Matilda_AnimationType::Matilda_ANIMATION_DASH_BACK;
 		m_bLoop = false;
 		m_AnimSpeed = 1.0f;
+		double dNowFramePos = m_pModelCom->Get_CurrentPosition();
+		if (dNowFramePos >= 0.1 && dNowFramePos <= 0.11)
+		{
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Actor_Dash002 [1].wav"), SOUND_EFFECT, 0.8f);
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Actor_Pop [1].wav"), SOUND_EFFECT, 0.8f);
+		}
+
+		
 		dynamic_cast<CPlayer*>(m_pPlayer)->SetAttackEndTime(false);
 		if (m_pModelCom->Get_AnimationIndex() == Matilda_ANIMATION_SHOT_STOP)
 		{
@@ -728,6 +749,7 @@ NodeStates Matilda_Body_Player::DoBackDash()
 					break;
 				case Client::CPlayer::SWORD_TECHNNIC:
 					m_eCurState = CPlayer::STATE_BEFORE_ATTACK_MOTION;
+
 					dynamic_cast<CPlayer*>(m_pPlayer)->SetState(m_eCurState);
 					break;
 				case Client::CPlayer::SWORD_POWER:
@@ -802,6 +824,7 @@ NodeStates Matilda_Body_Player::DoThrowWeapon()
 		double dNowFramePos = m_pModelCom->Get_CurrentPosition();
 		if (dNowFramePos >= 0.03 && dNowFramePos <= 0.09)
 		{
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Slash004 [1].wav"), SOUND_EFFECT, 0.5f);
 			dynamic_cast<CPlayer*>(m_pPlayer)->SetMove_After_Skill(true);
 		}
 
@@ -832,6 +855,13 @@ NodeStates Matilda_Body_Player::DoMatildaHidden_D_Short()
 		m_AnimSpeed = 1.0f;
 		dynamic_cast<CPlayer*>(m_pPlayer)->SetAttackEndTime(false);
 		double dNowFramePos= m_pModelCom->Get_CurrentPosition();
+
+		if (dNowFramePos >= 0.42 && dNowFramePos <= 0.44)
+		{
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Slash023 [1].wav"), SOUND_EFFECT, 0.8f);
+
+		}
+
 		if (dNowFramePos >=0.4&& dNowFramePos <=0.5 )
 		{
 			dynamic_cast<CPlayer*>(m_pPlayer)->SetMove_After_Skill(true);
@@ -859,6 +889,12 @@ NodeStates Matilda_Body_Player::DoAttackStinger()
 		m_bLoop = false;
 		m_AnimSpeed = 1.0f;
 		double dNowFramePos = m_pModelCom->Get_CurrentPosition();
+		if (dNowFramePos >= 0.02 && dNowFramePos <= 0.04)
+		{
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Stinger0011 [1].wav"), SOUND_EFFECT, 0.5f);
+
+		}
+
 		if (dNowFramePos >= 0.03 && dNowFramePos <= 0.09)
 		{
 			dynamic_cast<CPlayer*>(m_pPlayer)->SetMove_After_Skill(true);
@@ -888,12 +924,17 @@ NodeStates Matilda_Body_Player::DoAttakcSpin()
 	{
 		if (m_pModelCom->Get_AnimationIndex() == Matilda_ANIMATION_DASH)
 		{
+
+
+
+
 			if (m_pModelCom->Get_AnimFinished())	//dash가 끝나면
 			{
 				m_iAnimIndex = Player_Matilda_AnimationType::Matilda_ANIMATION_SLASH_SPIN;
 				m_bLoop = false;
 				m_AnimSpeed = 1.0f;
-				
+
+			
 				if (m_pModelCom->Get_AnimationIndex()== Player_Matilda_AnimationType::Matilda_ANIMATION_SLASH_SPIN&&m_pModelCom->Get_AnimFinished())
 				{
 					m_eCurState = CPlayer::STATE_ATTACK_SPIN_END;
@@ -911,6 +952,16 @@ NodeStates Matilda_Body_Player::DoAttakcSpin()
 		}
 		if (m_pModelCom->Get_AnimationIndex() == Matilda_ANIMATION_SLASH_SPIN)
 		{
+
+			double dNowFramePos = m_pModelCom->Get_CurrentPosition();
+			if (dNowFramePos >= 0.02 && dNowFramePos <= 0.04)
+			{
+				m_pGameInstance->Play_Sound_Z(TEXT("SFX_Slash0061 [1].wav"), SOUND_EFFECT, 0.5f);
+
+			}
+
+
+
 			dynamic_cast<CPlayer*>(m_pPlayer)->SetAttackEndTime(true);
 			dynamic_cast<CPlayer*>(m_pPlayer)->SetIsCollision(false);
 			if (m_pModelCom->Get_AnimFinished())
@@ -928,6 +979,12 @@ NodeStates Matilda_Body_Player::DoAttakcSpin()
 		m_bLoop = false;
 		m_AnimSpeed = 1.0f;
 		double dNowFramePos = m_pModelCom->Get_CurrentPosition();
+		if (dNowFramePos >= 0.02 && dNowFramePos <= 0.04)
+		{
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Actor_Dash002 [1].wav"), SOUND_EFFECT, 0.7f);
+		}
+
+
 		if (dNowFramePos >= 0.1 && dNowFramePos <= 0.14)
 		{
 			dynamic_cast<CPlayer*>(m_pPlayer)->SetMove_After_Skill(true);
@@ -982,11 +1039,21 @@ NodeStates Matilda_Body_Player::DoAttackStomp()
 		m_bLoop = false;
 		m_AnimSpeed = 1.0f;
 		double dNowFramePos = m_pModelCom->Get_CurrentPosition();
+		if (dNowFramePos >= 0.02 && dNowFramePos <= 0.04)
+		{
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Actor_Dash002 [1].wav"), SOUND_EFFECT, 0.8f);
+
+		}
 		if (dNowFramePos >= 0.02 && dNowFramePos <= 0.06)
 		{
 			dynamic_cast<CPlayer*>(m_pPlayer)->SetMove_After_Skill(true);
 			dynamic_cast<CPlayer*>(m_pPlayer)->SetAttackEndTime(true);
 			dynamic_cast<CPlayer*>(m_pPlayer)->SetIsCollision(false);
+		}
+		if (dNowFramePos >= 0.6 && dNowFramePos <= 0.61)
+		{
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Slash010 [1].wav"), SOUND_EFFECT, 0.8f);
+
 		}
 		
 
@@ -1022,6 +1089,7 @@ NodeStates Matilda_Body_Player::DoAttackThrow()
 		
 			if (dNowFramePos >= 0.18 && dNowFramePos <= 0.2)
 			{
+				m_pGameInstance->Play_Sound_Z(TEXT("SFX_Slash020 [1].wav"), SOUND_EFFECT, 0.8f);
 				//총알 생성
 				PlayerBulletdesc.fRadius = 0.5f;
 				PlayerBulletdesc.strModelName = TEXT("swordThrowing");
@@ -1059,6 +1127,7 @@ NodeStates Matilda_Body_Player::DoAttackThrow()
 		
 			if (m_pModelCom->Get_AnimFinished())
 			{
+				m_pGameInstance->Play_Sound_Z(TEXT("SFX_Ping004 [1].wav"), SOUND_EFFECT, 0.7f);
 				m_eCurState = CPlayer::STATE_JUMP_END;
 				dynamic_cast<CPlayer*>(m_pPlayer)->SetState(m_eCurState);
 
@@ -1124,6 +1193,17 @@ NodeStates Matilda_Body_Player::DoAttackUltimateBalance()
 			m_AnimSpeed = 1.0f;
 			if (m_pModelCom->Get_AnimationIndex() == Player_Matilda_AnimationType::Matilda_ANIMATION_DASH)
 			{
+				if (dNowFramePos >= 0.1 && dNowFramePos <= 0.115)
+				{
+					m_pGameInstance->Play_Sound_Z(TEXT("SFX_Actor_Dash002 [1].wav"), SOUND_EFFECT, 0.6f);
+					m_pGameInstance->Play_Sound_Z(TEXT("SFX_Actor_Pop [1].wav"), SOUND_EFFECT, 0.7f);
+					m_pGameInstance->Play_Sound_Z(TEXT("SFX_Slash007 [1].wav"), SOUND_EFFECT, 0.8f);
+
+				}
+
+
+
+
 				if (dNowFramePos >= 0.02 && dNowFramePos <= 0.05)
 				{
 					//1차 생성
@@ -1203,9 +1283,11 @@ NodeStates Matilda_Body_Player::DoAttackUltimateBalance()
 			break;
 		}
 
-		return NodeStates::FAILURE;
+	return NodeStates::FAILURE;
 
 	}
+	else
+		return NodeStates::FAILURE;
 
 
 }
@@ -1245,11 +1327,9 @@ NodeStates Matilda_Body_Player::DoAttackUltimateTechnic()
 			return NodeStates::RUNNING;
 			break;
 		}
-
-
-
-	
 	}
+	else
+		return NodeStates::FAILURE;
 }
 
 NodeStates Matilda_Body_Player::DoAttackUltimatePower()
@@ -1266,6 +1346,10 @@ NodeStates Matilda_Body_Player::DoAttackUltimatePower()
 		
 			if (m_pModelCom->Get_AnimationIndex() == Player_Matilda_AnimationType::Matilda_ANIMATION_DASH)
 			{
+				if (dNowFramePos >= 0.02 && dNowFramePos <= 0.04)
+				{
+					m_pGameInstance->Play_Sound_Z(TEXT("SFX_Slash019 [1].wav"), SOUND_EFFECT, 0.8f);
+				}
 				if (dNowFramePos >= 0.02 && dNowFramePos <= 0.05)
 				{
 					dynamic_cast<CPlayer*>(m_pPlayer)->SetMove_After_Skill(true);
@@ -1291,6 +1375,8 @@ NodeStates Matilda_Body_Player::DoAttackUltimatePower()
 				dynamic_cast<CPlayer*>(m_pPlayer)->SetState(m_eCurState);
 				return NodeStates::FAILURE;
 			}
+			else
+				return NodeStates::RUNNING;
 
 			break;
 		case Client::CPlayer::CHRACTER_END:
@@ -1302,6 +1388,8 @@ NodeStates Matilda_Body_Player::DoAttackUltimatePower()
 
 		
 	}
+	else
+		return NodeStates::FAILURE;
 
 
 
@@ -1323,8 +1411,27 @@ NodeStates Matilda_Body_Player::DoAttackUltimateReverse()
 			if (m_pModelCom->Get_AnimationIndex() == Player_Matilda_AnimationType::Matilda_ANIMATION_SLASH_CRITICAL_GO)
 			{
 				double dNowFramePos = m_pModelCom->Get_CurrentPosition();
+				if (dNowFramePos >= 0.02 && dNowFramePos <= 0.04)
+				{
+					dynamic_cast<CPlayer*>(m_pPlayer)->Set_CameraTargetPos(XMVectorSet(0.0f, 10.f, -8.0f, 0.0f));
+				}
+
 				if (dNowFramePos >= 0.08 && dNowFramePos <= 0.1)
 				{
+
+					_uint iFadeLayerSize = m_pGameInstance->Get_LayerSize(CLoader::m_eNextLevel, TEXT("Layer_Fade_In_Out"));
+
+					for (_uint i = 0; i < iFadeLayerSize; ++i)
+					{
+						Fade_In_Out* pFadeInOut = static_cast<Fade_In_Out*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_Fade_In_Out"), i));
+						pFadeInOut->Start_FadeIn();
+					}
+
+					dynamic_cast<CPlayer*>(m_pPlayer)->Set_CameraTargetPos(XMVectorSet(0.0f, 13.f, -12.0f, 0.0f));
+					
+					
+					m_pGameInstance->Play_Sound_Z(TEXT("SFX_Slash022 [1].wav"), SOUND_EFFECT, 0.8f);
+
 					vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP,TEXT("Player_Reverse_XC_LowpolySphere16_Size_Up"),_float4(0.8f,0.8f,0.8f,0.5f) });
 					vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_Z,TEXT("Player_Reverse_XC_stingerRing.001_Rotate_Z"),_float4(0.8f,0.8f,0.8f,0.5f) });
 					vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP_Z,TEXT("Player_Reverse_XC_stingerHalftone_Size_Up_Z"),_float4(0.8f,0.8f,0.8f,0.5f) });
@@ -1349,6 +1456,8 @@ NodeStates Matilda_Body_Player::DoAttackUltimateReverse()
 
 				if (m_pModelCom->Get_AnimFinished())
 				{
+					dynamic_cast<CPlayer*>(m_pPlayer)->Set_CameraTargetPos(XMVectorSet(0.0f, 10.0f, -10.0f, 0.0f));
+					
 					m_eCurState = CPlayer::STATE_ATTACK_DEFAULT_END;
 					dynamic_cast<CPlayer*>(m_pPlayer)->SetState(m_eCurState);
 					return NodeStates::SUCCESS; 

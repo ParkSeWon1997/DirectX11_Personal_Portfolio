@@ -9,6 +9,7 @@
 //#include"CSwordThow.h"
 
 #include"Particle_Mesh.h"
+#include"Item.h"
 CMonster::CMonster(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CGameObject{ pDevice, pContext }
 {
@@ -33,6 +34,7 @@ HRESULT CMonster::Initialize(void * pArg)
 	GameObjectDesc.strModelName=static_cast<CMonster_DESC*>(pArg)->strModelName;
 	m_strDeconModelTag= static_cast<CMonster_DESC*>(pArg)->strDeconModelTag;
 	m_fHp = static_cast<CMonster_DESC*>(pArg)->fHp;
+	m_fHpMax = static_cast<CMonster_DESC*>(pArg)->fHp;
 	//GameObjectDesc.
 	if (FAILED(__super::Initialize(&GameObjectDesc)))
 		return E_FAIL;
@@ -215,9 +217,60 @@ HRESULT CMonster::Render()
 		m_pModelCom->Render(i);
 		
 	}
+
+	vector<CParticle_Mesh::PARTICLE_DESC> vecDesc = {};
+
+
 	if (m_bIsDead)
 	{
 		m_pGameInstance->Delete_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Monster"), this);
+		m_pGameInstance->Play_Sound_Z(TEXT("SFX_Hit002 [1].wav"), SOUND_EFFECT, 0.5f);
+		//아이템 떨구기
+		CItem::CItem_DESC ItemDesc = {};
+		int iRand = (int)RandomNum<_float>(0.0f, 3.0f);
+		wstring strModelName = L"";
+		if (iRand == 0)
+		{
+			strModelName = L"Item_HP";
+		}
+		else if (iRand == 1)
+		{
+			strModelName = L"Item_HP_B";
+		}
+		else if (iRand == 2)
+		{
+			strModelName = L"Item_Coin";
+		}
+		else if (iRand == 3)
+		{
+			strModelName = L"Item_Coin_B";
+		}
+
+		int fRandomSize= (int)RandomNum<_float>(2.0f, 10.0f);
+		for (int i = 0; i < fRandomSize; i++)
+		{
+			_float fRandX = RandomNum<_float>(-5.f, 5.f) + this->Get_Position().x;
+			_float fRandZ = RandomNum<_float>(-5.f, 5.f) + this->Get_Position().z;
+
+			ItemDesc.strModelName = strModelName;
+			ItemDesc.vPosition = _float4(this->Get_Position().x, this->Get_Position().y + 1.f, this->Get_Position().z, 1.0f);
+			ItemDesc.vScale = _float3(1.f, 1.f, 1.f);
+			ItemDesc.vRotation = _float3(0.f, 1.f, 0.f);
+			ItemDesc.vRotationAngle = 45.f;
+			ItemDesc.vTargetPos = XMVectorSet(fRandX, 1.f, fRandZ, 1.0f);
+			if (FAILED(m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Environment"), TEXT("Prototype_Item"), &ItemDesc)))
+				return E_FAIL;
+		}
+
+
+
+		vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Object_Dead_Dead_Spread"),_float4(1.0f,1.0f,1.0f,0.5f),false,true });
+		vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Object_Dead_Dead_2_Spread"),_float4(1.0f,1.0f,1.0f,0.5f),false,true });
+
+
+
+
+		CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f));
 	}
 	
 

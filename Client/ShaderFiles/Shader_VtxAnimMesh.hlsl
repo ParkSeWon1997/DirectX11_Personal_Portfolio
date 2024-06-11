@@ -99,7 +99,7 @@ PS_OUT PS_MAIN(PS_IN In)
     
     if(g_HitStatus >0.0f)
     {
-        vDiffuse = vector(1.f, 0.f, 0.f, 0.5f);
+        vDiffuse = vector(1.f, 0.f, 0.f, 0.3f);
     }
     
     

@@ -21,6 +21,7 @@
 #include"Segment_SM.h"
 
 #include"Fade_In_Out.h"
+#include"UI.h"
 CHandBoss::CHandBoss(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)
 {
@@ -61,6 +62,7 @@ HRESULT CHandBoss::Initialize(void* pArg)
 
 	fRandTime = RandomNum<_float>(5.0f, 15.0f);
 	m_fHp = 1000.f;
+	m_fHpMax = 1000.f;
 
 	m_pTransformCom->Set_RotationSpeed(90.f);
 	if(m_eCurPart== PARTS_HAND_R)
@@ -124,6 +126,20 @@ void CHandBoss::Priority_Tick(_float fTimeDelta)
 
 void CHandBoss::Tick(_float fTimeDelta)
 {
+	UI* pUi = dynamic_cast<UI*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_Boss_Ui"), 0));
+	if (pUi)
+	{
+		pUi->Set_MaxHp(m_fHpMax);
+		pUi->Set_Hp(m_fHp);
+	}
+
+
+
+
+
+
+
+
 	m_fHitTime += fTimeDelta;
 	if (m_fHitTime >= 0.5f)
 	{

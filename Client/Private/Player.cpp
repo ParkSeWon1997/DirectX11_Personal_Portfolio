@@ -21,6 +21,7 @@
 #include"CPlayerBullet_Mine.h"
 #include"CTotalSingleton.h"
 #include"UI_PlayerIcon.h"
+#include"UI_PlayerSkill.h"
 
 #include"UI.h"
 
@@ -65,19 +66,29 @@ HRESULT CPlayer::Initialize(void* pArg)
 	{
 		m_Ability.fDashPower = 2.f;
 		m_Ability.fDashCoolTime = 1.f;
-		m_Ability.iDashCount = 3;
+		m_Ability.iDashCount = 5;
 		m_Ability.fMoveSpeed = 1.0f;
-		m_Ability.fHp = 100.f;
+		m_Ability.fHp = 50.f;
 		m_Ability.fMaxHp = 100.f;
-		m_Ability.fSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_Z] = 0.5f;
-		m_Ability.fSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X] = 1.0f;
-		m_Ability.fSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_C] = 2.0f;
-		m_Ability.fSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X_C] = 3.0f;
-		m_Ability.fSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_Z_SPACE] = 7.0f;
-		m_Ability.eSwordMasterType = SWORD_BALANCE;
+		m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_Z] = 0.0f;
+		m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X] = 0.0f;		//4
+		m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_C] = 0.0f;		//5
+		m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X_C] = 00.0f;	//30
+		m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_Z_SPACE] = 7.0f;
+
+		m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_Z] = 0.0f;
+		m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X] = 0.0f;		//4
+		m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_C] = 0.0f;		//5
+		m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X_C] = 00.0f;	//30
+		m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_Z_SPACE] = 7.0f;
+
+
+
+		m_Ability.eSwordMasterType = SWORD_REVERSE;
 		m_Ability.eGunSlingerType = GUN_BALANCE;
 
 		m_Ability.bIsFirstData = true;
+		CTotalSingleton::GetInstance()->SetPlayerAbility(m_Ability);
 	}
 	else
 	{
@@ -99,50 +110,78 @@ void CPlayer::Priority_Tick(_float fTimeDelta)
 
 void CPlayer::Tick(_float fTimeDelta)
 {
-	CMonster* pClosestMonster = nullptr;
-	float fClosestDistance = FLT_MAX;
-	_vector vPlayerPos = this->Get_PositionVector();
 
-	_uint iLayerSize = m_pGameInstance->Get_LayerSize(CLoader::m_eNextLevel, TEXT("Layer_2_Monster"));
-	CMonster* pMonster = nullptr;
-	for (int i = 0; i < iLayerSize; i++)
-	{
-		pMonster = static_cast<CMonster*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_2_Monster"), i));
-		if (pMonster != nullptr)
-		{
-			_vector vMonsterPos = pMonster->Get_PositionVector();
-			float fDistance = XMVectorGetX(XMVector3Length(vMonsterPos - vPlayerPos));
-			if (fDistance < fClosestDistance)
-			{
-				fClosestDistance = fDistance;
-				pClosestMonster = pMonster;
-			}
-		}
+	CloseTargetPos(fTimeDelta);
 
-	}
-	if (pClosestMonster != nullptr)
-	{
-		_vector vMonsterPos = pClosestMonster->Get_PositionVector();
-
-		m_bIsMonsterHave= true;
-		m_vCloseTargetPos = vMonsterPos;
-	}
-
-
-
+	cout<<this->Get_Position().x <<"\t" << this->Get_Position().y << "\t" << this->Get_Position().z << endl;
 
 
 
 	UI* pUi = dynamic_cast<UI*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_Player_Ui"), 0));
 	if (pUi)
 	{
+		m_Ability.fHp=CTotalSingleton::GetInstance()->GetPlayerAbility().fHp;
+		m_Ability.fMaxHp = CTotalSingleton::GetInstance()->GetPlayerAbility().fMaxHp;
+
 		pUi->Set_MaxHp(m_Ability.fMaxHp);
 		pUi->Set_Hp(m_Ability.fHp);
 	}
 
-	cout << m_Ability.fHp << endl;
+	
+
+	_uint iTestLayerSize = m_pGameInstance->Get_LayerSize(CLoader::m_eNextLevel, TEXT("Layer_Player_SKill_Ui"));
+
+	UI_PlayerSkill* pUi_Skill = nullptr;
+	for (int i = 0; i <= 2; i++)
+	{
+		pUi_Skill = dynamic_cast<UI_PlayerSkill*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_Player_SKill_Ui"), i));
+		if (pUi_Skill)
+		{
+			switch (i)
+			{
+			case 0:
+				pUi_Skill->Set_SkillCoolTime(m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X],4.0f ,m_Ability.bAmandaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_X]);
+				break;
+			case 1:
+				pUi_Skill->Set_SkillCoolTime(m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_C],5.0f ,m_Ability.bAmandaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_C]);
+				break;
+			case 2:
+				pUi_Skill->Set_SkillCoolTime(m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X_C],30.f ,m_Ability.bAmandaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_X_C]);
+				break;
+			default:
+				break;
+			}
+
+			pUi_Skill->Set_SkillNum(m_Ability.eGunSlingerType);
+		}
+	}
+	for (int i = 3; i <= 5; i++)
+	{
+		pUi_Skill = dynamic_cast<UI_PlayerSkill*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_Player_SKill_Ui"), i));
+		if (pUi_Skill)
+		{
+			switch (i)
+			{
+			case 3:
+				pUi_Skill->Set_SkillCoolTime(m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X],4.0f, m_Ability.bMatildaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_X]);
+				break;
+			case 4:
+				pUi_Skill->Set_SkillCoolTime(m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_C],5.0f, m_Ability.bMatildaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_C]);
+				break;
+			case 5:
+				pUi_Skill->Set_SkillCoolTime(m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X_C],30.f, m_Ability.bMatildaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_X_C]);
+				break;
+			default:
+				break;
+			}
 
 
+
+			pUi_Skill->Set_SkillNum(m_Ability.eSwordMasterType);
+		}
+	}
+
+	
 
 
 
@@ -153,7 +192,7 @@ void CPlayer::Tick(_float fTimeDelta)
 	m_eGunSlingerType = m_Ability.eGunSlingerType;
 
 	_vector vPrePosition = m_pTransformCom->Get_State(CTransform::STATE::STATE_POSITION);
-	//cout << vPrePosition.m128_f32[0] << " " << vPrePosition.m128_f32[1] << " " << vPrePosition.m128_f32[2] << endl;
+	
 
 	_uint iPlayerIconLayerSize = m_pGameInstance->Get_LayerSize(CLoader::m_eNextLevel, TEXT("Layer_Player_Ui"));
 
@@ -200,8 +239,6 @@ void CPlayer::Tick(_float fTimeDelta)
 	}
 
 
-	//Test
-
 	if (KEY_TAP(DIK_Z))
 	{
 		
@@ -223,7 +260,13 @@ void CPlayer::Tick(_float fTimeDelta)
 	{
 		SetStatePressC(fTimeDelta);
 	}
-	 
+
+
+	CheckCoolTime(fTimeDelta);
+
+
+
+
 	JumpingState(fTimeDelta);
 
 	
@@ -283,17 +326,13 @@ void CPlayer::Tick(_float fTimeDelta)
 		}
 		if (typeid(*pPartObject) == typeid(Amanda_Body_Player))
 		{
-			//continue;
+
 			
 				dynamic_cast<Amanda_Body_Player*>(pPartObject)->SetAnimState(m_eCurState);
 				dynamic_cast<Amanda_Body_Player*>(pPartObject)->SetAttackType(m_eSwordMasterType);
 				dynamic_cast<Amanda_Body_Player*>(pPartObject)->SetCharacterType(m_eCharacterType);
 		}
-		////test
-		//if (typeid(*pPartObject) == typeid(Matilda_Body_Player))
-		//{
-		//	continue;
-		//}
+
 		pPartObject->Tick(fTimeDelta);
 	}
 
@@ -363,6 +402,31 @@ void CPlayer::Late_Tick(_float fTimeDelta)
 
 	for (auto& pPartObject : m_PartObjects)
 	{
+
+		if (typeid(*pPartObject) == typeid(Matilda_Body_Player))
+		{
+			if (m_eCharacterType == CHRACTER_SWORD_MASTER)
+			{
+				dynamic_cast<Matilda_Body_Player*>(pPartObject)->SetShadowOn(true);
+			}
+			else
+				dynamic_cast<Matilda_Body_Player*>(pPartObject)->SetShadowOn(false);
+
+		}
+		if (typeid(*pPartObject) == typeid(Amanda_Body_Player))
+		{
+			if (m_eCharacterType == CHRACTER_GUN_SLINGER)
+			{
+				dynamic_cast<Amanda_Body_Player*>(pPartObject)->SetShadowOn(true);
+			}
+			else
+				dynamic_cast<Amanda_Body_Player*>(pPartObject)->SetShadowOn(false);
+		}
+
+
+
+
+
 		pPartObject->Late_Tick(fTimeDelta);
 
 	}
@@ -563,6 +627,12 @@ void CPlayer::Set_CameraTargetPos(_vector vTargetPos)
 
 }
 
+void CPlayer::Set_CameraRotation(_float fAngle)
+{
+	dynamic_cast<CPlayerCamera*>(m_PartObjects[PART_CAMERA])->Set_Rotation(fAngle);
+
+}
+
 void CPlayer::Move(_float fTimeDelta)
 {
 	_vector vUp = m_pTransformCom->Get_State(CTransform::STATE::STATE_UP);
@@ -640,7 +710,8 @@ void CPlayer::Move(_float fTimeDelta)
 			}
 			if (KEY_TAP(DIK_SPACE))
 			{
-
+				m_Ability.iDashCount--;
+				cout << m_Ability.iDashCount << endl;
 				m_eCurState = STATE_DASH;
 
 
@@ -665,11 +736,12 @@ void CPlayer::SetStatePressZ(_float fTimeDelta)
 			{
 				if (m_bIsMonsterHave)
 				{
+
 					_vector vCloseTargetPos2D = XMVectorSet(XMVectorGetX(m_vCloseTargetPos), 0.0f, XMVectorGetZ(m_vCloseTargetPos), 1.0f);
 					m_pTransformCom->LookAt(vCloseTargetPos2D);
 				}
 				//m_pTransformCom->Set_Look(m_vCloseTargetDir);
-				
+				m_pGameInstance->Play_Sound_Z(TEXT("SFX_Slash001 [1].wav"), SOUND_EFFECT, 0.5f);
 				m_eCurState = STATE_COMBO_ATTACK_LEFT;
 				m_Ability.iComboCount++;
 			}
@@ -684,6 +756,7 @@ void CPlayer::SetStatePressZ(_float fTimeDelta)
 					_vector vCloseTargetPos2D = XMVectorSet(XMVectorGetX(m_vCloseTargetPos), 0.0f, XMVectorGetZ(m_vCloseTargetPos), 1.0f);
 					m_pTransformCom->LookAt(vCloseTargetPos2D);
 				}
+				m_pGameInstance->Play_Sound_Z(TEXT("SFX_Slash002 [1].wav"), SOUND_EFFECT, 0.5f);
 				m_eCurState = STATE_COMBO_ATTACK_RIGHT;
 				m_Ability.iComboCount = 0;
 			}
@@ -709,6 +782,7 @@ void CPlayer::SetStatePressZ(_float fTimeDelta)
 					_vector vCloseTargetPos2D = XMVectorSet(XMVectorGetX(m_vCloseTargetPos), 0.0f, XMVectorGetZ(m_vCloseTargetPos), 1.0f);
 					m_pTransformCom->LookAt(vCloseTargetPos2D);
 				}
+				m_pGameInstance->Play_Sound_Z(TEXT("SFX_Rifle001 [1].wav"), SOUND_EFFECT, 0.5f);
 					m_eCurState = STATE_ATTACK_SHOT;
 					m_Ability.iComboCount++;
 				
@@ -725,6 +799,7 @@ void CPlayer::SetStatePressZ(_float fTimeDelta)
 						_vector vCloseTargetPos2D = XMVectorSet(XMVectorGetX(m_vCloseTargetPos), 0.0f, XMVectorGetZ(m_vCloseTargetPos), 1.0f);
 						m_pTransformCom->LookAt(vCloseTargetPos2D);
 					}
+					m_pGameInstance->Play_Sound_Z(TEXT("SFX_Rifle002 [1].wav"), SOUND_EFFECT, 0.5f);
 					m_eCurState = STATE_ATTACK_SHOT_CRITICAL;
 					m_Ability.iComboCount = 0;
 				}
@@ -759,207 +834,212 @@ void CPlayer::SetStatePressX(_float fTimeDelta)
 		switch (m_eCharacterType)
 		{
 		case Client::CPlayer::CHRACTER_SWORD_MASTER:
-			switch (m_eSwordMasterType)
+			if(m_Ability.bMatildaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_X]==false)
 			{
-			case Client::CPlayer::SWORD_BALANCE:
-				m_bIsJump = true;
-				m_eCurState = STATE_BACKSTEP;
-				break;
-			case Client::CPlayer::SWORD_TECHNNIC:
-				
-				CSwordThowDesc.fRadius = 0.5f;
-				CSwordThowDesc.strModelName = TEXT("swordThrowing");
-				CSwordThowDesc.vPosition = _float4(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f);
-				CSwordThowDesc.vDir = this->GetLookDir();
-				CSwordThowDesc.BulletState = &CBullet::ComeBack;
-				CSwordThowDesc.fSpeedPerSec = 55.f;
-				CSwordThowDesc.bParticleCreate = true;
-				CSwordThowDesc.fLifeTime = 1.f;
-				CSwordThowDesc.fDamage = 10.f;
-				CSwordThowDesc.eParticleType = CPlayerBullet::CPLAYER_BULLET_PARTICLE_TYPE::TECHNIC_X;
-				m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &CSwordThowDesc);
-				//총알 생성	
-				m_bIsJump = true;
-				m_eCurState = STATE_BACKSTEP;
-				break;
-			case Client::CPlayer::SWORD_POWER:
-				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Player_Power_X_Matilda_Trace_Jump_Spread"),_float4(0.2f,0.2f,1.0f,0.5f) });
-				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP,TEXT("Player_Power_X_LowpolySphere16_Size_Up"),_float4(0.1f,0.1f,0.8f,0.3f) });
-				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_DOWN_Y,TEXT("Player_Power_X_LowpolyCylinder6_Size_Down_Y"),_float4(0.9f,0.9f,0.9f,0.5f) });
-				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP,TEXT("Player_Power_X_hitRing_Size_Up"),_float4(0.3f,0.3f,0.9f,0.7f) });
-				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_UP_AND_DOWN,TEXT("Player_Power_X_ExplosionFrag.001_Up_And_Down"),_float4(0.8f,0.8f,0.8f,0.5f) });
-				for (int i = 0; i < 10; ++i)
+				m_Ability.bMatildaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_X] = true;
+				switch (m_eSwordMasterType)
 				{
-					vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_DOWN_Z_NONE_DISOLVE,TEXT("Player_Power_X_slashLine_Size_Down_Z"),_float4(0.8f,0.8f,0.8f,0.5f),true });
-				}
 
-				CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f), -vPlayerLook);
-				CSwordThowDesc.fRadius = 5.0f;
-				CSwordThowDesc.strModelName = TEXT("swordThrowing");
-				CSwordThowDesc.vPosition = _float4(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f);
-				CSwordThowDesc.vDir = this->GetLookDir();
-				CSwordThowDesc.BulletState = &CBullet::Pop;
-				CSwordThowDesc.fLifeTime = 1.f;
-				CSwordThowDesc.fDamage = 10.f;
-				m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &CSwordThowDesc);
-
-				m_eCurState = STATE_MATILD_D_SHORT;
-				m_bIsJump = false;
-				break;
-			case Client::CPlayer::SWORD_REVERSE:
-
-				CSwordThowDesc.fRadius = 3.5f;
-				CSwordThowDesc.strModelName = TEXT("swordThrowing");
-				CSwordThowDesc.vPosition = _float4(this->Get_Position().x, this->Get_Position().y+1.f, this->Get_Position().z, 1.0f);
-				CSwordThowDesc.vDir = this->GetLookDir();
-				CSwordThowDesc.BulletState = &CBullet::Draven_Bullet;
-				CSwordThowDesc.fSpeedPerSec = 5.f;
-				CSwordThowDesc.fLifeTime = 10.f;
-				CSwordThowDesc.bParticleCreate = true;
-				CSwordThowDesc.pMatPlayerWorld = m_pTransformCom->Get_WorldFloat4x4();
-				CSwordThowDesc.eParticleType = CPlayerBullet::CPLAYER_BULLET_PARTICLE_TYPE::REVERSE_X;
-				CSwordThowDesc.fDamage = 10.f;
-				m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &CSwordThowDesc);
-
-
-				m_bIsJump = true;
-				m_eCurState = STATE_BACKSTEP;
-				break;
-			case Client::CPlayer::SWORD_END:
-				break;
-			default:
-				break;
-			}
-			break;
-		case Client::CPlayer::CHRACTER_GUN_SLINGER:
-			switch (m_eGunSlingerType)
-			{
-			case Client::CPlayer::GUN_BALANCE:
-				
-				for (int i = 0; i < 6; i++)
-				{
-					float angle = -halfFanAngle + i * angleStep; // 각 총알의 회전 각도
-					_matrix rotationMatrix = XMMatrixRotationY(XMConvertToRadians(angle)); // Y축을 기준으로 회전 행렬 생성
-					_vector rotatedDir = XMVector3TransformNormal(vPlayerLook, rotationMatrix);
+				case Client::CPlayer::SWORD_BALANCE:
 					
+					m_bIsJump = true;
+					m_eCurState = STATE_BACKSTEP;
+					break;
+				case Client::CPlayer::SWORD_TECHNNIC:
+
+					CSwordThowDesc.fRadius = 0.5f;
+					CSwordThowDesc.strModelName = TEXT("swordThrowing");
+					CSwordThowDesc.vPosition = _float4(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f);
+					CSwordThowDesc.vDir = this->GetLookDir();
+					CSwordThowDesc.BulletState = &CBullet::ComeBack;
+					CSwordThowDesc.fSpeedPerSec = 55.f;
+					CSwordThowDesc.bParticleCreate = true;
+					CSwordThowDesc.fLifeTime = 1.f;
+					CSwordThowDesc.fDamage = 10.f;
+					CSwordThowDesc.eParticleType = CPlayerBullet::CPLAYER_BULLET_PARTICLE_TYPE::TECHNIC_X;
+					m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &CSwordThowDesc);
+					//총알 생성	
+					m_bIsJump = true;
+					m_eCurState = STATE_BACKSTEP;
+
+					m_pGameInstance->Play_Sound_Z(TEXT("SFX_Slash004 [1].wav"), SOUND_EFFECT, 0.7f);
+					break;
+				case Client::CPlayer::SWORD_POWER:
+					vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Player_Power_X_Matilda_Trace_Jump_Spread"),_float4(0.2f,0.2f,1.0f,0.5f) });
+					vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP,TEXT("Player_Power_X_LowpolySphere16_Size_Up"),_float4(0.1f,0.1f,0.8f,0.3f) });
+					vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_DOWN_Y,TEXT("Player_Power_X_LowpolyCylinder6_Size_Down_Y"),_float4(0.9f,0.9f,0.9f,0.5f) });
+					vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP,TEXT("Player_Power_X_hitRing_Size_Up"),_float4(0.3f,0.3f,0.9f,0.7f) });
+					vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_UP_AND_DOWN,TEXT("Player_Power_X_ExplosionFrag.001_Up_And_Down"),_float4(0.8f,0.8f,0.8f,0.5f) });
+					for (int i = 0; i < 10; ++i)
+					{
+						vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_DOWN_Z_NONE_DISOLVE,TEXT("Player_Power_X_slashLine_Size_Down_Z"),_float4(0.8f,0.8f,0.8f,0.5f),true });
+					}
+
+					CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f), -vPlayerLook);
+					CSwordThowDesc.fRadius = 5.0f;
+					CSwordThowDesc.strModelName = TEXT("swordThrowing");
+					CSwordThowDesc.vPosition = _float4(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f);
+					CSwordThowDesc.vDir = this->GetLookDir();
+					CSwordThowDesc.BulletState = &CBullet::Pop;
+					CSwordThowDesc.fLifeTime = 1.f;
+					CSwordThowDesc.fDamage = 10.f;
+					m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &CSwordThowDesc);
+
+					m_eCurState = STATE_MATILD_D_SHORT;
+					m_bIsJump = false;
+					break;
+				case Client::CPlayer::SWORD_REVERSE:
+
 					CSwordThowDesc.fRadius = 3.5f;
 					CSwordThowDesc.strModelName = TEXT("swordThrowing");
-					_float4 vPos = _float4(this->Get_Position().x, this->Get_Position().y + 1.f, this->Get_Position().z, 1.0f);
-					vPos.x+= XMVectorGetX(rotatedDir);
-					vPos.y+= 1.0f;
-					vPos.z+= XMVectorGetZ(rotatedDir);
-					CSwordThowDesc.vPosition= vPos;
-					//CSwordThowDesc.vPosition = _float4(this->Get_Position().x, this->Get_Position().y + 1.f, this->Get_Position().z, 1.0f);
-					CSwordThowDesc.vDir = rotatedDir;
-					CSwordThowDesc.BulletState = &CBullet::Spread;
+					CSwordThowDesc.vPosition = _float4(this->Get_Position().x, this->Get_Position().y + 1.f, this->Get_Position().z, 1.0f);
+					CSwordThowDesc.vDir = this->GetLookDir();
+					CSwordThowDesc.BulletState = &CBullet::Draven_Bullet;
 					CSwordThowDesc.fSpeedPerSec = 5.f;
 					CSwordThowDesc.fLifeTime = 10.f;
 					CSwordThowDesc.bParticleCreate = true;
 					CSwordThowDesc.pMatPlayerWorld = m_pTransformCom->Get_WorldFloat4x4();
-					CSwordThowDesc.eParticleType = CPlayerBullet::CPLAYER_BULLET_PARTICLE_TYPE::BALANCE_X;
-					CSwordThowDesc.eCharacterType = m_eCharacterType;
-					CSwordThowDesc.fInitSpeed = 5.f+i+1;
-					CSwordThowDesc.fDamage = 20.f;
+					CSwordThowDesc.eParticleType = CPlayerBullet::CPLAYER_BULLET_PARTICLE_TYPE::REVERSE_X;
+					CSwordThowDesc.fDamage = 10.f;
 					m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &CSwordThowDesc);
 
+					m_pGameInstance->Play_Sound_Z(TEXT("SFX_Slash025 [1].wav"), SOUND_EFFECT, 0.4f);
+					m_bIsJump = true;
+					m_eCurState = STATE_BACKSTEP;
+					break;
+				case Client::CPlayer::SWORD_END:
+					break;
+				default:
+					break;
+					
 				}
-
-
-				m_bIsJump = true;
-				m_eCurState = STATE_BACKSTEP;
-				break;
-			case Client::CPlayer::GUN_TECHNNIC:
-				for (int i = 0; i < 6; i++)
+			}
+			break;
+		case Client::CPlayer::CHRACTER_GUN_SLINGER:
+			if (m_Ability.bAmandaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_X] == false)
+			{
+				m_Ability.bAmandaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_X] = true;
+				switch (m_eGunSlingerType)
 				{
-					float angle = -halfFanAngle + i * angleStep; // 각 총알의 회전 각도
-					_matrix rotationMatrix = XMMatrixRotationY(XMConvertToRadians(angle)); // Y축을 기준으로 회전 행렬 생성
-					_vector rotatedDir = XMVector3TransformNormal(vPlayerLook, rotationMatrix);
+					case Client::CPlayer::GUN_BALANCE:
+						for (int i = 0; i < 6; i++)
+						{
+							float angle = -halfFanAngle + i * angleStep; // 각 총알의 회전 각도
+							_matrix rotationMatrix = XMMatrixRotationY(XMConvertToRadians(angle)); // Y축을 기준으로 회전 행렬 생성
+							_vector rotatedDir = XMVector3TransformNormal(vPlayerLook, rotationMatrix);
 
-					CMineDesc.fRadius = 3.5f;
-					CMineDesc.strModelName = TEXT("PlayerMine");
-					_float4 vPos = _float4(this->Get_Position().x+i*3.f, this->Get_Position().y + 1.f, this->Get_Position().z, 1.0f);
-					vPos.x += XMVectorGetX(rotatedDir);
-					vPos.y += 1.0f;
-					vPos.z += XMVectorGetZ(rotatedDir);
-					CMineDesc.vPosition = vPos;
-					//CSwordThowDesc.vPosition = _float4(this->Get_Position().x, this->Get_Position().y + 1.f, this->Get_Position().z, 1.0f);
-					CMineDesc.vDir = rotatedDir;
-					CMineDesc.BulletState = &CBullet::Spread;
-					CMineDesc.fSpeedPerSec = 5.f;
-					CMineDesc.fLifeTime = 10.f;
-					CMineDesc.pMatPlayerWorld = m_pTransformCom->Get_WorldFloat4x4();
-					CMineDesc.eCharacterType = m_eCharacterType;
-					CMineDesc.fDamage= 20.f;
-					m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet_Mine"), &CMineDesc);
+							CSwordThowDesc.fRadius = 3.5f;
+							CSwordThowDesc.strModelName = TEXT("swordThrowing");
+							_float4 vPos = _float4(this->Get_Position().x, this->Get_Position().y + 1.f, this->Get_Position().z, 1.0f);
+							vPos.x+= XMVectorGetX(rotatedDir);
+							vPos.y+= 1.0f;
+							vPos.z+= XMVectorGetZ(rotatedDir);
+							CSwordThowDesc.vPosition= vPos;
+							//CSwordThowDesc.vPosition = _float4(this->Get_Position().x, this->Get_Position().y + 1.f, this->Get_Position().z, 1.0f);
+							CSwordThowDesc.vDir = rotatedDir;
+							CSwordThowDesc.BulletState = &CBullet::Spread;
+							CSwordThowDesc.fSpeedPerSec = 5.f;
+							CSwordThowDesc.fLifeTime = 10.f;
+							CSwordThowDesc.bParticleCreate = true;
+							CSwordThowDesc.pMatPlayerWorld = m_pTransformCom->Get_WorldFloat4x4();
+							CSwordThowDesc.eParticleType = CPlayerBullet::CPLAYER_BULLET_PARTICLE_TYPE::BALANCE_X;
+							CSwordThowDesc.eCharacterType = m_eCharacterType;
+							CSwordThowDesc.fInitSpeed = 5.f+i+1;
+							CSwordThowDesc.fDamage = 20.f;
+							m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &CSwordThowDesc);
 
+						}
+						m_pGameInstance->Play_Sound_Z(TEXT("SFX_PinPull001 [1].wav"), SOUND_EFFECT, 0.4f);
+						m_bIsJump = true;
+						m_eCurState = STATE_BACKSTEP;
+						break;
+					case Client::CPlayer::GUN_TECHNNIC:
+						for (int i = 0; i < 6; i++)
+						{
+							float angle = -halfFanAngle + i * angleStep; // 각 총알의 회전 각도
+							_matrix rotationMatrix = XMMatrixRotationY(XMConvertToRadians(angle)); // Y축을 기준으로 회전 행렬 생성
+							_vector rotatedDir = XMVector3TransformNormal(vPlayerLook, rotationMatrix);
+
+							CMineDesc.fRadius = 3.5f;
+							CMineDesc.strModelName = TEXT("PlayerMine");
+							_float4 vPos = _float4(this->Get_Position().x+i*3.f, this->Get_Position().y + 1.f, this->Get_Position().z, 1.0f);
+							vPos.x += XMVectorGetX(rotatedDir);
+							vPos.y += 1.0f;
+							vPos.z += XMVectorGetZ(rotatedDir);
+							CMineDesc.vPosition = vPos;
+							//CSwordThowDesc.vPosition = _float4(this->Get_Position().x, this->Get_Position().y + 1.f, this->Get_Position().z, 1.0f);
+							CMineDesc.vDir = rotatedDir;
+							CMineDesc.BulletState = &CBullet::Spread;
+							CMineDesc.fSpeedPerSec = 5.f;
+							CMineDesc.fLifeTime = 10.f;
+							CMineDesc.pMatPlayerWorld = m_pTransformCom->Get_WorldFloat4x4();
+							CMineDesc.eCharacterType = m_eCharacterType;
+							CMineDesc.fDamage= 20.f;
+							m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet_Mine"), &CMineDesc);
+
+						}
+
+
+						m_bIsJump = true;
+						m_eCurState = STATE_BACKSTEP;
+						break;
+					case Client::CPlayer::GUN_POWER:
+						vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Player_Amanda_Power_X_LowpolySphere16_Spread_2"),_float4(0.2f,0.2f,0.2f,0.7f) });
+						vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD_NONE_DISOLVE,TEXT("Player_Amanda_Power_X_LowpolySphere16_Spread_1"),_float4(0.9f,0.9f,0.9f,0.2f) });
+						vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_UP_AND_DOWN,TEXT("Player_Power_X_ExplosionFrag.001_Up_And_Down"),_float4(0.1f,0.1f,0.0f,0.4f) });
+						vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_DOWN_Y,TEXT("Player_Amanda_Power_X_hit_Size_Down_Y"),_float4(0.9f,0.1f,0.0f,0.4f) });
+						vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_DOWN_Z,TEXT("Player_Amanda_Power_X_ExplosionSpark001_Szie_Down_Z"),_float4(0.6f,0.1f,0.0f,0.4f) });
+						vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP_X,TEXT("Player_Amanda_Power_X_atomStar0022_Size_Up_X"),_float4(1.0f,0.1f,0.0f,0.4f) });
+						CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f), -vPlayerLook);
+
+						for (int i = 0; i < 3; i++)
+						{
+							CMonster* pMonster = nullptr;
+							pMonster = static_cast<CMonster*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_2_Monster"), i));
+
+
+
+							_float fAngle = XM_2PI * (_float)i / 3.0f;
+							_vector vOffset = XMVectorSet(cosf(fAngle) * 5.0f, 1.f, sinf(fAngle) * 5.0f, 0.f);
+
+							_vector vDronePos = XMLoadFloat4(&vPlayerPosition) + vOffset;
+							_float4 vPosition = {};
+							XMStoreFloat4(&vPosition, vDronePos);
+
+							_vector vLook = XMVector3Normalize(XMLoadFloat4(&vPlayerPosition) - vDronePos);
+
+
+							CMineDesc.fRadius = 3.5f;
+							CMineDesc.strModelName = TEXT("PlayerHommingMissile");
+							CMineDesc.vPosition = vPosition;
+							//CSwordThowDesc.vPosition = _float4(this->Get_Position().x, this->Get_Position().y + 1.f, this->Get_Position().z, 1.0f);
+							CMineDesc.vDir = -vLook;
+							CMineDesc.BulletState = &CBullet::Go_TargetPos;
+							CMineDesc.fSpeedPerSec = 10.f;
+							CMineDesc.fLifeTime = 10.f;
+							CMineDesc.bParticleCreate = true;
+							CMineDesc.eCharacterType = m_eCharacterType;
+							CMineDesc.vTargetPos =  pMonster==nullptr?XMVectorSet(0.f,0.f,0.f,1.f):pMonster->Get_PositionVector();
+							CMineDesc.eParticleType= CPlayerBullet_Mine::CPLAYER_BULLET_PARTICLE_TYPE::POWER_X;
+							CMineDesc.fDamage = 20.f;
+							m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet_Mine"), &CMineDesc);
+
+
+						}
+
+						m_bIsJump = true;
+						m_eCurState = STATE_BACKSTEP;
+						break;
+					case Client::CPlayer::GUN_REVERSE:
+						m_bIsJump = true;
+						m_eCurState = STATE_BACKSTEP;
+						break;
+					case Client::CPlayer::GUN_END:
+						break;
+					default:
+						break;
+						
 				}
-
-
-				m_bIsJump = true;
-				m_eCurState = STATE_BACKSTEP;
-				break;
-			case Client::CPlayer::GUN_POWER:
-
-
-				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Player_Amanda_Power_X_LowpolySphere16_Spread_2"),_float4(0.2f,0.2f,0.2f,0.7f) });
-				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD_NONE_DISOLVE,TEXT("Player_Amanda_Power_X_LowpolySphere16_Spread_1"),_float4(0.9f,0.9f,0.9f,0.2f) });
-				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_UP_AND_DOWN,TEXT("Player_Power_X_ExplosionFrag.001_Up_And_Down"),_float4(0.1f,0.1f,0.0f,0.4f) });
-				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_DOWN_Y,TEXT("Player_Amanda_Power_X_hit_Size_Down_Y"),_float4(0.9f,0.1f,0.0f,0.4f) });
-				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_DOWN_Z,TEXT("Player_Amanda_Power_X_ExplosionSpark001_Szie_Down_Z"),_float4(0.6f,0.1f,0.0f,0.4f) });
-				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP_X,TEXT("Player_Amanda_Power_X_atomStar0022_Size_Up_X"),_float4(1.0f,0.1f,0.0f,0.4f) });
-				CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f), -vPlayerLook);
-
-
-
-
-
-				for (int i = 0; i < 3; i++)
-				{
-					CMonster* pMonster = nullptr;
-					pMonster = static_cast<CMonster*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_2_Monster"), i));
-
-
-
-					_float fAngle = XM_2PI * (_float)i / 3.0f;
-					_vector vOffset = XMVectorSet(cosf(fAngle) * 5.0f, 1.f, sinf(fAngle) * 5.0f, 0.f);
-
-					_vector vDronePos = XMLoadFloat4(&vPlayerPosition) + vOffset;
-					_float4 vPosition = {};
-					XMStoreFloat4(&vPosition, vDronePos);
-
-					_vector vLook = XMVector3Normalize(XMLoadFloat4(&vPlayerPosition) - vDronePos);
-
-
-					CMineDesc.fRadius = 3.5f;
-					CMineDesc.strModelName = TEXT("PlayerHommingMissile");
-					CMineDesc.vPosition = vPosition;
-					//CSwordThowDesc.vPosition = _float4(this->Get_Position().x, this->Get_Position().y + 1.f, this->Get_Position().z, 1.0f);
-					CMineDesc.vDir = -vLook;
-					CMineDesc.BulletState = &CBullet::Go_TargetPos;
-					CMineDesc.fSpeedPerSec = 10.f;
-					CMineDesc.fLifeTime = 10.f;
-					CMineDesc.bParticleCreate = true;
-					CMineDesc.eCharacterType = m_eCharacterType;
-					CMineDesc.vTargetPos =  pMonster==nullptr?XMVectorSet(0.f,0.f,0.f,1.f):pMonster->Get_PositionVector();
-					CMineDesc.eParticleType= CPlayerBullet_Mine::CPLAYER_BULLET_PARTICLE_TYPE::POWER_X;
-					CMineDesc.fDamage = 20.f;
-					m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet_Mine"), &CMineDesc);
-
-
-				}
-
-
-				m_bIsJump = true;
-				m_eCurState = STATE_BACKSTEP;
-				break;
-			case Client::CPlayer::GUN_REVERSE:
-				m_bIsJump = true;
-				m_eCurState = STATE_BACKSTEP;
-				break;
-			case Client::CPlayer::GUN_END:
-				break;
-			default:
-				break;
 			}
 			break;
 		case Client::CPlayer::CHRACTER_END:
@@ -967,11 +1047,6 @@ void CPlayer::SetStatePressX(_float fTimeDelta)
 		default:
 			break;
 		}
-
-		
-
-
-		
 
 	}
 
@@ -990,77 +1065,90 @@ void CPlayer::SetStatePressC(_float fTimeDelta)
 		switch (m_eCharacterType)
 		{
 		case Client::CPlayer::CHRACTER_SWORD_MASTER:
-			switch (m_eSwordMasterType)
+			if (m_Ability.bMatildaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_C] == false)
 			{
-			case Client::CPlayer::SWORD_BALANCE:
-				m_eCurState = STATE_ATTACK_STINGER;
-				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Player_C_Balalnce_Matilda_Trace_Attack_Pop"),_float4(0.8f,0.8f,0.8f,0.5f) });
-				
-				CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f), -vPlayerLook);
-				break;
-			case Client::CPlayer::SWORD_TECHNNIC:
-				m_eCurState = STATE_ATTACK_SPIN;
-				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Player_C_Balalnce_Matilda_Trace_Attack_Pop"),_float4(0.8f,0.8f,0.8f,0.5f) });
-
-				CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f), -vPlayerLook);
-				break;
-			case Client::CPlayer::SWORD_POWER:
-				if (m_bIsMonsterHave)
+				m_Ability.bMatildaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_C] = true;
+				switch (m_eSwordMasterType)
 				{
-					_vector vCloseTargetPos2D = XMVectorSet(XMVectorGetX(m_vCloseTargetPos), 0.0f, XMVectorGetZ(m_vCloseTargetPos), 1.0f);
-					m_pTransformCom->LookAt(vCloseTargetPos2D);
-				}
-				m_eCurState = STATE_ATTACK_STOMP;
-				m_bIsJump = true;
-				break;
-			case Client::CPlayer::SWORD_REVERSE:
+					case Client::CPlayer::SWORD_BALANCE:
+						m_eCurState = STATE_ATTACK_STINGER;
+						vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Player_C_Balalnce_Matilda_Trace_Attack_Pop"),_float4(0.8f,0.8f,0.8f,0.5f) });
+						
+						CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f), -vPlayerLook);
+						break;
+					case Client::CPlayer::SWORD_TECHNNIC:
+						m_eCurState = STATE_ATTACK_SPIN;
+						vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Player_C_Balalnce_Matilda_Trace_Attack_Pop"),_float4(0.8f,0.8f,0.8f,0.5f) });
 
-				m_eCurState = STATE_ATTACK_THORW;
-				break;
-			case Client::CPlayer::SWORD_END:
-				break;
-			default:
-				break;
+						CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f), -vPlayerLook);
+
+
+						
+
+
+						break;
+					case Client::CPlayer::SWORD_POWER:
+						if (m_bIsMonsterHave)
+						{
+							_vector vCloseTargetPos2D = XMVectorSet(XMVectorGetX(m_vCloseTargetPos), 0.0f, XMVectorGetZ(m_vCloseTargetPos), 1.0f);
+							m_pTransformCom->LookAt(vCloseTargetPos2D);
+						}
+						m_eCurState = STATE_ATTACK_STOMP;
+						m_bIsJump = true;
+						break;
+					case Client::CPlayer::SWORD_REVERSE:
+						m_eCurState = STATE_ATTACK_THORW;
+						break;
+					case Client::CPlayer::SWORD_END:
+						break;
+					default:
+						break;
+				}
 			}
 			break;
 		case Client::CPlayer::CHRACTER_GUN_SLINGER:
-			switch (m_eGunSlingerType)
+			if (m_Ability.bAmandaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_C] == false)
 			{
-			case Client::CPlayer::GUN_BALANCE:
-				m_eCurState = STATE_ATTACK_SHOT_DASH;
-				break;
-			case Client::CPlayer::GUN_TECHNNIC:
-				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD_NONE_DISOLVE,TEXT("Player_Amanda_Balance_X_LowpolySphere16_Spread"),_float4(0.1f,0.0f,0.0f,0.3f)});
-				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD_NONE_DISOLVE,TEXT("Player_Amanda_Balance_X_LowpolySphere8_Spread"),_float4(0.1f,0.0f,0.0f,0.3f)});
-				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Player_Amanda_Balance_X_ExplosionGroundEffect_Pop"),_float4(1.0f,0.9f,0.9f,0.7f)});
-				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Player_Amanda_Balance_X_ExplosionGroundEffect.001_Pop"),_float4(1.0f,0.9f,0.9f,0.7f)});
-				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_UP_AND_DOWN,TEXT("Player_Amanda_Balance_X_ExplosionFrag_Up_And_Down"),_float4(1.0f,1.0f,0.0f,0.7f)});
-				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_UP_AND_DOWN,TEXT("Player_Amanda_Balance_X_ExplosionFrag.002_Up_And_Down"),_float4(0.9f,0.1f,0.0f,0.7f)});
-				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_UP_AND_DOWN,TEXT("Player_Amanda_Balance_X_ExplosionFrag.001_Up_And_Down"),_float4(1.0f,0.5f,0.0f,0.7f)});
-				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_Z,TEXT("Player_Amanda_Technic_C_WireBarrier_Rotate_Z"),_float4(0.1f,0.0f,0.0f,0.3f),false ,true,*this });
-				CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f), -vPlayerLook);
+				m_Ability.bAmandaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_C] = true;
+
+				switch (m_eGunSlingerType)
+				{
+					case Client::CPlayer::GUN_BALANCE:
+						m_eCurState = STATE_ATTACK_SHOT_DASH;
+						break;
+					case Client::CPlayer::GUN_TECHNNIC:
+						vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD_NONE_DISOLVE,TEXT("Player_Amanda_Balance_X_LowpolySphere16_Spread"),_float4(0.1f,0.0f,0.0f,0.3f) });
+						vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD_NONE_DISOLVE,TEXT("Player_Amanda_Balance_X_LowpolySphere8_Spread"),_float4(0.1f,0.0f,0.0f,0.3f) });
+						vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Player_Amanda_Balance_X_ExplosionGroundEffect_Pop"),_float4(1.0f,0.9f,0.9f,0.7f) });
+						vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Player_Amanda_Balance_X_ExplosionGroundEffect.001_Pop"),_float4(1.0f,0.9f,0.9f,0.7f) });
+						vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_UP_AND_DOWN,TEXT("Player_Amanda_Balance_X_ExplosionFrag_Up_And_Down"),_float4(1.0f,1.0f,0.0f,0.7f) });
+						vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_UP_AND_DOWN,TEXT("Player_Amanda_Balance_X_ExplosionFrag.002_Up_And_Down"),_float4(0.9f,0.1f,0.0f,0.7f) });
+						vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_UP_AND_DOWN,TEXT("Player_Amanda_Balance_X_ExplosionFrag.001_Up_And_Down"),_float4(1.0f,0.5f,0.0f,0.7f) });
+						vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_Z,TEXT("Player_Amanda_Technic_C_WireBarrier_Rotate_Z"),_float4(0.1f,0.0f,0.0f,0.3f),false ,true,*this });
+						CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f), -vPlayerLook);
 
 
-				CSwordThowDesc.fRadius = 3.0f;
-				CSwordThowDesc.strModelName = TEXT("swordThrowing");
-				CSwordThowDesc.vPosition = _float4(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f);
-				CSwordThowDesc.BulletState = &CBullet::Pop;
-				CSwordThowDesc.fLifeTime = 1.f;
-				CSwordThowDesc.fDamage = 10.f;
-				m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &CSwordThowDesc);
-				m_eCurState = STATE_ATTACK_DASH_BUCK;
-				m_bIsJump = true;
-				break;
-			case Client::CPlayer::GUN_POWER:
-				m_eCurState = STATE_ATTACK_DASH_SLIDING_SHOT;
-				break;
-			case Client::CPlayer::GUN_REVERSE:
-				m_eCurState = STATE_DASH;
-				break;
-			case Client::CPlayer::GUN_END:
-				break;
-			default:
-				break;
+						CSwordThowDesc.fRadius = 3.0f;
+						CSwordThowDesc.strModelName = TEXT("swordThrowing");
+						CSwordThowDesc.vPosition = _float4(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f);
+						CSwordThowDesc.BulletState = &CBullet::Pop;
+						CSwordThowDesc.fLifeTime = 1.f;
+						CSwordThowDesc.fDamage = 10.f;
+						m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &CSwordThowDesc);
+						m_eCurState = STATE_ATTACK_DASH_BUCK;
+						m_bIsJump = true;
+						break;
+					case Client::CPlayer::GUN_POWER:
+						m_eCurState = STATE_ATTACK_DASH_SLIDING_SHOT;
+						break;
+					case Client::CPlayer::GUN_REVERSE:
+						m_eCurState = STATE_DASH;
+						break;
+					case Client::CPlayer::GUN_END:
+						break;
+					default:
+						break;
+				}
 			}
 			break;
 		case Client::CPlayer::CHRACTER_END:
@@ -1089,54 +1177,63 @@ void CPlayer::SetStatePress_X_C(_float fTimeDelta)
 		switch (m_eCharacterType)
 		{
 		case Client::CPlayer::CHRACTER_SWORD_MASTER:
-			switch (m_eSwordMasterType)
+			if (m_Ability.bMatildaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_X_C] == false)
 			{
-			case Client::CPlayer::SWORD_BALANCE:
-				m_eCurState = STATE_ATTACK_ULTIMATE_BALANCE;
-				break;
-			case Client::CPlayer::SWORD_TECHNNIC:
-				MakeDrone(3, 5.0f, TEXT("CubeDroneSword"));
-				m_eCurState = STATE_ATTACK_ULTIMATE_TECHNIC;
-				break;
-			case Client::CPlayer::SWORD_POWER:
-				m_bIsMonsterDetact = true;
-				m_eCurState = STATE_ATTACK_ULTIMATE_POWER;
-				break;
-			case Client::CPlayer::SWORD_REVERSE:
-				m_eCurState = STATE_ATTACK_ULTIMATE_REVERSE;
-				break;
-			case Client::CPlayer::SWORD_END:
-				break;
-			default:
-				break;
+				m_Ability.bMatildaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_X_C] = true;
+				switch (m_eSwordMasterType)
+				{
+					case Client::CPlayer::SWORD_BALANCE:
+						m_eCurState = STATE_ATTACK_ULTIMATE_BALANCE;
+						break;
+					case Client::CPlayer::SWORD_TECHNNIC:
+						MakeDrone(3, 5.0f, TEXT("CubeDroneSword"));
+						m_pGameInstance->Play_Sound_Z(TEXT("SFX_Dodge [1].wav"), SOUND_EFFECT, 0.7f);
+						m_pGameInstance->Play_Sound_Z(TEXT("SFX_Drone [1].wav"), SOUND_EFFECT, 0.7f);
+						m_eCurState = STATE_ATTACK_ULTIMATE_TECHNIC;
+						break;
+					case Client::CPlayer::SWORD_POWER:
+						m_bIsMonsterDetact = true;
+						m_eCurState = STATE_ATTACK_ULTIMATE_POWER;
+						break;
+					case Client::CPlayer::SWORD_REVERSE:
+						m_eCurState = STATE_ATTACK_ULTIMATE_REVERSE;
+						break;
+					case Client::CPlayer::SWORD_END:
+						break;
+					default:
+						break;
+				}
 			}
 			break;
 		case Client::CPlayer::CHRACTER_GUN_SLINGER:
-			switch (m_eGunSlingerType)
+			if (m_Ability.bAmandaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_X_C] == false)
 			{
-			case Client::CPlayer::GUN_BALANCE:
-				if (m_bIsMonsterHave)
+				m_Ability.bAmandaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_X_C] = true;
+				switch (m_eGunSlingerType)
 				{
-					_vector vCloseTargetPos2D = XMVectorSet(XMVectorGetX(m_vCloseTargetPos), 0.0f, XMVectorGetZ(m_vCloseTargetPos), 1.0f);
-					m_pTransformCom->LookAt(vCloseTargetPos2D);
+					case Client::CPlayer::GUN_BALANCE:
+						if (m_bIsMonsterHave)
+						{
+							_vector vCloseTargetPos2D = XMVectorSet(XMVectorGetX(m_vCloseTargetPos), 0.0f, XMVectorGetZ(m_vCloseTargetPos), 1.0f);
+							m_pTransformCom->LookAt(vCloseTargetPos2D);
+						}
+						m_eCurState = STATE_ATTACK_ULTIMATE_BALANCE;
+						break;
+					case Client::CPlayer::GUN_TECHNNIC:
+						MakeDrone(3, 5.0f, TEXT("CubeDroneBullet"));
+						m_eCurState = STATE_ATTACK_ULTIMATE_TECHNIC;
+						break;
+					case Client::CPlayer::GUN_POWER:
+						m_eCurState = STATE_ATTACK_ULTIMATE_POWER;
+						break;
+					case Client::CPlayer::GUN_REVERSE:
+						m_eCurState = STATE_ATTACK_ULTIMATE_REVERSE;
+						break;
+					case Client::CPlayer::GUN_END:
+						break;
+					default:
+						break;
 				}
-				m_eCurState = STATE_ATTACK_ULTIMATE_BALANCE;
-				break;
-			case Client::CPlayer::GUN_TECHNNIC:
-				MakeDrone(3, 5.0f, TEXT("CubeDroneBullet"));
-
-				m_eCurState = STATE_ATTACK_ULTIMATE_TECHNIC;
-				break;
-			case Client::CPlayer::GUN_POWER:
-				m_eCurState = STATE_ATTACK_ULTIMATE_POWER;
-				break;
-			case Client::CPlayer::GUN_REVERSE:
-				m_eCurState = STATE_ATTACK_ULTIMATE_REVERSE;
-				break;
-			case Client::CPlayer::GUN_END:
-				break;
-			default:
-				break;
 			}
 			break;
 		case Client::CPlayer::CHRACTER_END:
@@ -1145,10 +1242,6 @@ void CPlayer::SetStatePress_X_C(_float fTimeDelta)
 			break;
 		}
 		
-
-
-		
-
 	}
 
 }
@@ -1336,7 +1429,8 @@ void CPlayer::MakeChangeparticle(_float fTimeDelta)
 		switch (m_eCharacterType)
 		{
 		case Client::CPlayer::CHRACTER_SWORD_MASTER:
-
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Swap_SM [1].wav"), SOUND_EFFECT, 0.5f);
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_UI_Error003 [1].wav"), SOUND_EFFECT, 0.5f);
 			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Player_Swap_Effect_Style_Sword_Spread"),_float4(0.0f,0.0f,1.0f,0.3f),false ,false, });
 			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Player_Swap_Effect_LowpolySphere16_Pop"),_float4(1.0f,1.0f,1.0f,0.1f),false ,false, });
 			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Player_Swap_Effect_atomTri_Spread"),_float4(1.0f,1.0f,1.0f,0.3f),false ,false, });
@@ -1346,6 +1440,8 @@ void CPlayer::MakeChangeparticle(_float fTimeDelta)
 			CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y+1.0f, this->Get_Position().z, 1.0f));
 			break;
 		case Client::CPlayer::CHRACTER_GUN_SLINGER:
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Swap_GS [1].wav"), SOUND_EFFECT, 0.5f);
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_UI_Error003 [1].wav"), SOUND_EFFECT, 0.5f);
 			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Player_Swap_Effect_Style_Gun_Spread"),_float4(1.0f,0.753f,0.796f,0.3f),false ,false, });
 			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Player_Swap_Effect_LowpolySphere16_Pop"),_float4(1.0f,0.0f,1.0f,0.1f),false ,false, });
 			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Player_Swap_Effect_atomTri_Spread"),_float4(1.0f,1.0f,1.0f,0.3f),false ,false, });
@@ -1359,6 +1455,188 @@ void CPlayer::MakeChangeparticle(_float fTimeDelta)
 		default:
 			break;
 		}
+
+
+
+}
+
+void CPlayer::CheckCoolTime(_float fTimeDelta)
+{
+
+	//마틸다
+	if (m_Ability.bMatildaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_X])
+	{
+		if (m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X] <= 0.0f)
+		{
+			m_Ability.bMatildaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_X] = false;
+			m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X] = 0.0f;	//4
+		}
+		else
+		{
+			m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X] -= fTimeDelta;
+		}
+
+	}
+	if (m_Ability.bMatildaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_C])
+	{
+		if (m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_C] <= 0.0f)
+		{
+			m_Ability.bMatildaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_C] = false;
+			m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_C] = 0.0f;//5
+		}
+		else
+		{
+			m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_C] -= fTimeDelta;
+		}
+
+	}
+	if (m_Ability.bMatildaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_X_C])
+	{
+		if (m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X_C] <= 0.0f)
+		{
+			m_Ability.bMatildaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_X_C] = false;
+			m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X_C] = 0.0f;	//30
+		}
+		else
+		{
+			m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X_C] -= fTimeDelta;
+		}
+
+	}
+
+
+
+
+	//아만다
+
+	if (m_Ability.bAmandaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_X])
+	{
+		if (m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X] <= 0.0f)
+		{
+			m_Ability.bAmandaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_X] = false;
+			m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X] = 0.0f;	//4
+		}
+		else
+		{
+			m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X] -= fTimeDelta;
+		}
+
+	}
+	if (m_Ability.bAmandaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_C])
+	{
+		if (m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_C] <= 0.0f)
+		{
+			m_Ability.bAmandaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_C] = false;
+			m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_C] = 0.0f;	//5
+		}
+		else
+		{
+			m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_C] -= fTimeDelta;
+		}
+
+	}
+	if (m_Ability.bAmandaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_X_C])
+	{
+		if (m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X_C] <= 0.0f)
+		{
+			m_Ability.bAmandaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_X_C] = false;
+			m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X_C] = 00.0f;	//30
+		}
+		else
+		{
+			m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X_C] -= fTimeDelta;
+		}
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+void CPlayer::CloseTargetPos(_float fTimeDelta)
+{
+	CGameObject* pCloseObject = nullptr;
+	float fClosestDistance = FLT_MAX;
+	_vector vPlayerPos = this->Get_PositionVector();
+
+
+	//몬스터 찾기
+	_uint iLayerSize = m_pGameInstance->Get_LayerSize(CLoader::m_eNextLevel, TEXT("Layer_2_Monster"));
+	CGameObject* pMonster = nullptr;
+	for (int i = 0; i < iLayerSize; i++)
+	{
+		pMonster = static_cast<CMonster*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_2_Monster"), i));
+		if (pMonster != nullptr)
+		{
+			_vector vMonsterPos = pMonster->Get_PositionVector();
+			float fDistance = XMVectorGetX(XMVector3Length(vMonsterPos - vPlayerPos));
+			if (fDistance < fClosestDistance)
+			{
+				fClosestDistance = fDistance;
+				pCloseObject = pMonster;
+			}
+		}
+
+	}
+
+
+
+	_uint iLayerEnvironmentSize = m_pGameInstance->Get_LayerSize(CLoader::m_eNextLevel, TEXT("Layer_Environment"));
+	// 현재 레벨이 change가 아닐 때만
+	if (CLoader::m_eNextLevel != LEVEL::LEVEL_CHANGE_STAGE)
+	{
+
+
+		//몬스터가 다 죽으면 환경 오브젝트 찾기
+		if (iLayerSize == 0)
+		{
+			CGameObject* pObject = nullptr;
+			for (_uint i = 0; i < iLayerEnvironmentSize; i++)
+			{
+				pObject = m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_Environment"), i);
+				if (pObject != nullptr)
+				{
+					_vector vObjectPos = pObject->Get_PositionVector();
+					float fDistance = XMVectorGetX(XMVector3Length(vObjectPos - vPlayerPos));
+					if (fDistance < fClosestDistance)
+					{
+						fClosestDistance = fDistance;
+						pCloseObject = pObject;
+					}
+				}
+
+			}
+		}
+
+	}
+	if (iLayerEnvironmentSize == 0)
+	{
+		m_bIsMonsterHave=false;
+
+	}
+
+
+	if (pCloseObject != nullptr)
+	{
+		_vector vMonsterPos = pCloseObject->Get_PositionVector();
+
+		m_bIsMonsterHave = true;
+		m_vCloseTargetPos = vMonsterPos;
+	}
+
+
+
 
 
 

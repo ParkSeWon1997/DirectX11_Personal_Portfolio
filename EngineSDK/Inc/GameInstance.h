@@ -94,6 +94,9 @@ public: /* For.Light_Manager */
 public: /* For.Font_Manager */
 	HRESULT Add_Font(const wstring& strFontTag, const wstring& strFontFilePath);
 	HRESULT Render_Font(const wstring& strFontTag, const wstring& strText, const _float2& vPosition, _fvector vColor);
+	HRESULT Render_Font(const wstring& strFontTag, const wstring& strText, const _float2& vPosition, _fvector vColor, _float fAngle, _float fScale);
+	HRESULT Render_Font(const wstring& strFontTag, const wstring& strText, const _float2& vPosition, _fvector vColor, _float fAngle, _float fScale, float layerDepth);
+
 
 public: /* For.Target_Manager */
 	HRESULT Add_RenderTarget(const wstring& strTargetTag, _uint iSizeX, _uint iSizeY, DXGI_FORMAT ePixelFormat, const _float4& vClearColor);
@@ -108,6 +111,16 @@ public:
 	HRESULT Render_RTDebug(const wstring& strMRTTag, class CShader* pShader, class CVIBuffer_Rect* pVIBuffer);
 #endif
 
+public:
+	/* For.Sound_Manager */
+	void Play_Sound_Z(const TCHAR* pSoundKey, CHANNELID eID,_float fVolume);
+	void PlayBGM(const TCHAR* pSoundKey, float fVolume);
+	void Stop_Sound( CHANNELID eID);
+	void Stop_All_Sound();
+	void SetVolume(CHANNELID eID, _float fVolume);
+
+
+
 
 private:
 	class CGraphic_Device*			m_pGraphic_Device = { nullptr };
@@ -120,7 +133,7 @@ private:
 	class CPipeLine*				m_pPipeLine = { nullptr };
 	class CPicking*					m_pPicking = { nullptr };
 	class CLight_Manager*			m_pLight_Manager = { nullptr };
-
+	class CSoundMgr*				m_pSoundMgr = { nullptr };
 	class CFont_Manager*			m_pFont_Manager = { nullptr };
 	class CTarget_Manager*			m_pTarget_Manager = { nullptr };
 

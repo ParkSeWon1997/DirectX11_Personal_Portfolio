@@ -238,6 +238,9 @@
     <Filter Include="02.GameObjects\07. UI\PlayeSkill">
       <UniqueIdentifier>{c48f1d6e-87b9-4b4a-938d-6dc9d1776431}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\03. Monster%28for_NonAnim%29\Environment_Object\Item\ItemBox">
+      <UniqueIdentifier>{9bd859aa-ab4f-4702-af10-5fa7322965c4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -463,6 +466,12 @@
     <ClInclude Include="..\Public\UI_PlayerSkill.h">
       <Filter>02.GameObjects\07. UI\PlayeSkill</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\ItemBox.h">
+      <Filter>02.GameObjects\02.LandObject\03. Monster%28for_NonAnim%29\Environment_Object\Item\ItemBox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Item.h">
+      <Filter>02.GameObjects\02.LandObject\03. Monster%28for_NonAnim%29\Environment_Object\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -678,6 +687,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_PlayerSkill.cpp">
       <Filter>02.GameObjects\07. UI\PlayeSkill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ItemBox.cpp">
+      <Filter>02.GameObjects\02.LandObject\03. Monster%28for_NonAnim%29\Environment_Object\Item\ItemBox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Item.cpp">
+      <Filter>02.GameObjects\02.LandObject\03. Monster%28for_NonAnim%29\Environment_Object\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

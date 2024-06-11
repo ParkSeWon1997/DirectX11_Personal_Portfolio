@@ -23,6 +23,7 @@ public:
 	HRESULT Bind_SRV(const _char* pConstantName, ID3D11ShaderResourceView* pSRV);
 	HRESULT Bind_SRVs(const _char* pConstantName, ID3D11ShaderResourceView** ppSRV, _uint iNumTextures);
 	HRESULT Bind_float(const _char* pConstantName, _float* pFloat);
+	HRESULT Bind_Bool(const _char* pConstantName, _bool bBool);
 	HRESULT Bind_intArray(const _char* pConstantName, const int* pIntArray,_uint iNumArrayElemnts);
 
 

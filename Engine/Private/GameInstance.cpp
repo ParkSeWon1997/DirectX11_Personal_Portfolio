@@ -9,9 +9,9 @@
 #include "Level_Manager.h"
 #include "Light_Manager.h"
 #include "Font_Manager.h"
+#include "SoundMgr.h"
 #include "Renderer.h"
 #include "Picking.h"
-
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -93,6 +93,9 @@ HRESULT CGameInstance::Initialize_Engine(HINSTANCE hInst, _uint iNumLevels, cons
 	if (nullptr == m_pFont_Manager)
 		return E_FAIL;
 
+	m_pSoundMgr = CSoundMgr::Create();
+	if (nullptr == m_pSoundMgr)
+		return E_FAIL;
 
 
 	return S_OK;
@@ -404,6 +407,16 @@ HRESULT CGameInstance::Render_Font(const wstring& strFontTag, const wstring& str
 	return m_pFont_Manager->Render_Font(strFontTag, strText, vPosition, vColor);
 }
 
+HRESULT CGameInstance::Render_Font(const wstring& strFontTag, const wstring& strText, const _float2& vPosition, _fvector vColor, _float fAngle, _float fScale)
+{
+	return m_pFont_Manager->Render_Font(strFontTag, strText, vPosition, vColor,fAngle,fScale);
+}
+
+HRESULT CGameInstance::Render_Font(const wstring& strFontTag, const wstring& strText, const _float2& vPosition, _fvector vColor, _float fAngle, _float fScale, float layerDepth)
+{
+	return m_pFont_Manager->Render_Font(strFontTag, strText, vPosition, vColor, fAngle, fScale,layerDepth);
+}
+
 HRESULT CGameInstance::Add_RenderTarget(const wstring& strTargetTag, _uint iSizeX, _uint iSizeY, DXGI_FORMAT ePixelFormat, const _float4& vClearColor)
 {
 	return m_pTarget_Manager->Add_RenderTarget(strTargetTag, iSizeX, iSizeY, ePixelFormat, vClearColor);
@@ -432,7 +445,6 @@ HRESULT CGameInstance::Bind_RenderTargetSRV(const wstring& strTargetTag, CShader
 HRESULT CGameInstance::Copy_Resource(const wstring& strTargetTag, ID3D11Texture2D* pDesc)
 {
 
-
 	return m_pTarget_Manager->Copy_Resource(strTargetTag, pDesc);
 }
 #ifdef _DEBUG
@@ -445,6 +457,27 @@ HRESULT CGameInstance::Render_RTDebug(const wstring& strMRTTag, CShader* pShader
 {
 	return m_pTarget_Manager->Render_Debug(strMRTTag, pShader, pVIBuffer);
 }
+
+void CGameInstance::Play_Sound_Z(const TCHAR* pSoundKey, CHANNELID eID, _float fVolume)
+{
+	m_pSoundMgr->PlaySound_Z(pSoundKey, eID, fVolume);
+}
+void CGameInstance::PlayBGM(const TCHAR* pSoundKey, float fVolume)
+{
+	m_pSoundMgr->PlayBGM(pSoundKey, fVolume);
+}
+void CGameInstance::Stop_Sound(CHANNELID eID)
+{
+	m_pSoundMgr->StopSound(eID);
+}
+void CGameInstance::Stop_All_Sound()
+{
+	m_pSoundMgr->StopAll();
+}
+void CGameInstance::SetVolume(CHANNELID eID, _float fVolume)
+{
+	m_pSoundMgr->SetChannelVolume(eID, fVolume);
+}
 #endif
 void CGameInstance::Release_Engine()
 {	
@@ -455,6 +488,7 @@ void CGameInstance::Release_Engine()
 
 void CGameInstance::Free()
 {	
+	Safe_Release(m_pSoundMgr);
 	Safe_Release(m_pTarget_Manager);
 	Safe_Release(m_pFont_Manager);
 	Safe_Release(m_pLight_Manager);

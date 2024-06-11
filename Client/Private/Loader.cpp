@@ -44,6 +44,9 @@
 #include"Potal.h"
 #include"Changer.h"
 #include"Rank.h"
+#include"ItemBox.h"
+#include"Item.h"
+
 
 #include"UI.h"
 #include"UI_Changer.h"
@@ -323,6 +326,16 @@ HRESULT CLoader::Loading_For_LogoLevel()
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_Rank"),
 		CRank::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	/* For.ItemBox */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_ItemBox"),
+		CItemBox::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Item */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_Item"),
+		CItem::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 
 
 	/* For.Prototype_GameObject_Player */
@@ -573,7 +586,10 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Skill/Icon_Skill_D_GS_C.png"), 1))))
 		return E_FAIL;
 
-
+	/*Ui.Skill.Common*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Player_Skill_Dash"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Skill/Icon_Skill_Dash.png"), 1))))
+		return E_FAIL;
 
 
 
@@ -702,6 +718,11 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 
 
 
+	/*Ui.Boss_HpBar*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("HPBar_Boss_Halftone"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Boss/HPBar_Boss_Halftone.png"), 1))))
+		return E_FAIL;
+
 
 
 
@@ -709,6 +730,7 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Fade_In_Out"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Rect.png"), 1))))
 		return E_FAIL;
+
 	/*Ui.Changer*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("PauseFrame_HowtoPlay"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Changer/PauseFrame_HowtoPlay.png"), 1))))
@@ -2028,6 +2050,16 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region Object_Dead
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Object_Dead_Dead_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Dead/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Object_Dead_Dead_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Object_Dead_Dead_2_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Dead/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Object_Dead_Dead_2_Spread"))))))
+		return E_FAIL;
+
+
+#pragma endregion
+
+
 
 
 
@@ -2203,6 +2235,16 @@ HRESULT CLoader::Loading_For_Stage_1()
 		return E_FAIL;
 
 
+	/*Ui.Skill.Common*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Player_Skill_Dash"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Skill/Icon_Skill_Dash.png"), 1))))
+		return E_FAIL;
+
+
+
+
+
+
 	/*Ui.Skill.Matilda*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Matilda_Skill_Balance_X"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Skill/Icon_Skill_SM_A.png"), 1))))
@@ -2281,10 +2323,50 @@ HRESULT CLoader::Loading_For_Stage_1()
 
 
 
+
+	/*Ui.PlayerSkill_Amanda.Icon*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Amanda_X"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Amanda_X_%d.png"), 4))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Amanda_C"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Amanda_C_%d.png"), 4))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Amanda_XC"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Amanda_XC_%d.png"), 4))))
+		return E_FAIL;
+
+	/*Ui.PlayerSkill_Matilda.Icon*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Matilda_X"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Matilda_X_%d.png"), 4))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Matilda_C"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Matilda_C_%d.png"), 4))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Matilda_XC"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Matilda_XC_%d.png"), 4))))
+		return E_FAIL;
+
+
+
+
+
+
+
+
+
+
+
 	/*Ui.FadeInOut*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Fade_In_Out"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Rect.png"), 1))))
 		return E_FAIL;
+	/*Ui.Boss_HpBar*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("HPBar_Boss_Halftone"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Boss/HPBar_Boss_Halftone.png"), 1))))
+		return E_FAIL;
+
+
+
 	/*Ui.Changer*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("PauseFrame_HowtoPlay"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Changer/PauseFrame_HowtoPlay.png"), 1))))
@@ -3547,7 +3629,14 @@ HRESULT CLoader::Loading_For_Stage_1()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region Object_Dead
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Object_Dead_Dead_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Dead/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Object_Dead_Dead_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Object_Dead_Dead_2_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Dead/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Object_Dead_Dead_2_Spread"))))))
+		return E_FAIL;
 
+
+#pragma endregion
 
 
 
@@ -3744,6 +3833,14 @@ HRESULT CLoader::Loading_For_Stage_2()
 		return E_FAIL;
 
 
+	/*Ui.Skill.Common*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_2, TEXT("Player_Skill_Dash"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Skill/Icon_Skill_Dash.png"), 1))))
+		return E_FAIL;
+
+
+
+
 	/*Ui.Skill.Matilda*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_2, TEXT("Matilda_Skill_Balance_X"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Skill/Icon_Skill_SM_A.png"), 1))))
@@ -3822,12 +3919,59 @@ HRESULT CLoader::Loading_For_Stage_2()
 
 
 
+	/*Ui.PlayerSkill_Amanda.Icon*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_2, TEXT("Amanda_X"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Amanda_X_%d.png"), 4))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_2, TEXT("Amanda_C"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Amanda_C_%d.png"), 4))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_2, TEXT("Amanda_XC"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Amanda_XC_%d.png"), 4))))
+		return E_FAIL;
+
+	/*Ui.PlayerSkill_Matilda.Icon*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_2, TEXT("Matilda_X"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Matilda_X_%d.png"), 4))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_2, TEXT("Matilda_C"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Matilda_C_%d.png"), 4))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_2, TEXT("Matilda_XC"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Matilda_XC_%d.png"), 4))))
+		return E_FAIL;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	/*Ui.FadeInOut*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_2, TEXT("Fade_In_Out"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Rect.png"), 1))))
 		return E_FAIL;
+	/*Ui.Boss_HpBar*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_2, TEXT("HPBar_Boss_Halftone"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Boss/HPBar_Boss_Halftone.png"), 1))))
+		return E_FAIL;
+
+
+
+
 
 	/*Ui.Changer*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_2, TEXT("PauseFrame_HowtoPlay"),
@@ -5096,6 +5240,14 @@ HRESULT CLoader::Loading_For_Stage_2()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region Object_Dead
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_2, TEXT("Object_Dead_Dead_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Dead/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Object_Dead_Dead_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_2, TEXT("Object_Dead_Dead_2_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Dead/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Object_Dead_Dead_2_Spread"))))))
+		return E_FAIL;
+
+
+#pragma endregion
 
 
 
@@ -5289,6 +5441,15 @@ HRESULT CLoader::Loading_For_Stage_3()
 		return E_FAIL;
 
 
+	/*Ui.Skill.Common*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_3, TEXT("Player_Skill_Dash"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Skill/Icon_Skill_Dash.png"), 1))))
+		return E_FAIL;
+
+
+
+
+
 	/*Ui.Skill.Matilda*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_3, TEXT("Matilda_Skill_Balance_X"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Skill/Icon_Skill_SM_A.png"), 1))))
@@ -5367,12 +5528,56 @@ HRESULT CLoader::Loading_For_Stage_3()
 
 
 
+	/*Ui.PlayerSkill_Amanda.Icon*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_3, TEXT("Amanda_X"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Amanda_X_%d.png"), 4))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_3, TEXT("Amanda_C"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Amanda_C_%d.png"), 4))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_3, TEXT("Amanda_XC"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Amanda_XC_%d.png"), 4))))
+		return E_FAIL;
+
+	/*Ui.PlayerSkill_Matilda.Icon*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_3, TEXT("Matilda_X"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Matilda_X_%d.png"), 4))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_3, TEXT("Matilda_C"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Matilda_C_%d.png"), 4))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_3, TEXT("Matilda_XC"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Matilda_XC_%d.png"), 4))))
+		return E_FAIL;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	/*Ui.FadeInOut*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_3, TEXT("Fade_In_Out"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Rect.png"), 1))))
 		return E_FAIL;
+	/*Ui.Boss_HpBar*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_3, TEXT("HPBar_Boss_Halftone"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Boss/HPBar_Boss_Halftone.png"), 1))))
+		return E_FAIL;
+
+
+
+
+
 
 	/*Ui.Changer*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_3, TEXT("PauseFrame_HowtoPlay"),
@@ -6639,7 +6844,14 @@ HRESULT CLoader::Loading_For_Stage_3()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_3, TEXT("Monster_Dead_ElectColumnHit_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Monster_Dead/ElectColumnHit.fbx", Make_ParticleDesc(TEXT("Monster_Dead_ElectColumnHit_Size_Up"))))))
 		return E_FAIL;
 #pragma endregion
+#pragma region Object_Dead
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_3, TEXT("Object_Dead_Dead_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Dead/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Object_Dead_Dead_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_3, TEXT("Object_Dead_Dead_2_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Dead/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Object_Dead_Dead_2_Spread"))))))
+		return E_FAIL;
 
+
+#pragma endregion
 
 
 
@@ -6833,6 +7045,14 @@ HRESULT CLoader::Loading_For_Change_Stage()
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Skill/Icon_Skill_D_GS_C.png"), 1))))
 		return E_FAIL;
 
+	/*Ui.Skill.Common*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Player_Skill_Dash"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Skill/Icon_Skill_Dash.png"), 1))))
+		return E_FAIL;
+
+
+
+
 
 	/*Ui.Skill.Matilda*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Matilda_Skill_Balance_X"),
@@ -6913,6 +7133,41 @@ HRESULT CLoader::Loading_For_Change_Stage()
 
 
 
+	/*Ui.PlayerSkill_Amanda.Icon*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Amanda_X"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Amanda_X_%d.png"), 4))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Amanda_C"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Amanda_C_%d.png"), 4))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Amanda_XC"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Amanda_XC_%d.png"), 4))))
+		return E_FAIL;
+
+	/*Ui.PlayerSkill_Matilda.Icon*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Matilda_X"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Matilda_X_%d.png"), 4))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Matilda_C"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Matilda_C_%d.png"), 4))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Matilda_XC"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/PlayerSkill/Matilda_XC_%d.png"), 4))))
+		return E_FAIL;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -6920,6 +7175,13 @@ HRESULT CLoader::Loading_For_Change_Stage()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Fade_In_Out"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Rect.png"), 1))))
 		return E_FAIL;
+	/*Ui.Boss_HpBar*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("HPBar_Boss_Halftone"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Ui/Boss/HPBar_Boss_Halftone.png"), 1))))
+		return E_FAIL;
+
+
+
 
 	/*Ui.Changer*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("PauseFrame_HowtoPlay"),
@@ -7842,6 +8104,16 @@ HRESULT CLoader::Loading_For_Change_Stage()
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Monster_Dead_ElectColumnHit_Size_Up"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Monster_Dead/ElectColumnHit.fbx", Make_ParticleDesc(TEXT("Monster_Dead_ElectColumnHit_Size_Up"))))))
 		return E_FAIL;
+#pragma endregion
+
+#pragma endregion
+#pragma region Object_Dead
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Object_Dead_Dead_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Dead/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Object_Dead_Dead_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Object_Dead_Dead_2_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Dead/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Object_Dead_Dead_2_Spread"))))))
+		return E_FAIL;
+
+
 #pragma endregion
 
 

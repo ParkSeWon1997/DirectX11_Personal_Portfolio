@@ -56,9 +56,14 @@ protected:
 	_float                         m_fMaxHp = 0.0f;
 	int 						   m_iIsSelect = 0;
 	_bool                           m_bIsDead = false;
+
+private:
+	_tchar					m_szCoin[MAX_PATH] = TEXT("");
 private:
 	virtual HRESULT Add_Components();
 	virtual HRESULT Bind_ShaderResources();
+
+
 
 public:
 	static UI* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

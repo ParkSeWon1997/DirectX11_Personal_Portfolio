@@ -35,7 +35,8 @@ HRESULT CLevel_Stage_Change::Initialize()
 		return E_FAIL;
 	if (FAILED(Ready_Player_UI(TEXT("Layer_Player_Ui"))))
 		return E_FAIL;
-
+	if (FAILED(Ready_Player_SKill_UI(TEXT("Layer_Player_SKill_Ui"))))
+		return E_FAIL;
 
 	if (FAILED(Ready_UI_Changer(TEXT("Layer_Ui_Changer"))))
 		return E_FAIL;
@@ -65,7 +66,8 @@ HRESULT CLevel_Stage_Change::Initialize()
 	if (FAILED(Ready_Layer_1_Segment(TEXT("Layer_1_Segment"))))
 		return E_FAIL;
 
-
+	m_pGameInstance->Stop_All_Sound();
+	m_pGameInstance->PlayBGM(TEXT("BGM_Shop [1].wav"), 0.7f);
 
 	return S_OK;
 }
@@ -109,6 +111,7 @@ void CLevel_Stage_Change::Tick(_float fTimeDelta)
 			pFadeInOut->Set_FadeDuration(1.f);
 			if (!bFadeStart)
 			{
+				
 				pFadeInOut->Start_FadeIn();
 				bFadeStart = true;
 			}
@@ -132,6 +135,7 @@ void CLevel_Stage_Change::Tick(_float fTimeDelta)
 
 		if (pFadeInOut->IsFade())
 		{
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Portal_Off001 [1].wav"), SOUND_EFFECT, 0.5f);
 			if (FAILED(m_pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, eLevel))))
 				return;
 			CTotalSingleton::GetInstance()->SetVisitLevel(eLevel);
@@ -217,41 +221,41 @@ HRESULT CLevel_Stage_Change::Ready_UI(const wstring& strLayerTag)
 
 
 	desc.strModelName = TEXT("Icon_Keyboard_X");
-	desc.fSizeX = 64.f * 0.5f;
-	desc.fSizeY = 64.f * 0.5f;
-	desc.fX = (g_iWinSizeX * 0.6f) + desc.fSizeX;
-	desc.fY = (g_iWinSizeY * 0.7f) + (desc.fSizeY);
+	desc.fSizeX = 64.f * 0.25f;
+	desc.fSizeY = 64.f * 0.25f;
+	desc.fX = 800.f - 31.5f + desc.fSizeX * 0.5f;
+	desc.fY = 530.f + desc.fSizeX;
 	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_CHANGE_STAGE, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
 		return E_FAIL;
 
 	desc.strModelName = TEXT("Icon_Keyboard_C");
-	desc.fSizeX = 64.f * 0.5f;
-	desc.fSizeY = 64.f * 0.5f;
-	desc.fX = (g_iWinSizeX * 0.6f) + desc.fSizeX + 125.f;
-	desc.fY = (g_iWinSizeY * 0.7f) + (desc.fSizeY);
+	desc.fSizeX = 64.f * 0.25f;
+	desc.fSizeY = 64.f * 0.25f;
+	desc.fX = 863.f - 31.5f + desc.fSizeX * 0.5f;
+	desc.fY = 530.f + desc.fSizeX;
 	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_CHANGE_STAGE, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
 		return E_FAIL;
 
 
 	desc.strModelName = TEXT("Icon_Keyboard_X");
-	desc.fSizeX = 64.f * 0.5f;
-	desc.fSizeY = 64.f * 0.5f;
-	desc.fX = (g_iWinSizeX * 0.6f) + desc.fSizeX + 250.f;
-	desc.fY = (g_iWinSizeY * 0.7f) + (desc.fSizeY);
+	desc.fSizeX = 64.f * 0.25f;
+	desc.fSizeY = 64.f * 0.25f;
+	desc.fX = 926.f - 31.5f + desc.fSizeX * 0.5f;
+	desc.fY = 530.f + desc.fSizeX;
 	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_CHANGE_STAGE, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
 		return E_FAIL;
 	desc.strModelName = TEXT("Icon_Sametime");
-	desc.fSizeX = 64.f * 0.5f;
-	desc.fSizeY = 64.f * 0.5f;
-	desc.fX = (g_iWinSizeX * 0.6f) + desc.fSizeX + desc.fSizeX + 250.f;
-	desc.fY = (g_iWinSizeY * 0.7f) + (desc.fSizeY);
+	desc.fSizeX = 64.f * 0.25f;
+	desc.fSizeY = 64.f * 0.25f;
+	desc.fX = 926.f - 31.5f + desc.fSizeX * 0.5f + desc.fSizeX;
+	desc.fY = 530.f + desc.fSizeX;
 	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_CHANGE_STAGE, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
 		return E_FAIL;
 	desc.strModelName = TEXT("Icon_Keyboard_C");
-	desc.fSizeX = 64.f * 0.5f;
-	desc.fSizeY = 64.f * 0.5f;
-	desc.fX = (g_iWinSizeX * 0.6f) + desc.fSizeX + desc.fSizeX + desc.fSizeX + 250.f;
-	desc.fY = (g_iWinSizeY * 0.7f) + (desc.fSizeY);
+	desc.fSizeX = 64.f * 0.25f;
+	desc.fSizeY = 64.f * 0.25f;
+	desc.fX = 926.f - 31.5f + desc.fSizeX * 0.5f + desc.fSizeX + desc.fSizeX;
+	desc.fY = 530.f + desc.fSizeX;
 	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_CHANGE_STAGE, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
 		return E_FAIL;
 
@@ -278,11 +282,10 @@ HRESULT CLevel_Stage_Change::Ready_Player_UI(const wstring& strLayerTag)
 
 
 
-
 	desc.strModelName = TEXT("HPBar_New_Player_A");
-	desc.fSizeX = 1024.f * 0.5f;
+	desc.fSizeX = 500.f * 0.5f;
 	desc.fSizeY = 39.f * 0.5f;
-	desc.fX = (g_iWinSizeX * 0.5f) - (desc.fSizeX * 0.4f);
+	desc.fX = (g_iWinSizeX * 0.5f) - (desc.fSizeX) - desc.fSizeX * 0.3;
 	//desc.fX = (g_iWinSizeX * 0.5f);
 	desc.fY = (g_iWinSizeY * 0.8f) + (desc.fSizeY);
 	desc.iPassIndex = 4;
@@ -303,6 +306,85 @@ HRESULT CLevel_Stage_Change::Ready_Player_UI(const wstring& strLayerTag)
 
 
 	return S_OK;
+}
+
+HRESULT CLevel_Stage_Change::Ready_Player_SKill_UI(const wstring& strLayerTag)
+{
+	UI::UI_DESC desc;
+
+
+
+	desc.strModelName = TEXT("Amanda_X");
+	desc.fSizeX = 125.f * 0.5f;
+	desc.fSizeY = 100.f * 0.5f;
+	desc.fX = (800.f);
+	desc.fY = 580.f;
+	desc.iPassIndex = 6;
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_CHANGE_STAGE, strLayerTag, TEXT("Prototype_GameObject_UI_PlayerSkill"), &desc)))
+		return E_FAIL;
+
+	desc.strModelName = TEXT("Amanda_C");
+	desc.fSizeX = 125.f * 0.5f;
+	desc.fSizeY = 100.f * 0.5f;
+	desc.fX = (800.f) + desc.fSizeX + 0.5f;
+	desc.fY = 580.f;
+	desc.iPassIndex = 6;
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_CHANGE_STAGE, strLayerTag, TEXT("Prototype_GameObject_UI_PlayerSkill"), &desc)))
+		return E_FAIL;
+
+	desc.strModelName = TEXT("Amanda_XC");
+	desc.fSizeX = 125.f * 0.5f;
+	desc.fSizeY = 100.f * 0.5f;
+	desc.fX = (800.f) + desc.fSizeX + desc.fSizeX + 1.0f;
+	desc.fY = 580.f;
+	desc.iPassIndex = 6;
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_CHANGE_STAGE, strLayerTag, TEXT("Prototype_GameObject_UI_PlayerSkill"), &desc)))
+		return E_FAIL;
+
+
+
+	desc.strModelName = TEXT("Matilda_X");
+	desc.fSizeX = 125.f * 0.5f;
+	desc.fSizeY = 100.f * 0.5f;
+	desc.fX = (800.f);
+	desc.fY = 580.f + desc.fSizeY;
+	desc.iPassIndex = 6;
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_CHANGE_STAGE, strLayerTag, TEXT("Prototype_GameObject_UI_PlayerSkill"), &desc)))
+		return E_FAIL;
+
+	desc.strModelName = TEXT("Matilda_C");
+	desc.fSizeX = 125.f * 0.5f;
+	desc.fSizeY = 100.f * 0.5f;
+	desc.fX = (800.f) + desc.fSizeX + 0.5f;
+	desc.fY = 580.f + desc.fSizeY;
+	desc.iPassIndex = 6;
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_CHANGE_STAGE, strLayerTag, TEXT("Prototype_GameObject_UI_PlayerSkill"), &desc)))
+		return E_FAIL;
+
+	desc.strModelName = TEXT("Matilda_XC");
+	desc.fSizeX = 125.f * 0.5f;
+	desc.fSizeY = 100.f * 0.5f;
+	desc.fX = (800.f) + desc.fSizeX + desc.fSizeX + 1.0f;
+	desc.fY = 580.f + desc.fSizeY;
+	desc.iPassIndex = 6;
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_CHANGE_STAGE, strLayerTag, TEXT("Prototype_GameObject_UI_PlayerSkill"), &desc)))
+		return E_FAIL;
+
+	//desc.strModelName = TEXT("Player_Skill_Dash");
+	//desc.fSizeX = 125.f * 0.5f;
+	//desc.fSizeY = 200.f * 0.5f;
+	//desc.fX = (800.f) + desc.fSizeX + desc.fSizeX + desc.fSizeX + 2.0f;
+	//desc.fY = 580.f + 25.f;
+	//desc.iPassIndex = 6;
+	//if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_CHANGE_STAGE, strLayerTag, TEXT("Prototype_GameObject_UI_PlayerSkill"), &desc)))
+	//	return E_FAIL;
+
+
+
+
+
+	return S_OK;
+
 }
 
 HRESULT CLevel_Stage_Change::Ready_UI_Changer(const wstring& strLayerTag)

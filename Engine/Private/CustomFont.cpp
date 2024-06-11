@@ -17,6 +17,31 @@ HRESULT CCustomFont::Initialize(const wstring & strFontFilePath)
 	return S_OK;
 }
 
+HRESULT CCustomFont::Render(const wstring& strText, const _float2& vPosition, _fvector vColor, _float fAngle, _float fScale)
+{
+
+	m_pContext->GSSetShader(nullptr, nullptr, 0);
+	m_pBatch->Begin();
+
+	m_pFont->DrawString(m_pBatch, strText.c_str(), vPosition, vColor, fAngle, _float2(0.0f, 0.0f), fScale);
+
+	m_pBatch->End();
+
+	return S_OK;
+}
+
+HRESULT CCustomFont::Render(const wstring& strText, const _float2& vPosition, _fvector vColor, _float fAngle, _float fScale, float layerDepth)
+{
+	m_pContext->GSSetShader(nullptr, nullptr, 0);
+	m_pBatch->Begin();
+
+	m_pFont->DrawString(m_pBatch, strText.c_str(), vPosition, vColor, fAngle, _float2(0.0f, 0.0f), fScale, SpriteEffects_None, layerDepth);
+
+	m_pBatch->End();
+
+	return S_OK;
+}
+
 HRESULT CCustomFont::Render(const wstring& strText, const _float2& vPosition, _fvector vColor)
 {
 	m_pContext->GSSetShader(nullptr, nullptr, 0);

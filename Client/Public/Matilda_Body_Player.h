@@ -51,6 +51,7 @@ public:
 	void SetCharacterType(CPlayer::CHRACTER_TYPE eType) { m_eCharacterType = eType; }
 	void SetAnimSpeed(_float fSpeed) { m_AnimSpeed = fSpeed; }
 	void SetWeapon(class CWeapon* pWeapon) { m_pWeapon = pWeapon; }
+	void SetShadowOn(_bool bIsShadowOn) { m_bIsShadowOn = bIsShadowOn; }
 public:
 	void CreateEffect_By_Motion(_float fTimeDelta);
 	
@@ -62,7 +63,7 @@ private:
 
 	_uint							m_iAnimIndex = 0;
 	_bool							m_bLoop = false;	
-
+	_bool                           m_bIsShadowOn = false;
 private:
 	_float							m_AnimSpeed = 1.0f;
 	class CGameObject*				m_pPlayer = nullptr;
@@ -73,17 +74,9 @@ private:
 	
 
 	const _float4x4*                m_pWeaponMatrix = { nullptr };
-	_matrix 					   m_matWeaponMatrix;
+	_matrix 					   m_matWeaponMatrix= {};
 private:
 	const _float4x4* m_pSocketMatrix = { nullptr };
-
-
-
-
-
-	CSequence* m_pRootNode = nullptr;
-
-	
 
 public:
 	NodeStates	 DoIdle();
@@ -123,7 +116,7 @@ public:
 	
 
 private:
-
+	CSequence* m_pRootNode = nullptr;
 
 public:
 	HRESULT Add_Components();

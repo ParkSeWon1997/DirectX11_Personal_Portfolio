@@ -107,6 +107,12 @@ HRESULT CPlayerBullet::Render()
 	//
 	//	m_pModelCom->Render(i);
 	//}
+
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_2_Player")));
+	if (pPlayer == nullptr)
+		return E_FAIL;
+
+
 	if (m_bIsDead)
 	{
 		vector<CParticle_Mesh::PARTICLE_DESC> vecDesc = {};
@@ -127,6 +133,8 @@ HRESULT CPlayerBullet::Render()
 			switch (m_eParticleType)
 			{
 			case Client::CPlayerBullet::BALANCE_X:
+			
+				pPlayer->Set_CameraShake(true, 0.2f);
 
 				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD_NONE_DISOLVE,TEXT("Player_Amanda_Balance_X_LowpolySphere16_Spread"),_float4(0.1f,0.0f,0.0f,0.3f),false ,false,*this });
 				vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD_NONE_DISOLVE,TEXT("Player_Amanda_Balance_X_LowpolySphere8_Spread"),_float4(0.1f,0.0f,0.0f,0.3f),false ,false,*this });
@@ -138,6 +146,7 @@ HRESULT CPlayerBullet::Render()
 				CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f), -m_pTransformCom->Get_State(CTransform::STATE_LOOK), 0.5f);
 
 
+				m_pGameInstance->Play_Sound_Z(TEXT("SFX_Explosion [1].wav"), SOUND_EFFECT, 0.4f);
 				break;
 			case Client::CPlayerBullet::BALANCE_C:
 				break;
@@ -356,6 +365,7 @@ void CPlayerBullet::Draven_Bullet(_float fTimeDelta)
 	{
   		if (bIsTouchPlayer)
 		{
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Slash025 [1].wav"), SOUND_EFFECT, 0.6f);
 			m_pTransformCom->Set_Look(vPlayerLook);
 			m_pTransformCom->Go_Straight(fTimeDelta);
 			m_fElapsedTime = 0.0f;

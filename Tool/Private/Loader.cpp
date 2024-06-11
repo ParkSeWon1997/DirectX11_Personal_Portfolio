@@ -1502,6 +1502,17 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 		return E_FAIL;
 
 
+
+//---------------------------------
+//----------Object_Dead----------------
+	PreTransformMatrix = XMMatrixIdentity();
+	PreTransformMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Object_Dead_Dead"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Object/Particle/Effect/Dead/LowpolySphere16.fbx", PreTransformMatrix, nullptr))))
+		return E_FAIL;
+
+
+
 //---------------------------------
 
 

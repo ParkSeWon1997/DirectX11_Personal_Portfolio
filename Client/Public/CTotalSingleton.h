@@ -35,12 +35,21 @@ public:
 public:
 	/*for.Player */
 	void SetPlayerAbility(CPlayer::Player_Abililty PlayerAbility) { m_PlayerAbility = PlayerAbility; }
+	void SetPlayerAbillty_AddHp(_float fHp)
+	{ 
+		if(m_PlayerAbility.fHp + fHp > m_PlayerAbility.fMaxHp)
+			m_PlayerAbility.fHp = m_PlayerAbility.fMaxHp;
+		else
+			m_PlayerAbility.fHp += fHp;
+	}
 	CPlayer::Player_Abililty GetPlayerAbility() { return m_PlayerAbility; }
 
 
+	void AddCoin(int fCoin) { m_fCoin += fCoin; }
+	int GetCoin() { return m_fCoin; }
 
-
-
+	void SetAnimSpeed(_float fAnimSpeed) { m_fAnimSpeed += fAnimSpeed; }
+	_float GetAnimSpeed() { return m_fAnimSpeed; }
 
 public:
 	/*for.Ui_open*/
@@ -70,7 +79,9 @@ private:
 private:
 	/*for.Player */
 	CPlayer::Player_Abililty m_PlayerAbility;
+	int                 m_fCoin = 0.f;
 
+	_float              m_fAnimSpeed = 1.f;
 private:
 	/*for.Ui_open*/
 	_bool m_bIsUiOpen = false;

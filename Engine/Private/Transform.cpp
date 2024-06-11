@@ -270,6 +270,39 @@ HRESULT CTransform::Go_Jump(_float fTimeDelta, _float JumpPower, _float JumpHeig
 	return S_OK;
 }
 
+HRESULT CTransform::Go_ToTarget(_float fTimeDelta,  _float fDistance, _fvector vTargetPosition, _bool& bClose)
+{
+	_vector vPosition = Get_State(STATE_POSITION);
+
+	_vector vLook = vTargetPosition - Get_State(STATE_POSITION);
+
+	_float fDistanceToTarget = XMVectorGetX(XMVector3Length(vLook));
+
+
+
+	if (fDistanceToTarget > fDistance)
+	{
+		vLook= XMVector3Normalize(vLook); // 단위 벡터로 정규화
+		_vector vTranslation = vLook * fTimeDelta; // 이동 벡터 계산
+		vPosition += vTranslation; // 이동
+		Set_State(STATE_POSITION, vPosition);
+		
+	}
+	else
+	{
+		bClose = true;
+	}
+
+	Set_Look(vLook);
+
+
+
+
+
+
+	return S_OK;
+}
+
 
 
 HRESULT CTransform::Up_And_Down(_float fTimeDelta, _float fInitialSpeed, _float fAngle, _float fElapsedTime)

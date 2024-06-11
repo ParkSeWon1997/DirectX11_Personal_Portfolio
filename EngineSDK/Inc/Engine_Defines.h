@@ -57,11 +57,16 @@ using namespace TriangleTests;
 #include<locale>
 #include<string_view>
 
+#include "fmod.hpp"
+#pragma comment(lib, "fmod_vc.lib")
+#include <io.h>
+
 
 namespace Engine
 {
 	enum MOUSEKEYSTATE { DIM_LB, DIM_RB, DIM_MB, DIM_END };
 	enum MOUSEMOVESTATE { DIMS_X, DIMS_Y, DIMS_Z, DIMS_END };
+	enum CHANNELID { SOUND_EFFECT, SOUND_PLAYER, SOUND_MONSTER, SOUND_BOSS, SOUND_BGM, MAXCHANNEL };
 }
 
 #include "Engine_Typedef.h"

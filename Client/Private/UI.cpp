@@ -4,6 +4,7 @@
 #include "GameInstance.h"
 #include"Loader.h"
 
+#include"CTotalSingleton.h"
 UI::UI(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CGameObject(pDevice, pContext)
 {
@@ -81,7 +82,12 @@ HRESULT UI::Render()
 	m_pVIBufferCom->Bind_Buffers();
 
 	m_pVIBufferCom->Render();
+	wsprintf(m_szCoin, TEXT("RUPEE %d"), CTotalSingleton::GetInstance()->GetCoin());
 
+
+	m_pGameInstance->Render_Font(TEXT("Font_Default"), m_szCoin, _float2(5.f, 2.5f), XMVectorSet(0.f, 0.f, 0.f, 1.f),0.0f,1.05f);
+	m_pGameInstance->Render_Font(TEXT("Font_Default"), m_szCoin, _float2(10.f, 5.f), XMVectorSet(1.f, 0.647f, 0.f, 1.f),0.0f,1.0f);
+	
 
 	if (m_bIsDead)
 	{

@@ -17,6 +17,7 @@
 #include"Particle_Mesh.h"
 #include"CBullet.h"
 #include"Fade_In_Out.h"
+#include"UI.h"
 CBoss_B::CBoss_B(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CMonster(pDevice, pContext)
 {
@@ -92,6 +93,20 @@ void CBoss_B::Priority_Tick(_float fTimeDelta)
 
 void CBoss_B::Tick(_float fTimeDelta)
 {
+	UI* pUi = dynamic_cast<UI*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_Boss_Ui"), 0));
+	if (pUi)
+	{
+		pUi->Set_MaxHp(m_fHpMax);
+		pUi->Set_Hp(m_fHp);
+	}
+
+
+
+
+
+
+
+
 	m_fHitTime += fTimeDelta;
 	if (m_fHitTime >= 0.5f)
 	{

@@ -87,7 +87,7 @@ HRESULT CMainApp::Render()
 	if (FAILED(m_pGameInstance->Draw()))
 		return E_FAIL;
 
-	//m_pGameInstance->Render_Font(TEXT("Font_Default"), TEXT("담배 피러 가자"), _float2(0.f, 0.f), XMVectorSet(1.f, 1.f, 0.f, 1.f));
+	//m_pGameInstance->Render_Font(TEXT("Font_Default"), TEXT("Hp"), _float2(0.f, 0.f), XMVectorSet(1.f, 1.f, 0.f, 1.f));
 
 	if (FAILED(m_pGameInstance->Present()))
 		return E_FAIL;
@@ -184,7 +184,7 @@ HRESULT CMainApp::Ready_Navigation()
 
 HRESULT CMainApp::Ready_Fonts()
 {
-	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_Default"), TEXT("../Bin/Resources/Fonts/142ex.spritefont"))))
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_Default"), TEXT("../Bin/Resources/Fonts/FuckDem_20.spritefont"))))
 		return E_FAIL;
 
 

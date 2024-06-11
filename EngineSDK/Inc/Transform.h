@@ -55,6 +55,9 @@ public:
 	void Set_RotationSpeed(_float fRotationPerSec) {
 		m_fRotationPerSec = XMConvertToRadians( fRotationPerSec);
 	}
+	void Set_Speed(_float fSpeedPerSec) {
+		m_fSpeedPerSec = fSpeedPerSec;
+	}
 	void Set_Identity();
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -74,6 +77,7 @@ public:
 	HRESULT Go_Up(_float fTimeDelta);
 	HRESULT Go_Down(_float fTimeDelta);
 	HRESULT Go_Jump(_float fTimeDelta,_float JumpPower,_float JumpHeight,_bool& Isfloor);
+	HRESULT Go_ToTarget(_float fTimeDelta,_float fDistance, _fvector vTargetPosition,_bool& bClose);
 	HRESULT Up_And_Down(_float fTimeDelta, _float fInitialSpeed, _float fAngle, _float fElapsedTime);
 	HRESULT Go_Left(_float fTimeDelta);
 	HRESULT Go_Right(_float fTimeDelta);
@@ -87,6 +91,7 @@ public:
 	HRESULT QuatRotation(_fvector vAxis, _float fRadian);
 	HRESULT QuatRotation(_float3 vAxis);
 	_bool	TurnToTarget(_float fTimeDelta, _fvector vTargetPosition);
+
 
 
 private:

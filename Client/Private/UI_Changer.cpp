@@ -60,6 +60,7 @@ void UI_Changer::Tick(_float fTimeDelta)
 
 	if (KEY_TAP(DIK_LEFT))
 	{
+		m_pGameInstance->Play_Sound_Z(TEXT("SFX_UI_New_Button001 [1].wav"), SOUND_EFFECT, 0.8f);
 		if (i_ChreaterType == 1)
 		{
 			if (m_iUiGunIndex > 1)
@@ -75,6 +76,7 @@ void UI_Changer::Tick(_float fTimeDelta)
 
 	if (KEY_TAP(DIK_RIGHT))
 	{
+		m_pGameInstance->Play_Sound_Z(TEXT("SFX_UI_New_Button002 [1].wav"), SOUND_EFFECT, 0.8f);
 		if (i_ChreaterType == 1)
 		{
 			if (m_iUiGunIndex < 4)
@@ -125,7 +127,7 @@ void UI_Changer::Tick(_float fTimeDelta)
 
 	if (KEY_TAP(DIK_SPACE))
 	{
-		
+		m_pGameInstance->Play_Sound_Z(TEXT("SFX_UI_New_Button [1].wav"), SOUND_EFFECT, 0.8f);
 		if (i_ChreaterType == 0)
 		{
 			pPlayer->SetPlayerSwordType(static_cast<CPlayer::SWORD_MASTER_TYPE>(m_iUiSwordIndex - 1));
@@ -152,6 +154,7 @@ void UI_Changer::Tick(_float fTimeDelta)
 
 		if (b_IsCreate==false)
 		{
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_UI_Cropping001 [1].wav"), SOUND_EFFECT, 0.8f);
 			CTotalSingleton::GetInstance()->SetUiOpen(true);
 			Make_Changer_Ui();
 			b_IsCreate = true;

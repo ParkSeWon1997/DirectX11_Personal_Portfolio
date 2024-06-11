@@ -20,6 +20,10 @@ int g_iIsSelected;
 float g_fHealth;
 float g_fMaxHealth;
 
+
+float g_CoolTime;
+int g_iSEventOn;
+
 struct VS_IN
 {
     float3 vPosition : POSITION;
@@ -145,7 +149,6 @@ float CalculateFadeAlpha(float fCurrentTime, float fStartTime, float fDuration)
 
     return fAlpha;
 }
-
 
 
 
@@ -305,9 +308,18 @@ PS_OUT Player_Skill(PS_IN In)
 
     Out.vColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
 
-    // 텍스처 색상에 색상을 곱함
     
+    float alpha = 0.5f; // 검은색의 투명도 설정
+    if (g_iSEventOn == 1)
+    {
+        float Range = g_CoolTime;
+ 
     
+        if (In.vTexcoord.y < Range)
+        {
+            Out.vColor.rgb = lerp(Out.vColor.rgb, float3(0.0f, 0.0f, 0.0f), alpha);
+        }
+    }
       
     if (In.vTexcoord.x < 0.05f)
     {

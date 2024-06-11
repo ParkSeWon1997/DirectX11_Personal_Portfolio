@@ -138,7 +138,7 @@ PS_OUT PS_MAIN(PS_IN In)
         discard;
     vector vMask = g_MapMaskTexture.Sample(LinearSampler, uv);
     
-    //In.vProjPos
+    
     if(vMask.r != 0.f)
         discard;
   

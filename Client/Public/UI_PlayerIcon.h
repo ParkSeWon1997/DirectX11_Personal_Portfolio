@@ -41,6 +41,7 @@ private:
 	virtual HRESULT Add_Components()override;
 	virtual HRESULT Bind_ShaderResources()override;
 
+	
 
 
 	int m_iTexIndex = 0;

@@ -10,6 +10,9 @@ texture2D g_SpecularTexture;
 float g_fTime;
 float g_MaxTime;
 
+float g_HitStatus;
+
+
 struct VS_IN
 {
     float3 vPosition : POSITION;
@@ -130,6 +133,41 @@ PS_OUT PS_Blink(PS_IN In)
 }
 
 
+
+PS_OUT HItObject(PS_IN In)
+{
+    PS_OUT Out = (PS_OUT) 0;
+
+    vector vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexcoord);
+    if (vDiffuse.a < 0.1f)
+        discard;
+    
+    if (g_HitStatus > 0.0f)
+    {
+        vDiffuse = vector(1.0f, 0.2f, 0.2f, 0.3f);
+    }
+    
+    
+    
+
+    vector vSpecular = g_SpecularTexture.Sample(LinearSampler, In.vTexcoord);
+
+    vector vNormalDesc = g_NormalTexture.Sample(LinearSampler, In.vTexcoord);
+    float3 vNormal = vNormalDesc.xyz * 2.f - 1.f;
+
+    float3x3 WorldMatrix = float3x3(In.vTangent.xyz, In.vBinormal.xyz, In.vNormal.xyz);
+
+    vNormal = mul(vNormal, WorldMatrix);
+
+    Out.vDiffuse = vDiffuse;
+    Out.vNormal = vector(vNormal.xyz * 0.5f + 0.5f, 0.f);
+    Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 3000.f, 0.0f, 1.f);
+    //Out.vSpecular = vSpecular;
+    return Out;
+}
+
+
+
 technique11 DefaultTechnique
 {
 	/* 특정 렌더링을 수행할 때 적용해야할 셰이더 기법의 셋트들의 차이가 있다. */
@@ -159,5 +197,23 @@ technique11 DefaultTechnique
         DomainShader = NULL;
         PixelShader = compile ps_5_0 PS_Blink();
     }
+
+
+    pass HItObject
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+		/* 어떤 셰이덜르 국동할지. 셰이더를 몇 버젼으로 컴파일할지. 진입점함수가 무엇이찌. */
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = NULL;
+        HullShader = NULL;
+        DomainShader = NULL;
+        PixelShader = compile ps_5_0 HItObject();
+    }
+
+
+
 }
 

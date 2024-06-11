@@ -50,7 +50,7 @@ HRESULT CRank::Initialize(void * pArg)
 
 	
 	
-	m_fHp = 100.0f;
+	m_fHp = 30.0f;
 
 	return S_OK;
 }

@@ -36,6 +36,9 @@ public:
 	void Set_TargetPos(_vector vTargetPos) {
 		m_vTargetPos = vTargetPos;
 	}
+	void Set_Rotation(_float fAngle) {
+		m_pTransformCom->Rotation(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), XMConvertToRadians(fAngle));
+	}
 
 private:
 	_float		m_fSensor = { 0.0f };

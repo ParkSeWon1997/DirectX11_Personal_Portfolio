@@ -158,6 +158,11 @@ void CDrone::Make_Particle(_float fTimeDelta)
 		CSwordThowDesc.fLifeTime = 0.5f;
 		m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &CSwordThowDesc);
 		m_fMakeParticleTime= 0.0f;
+
+
+		m_pGameInstance->Play_Sound_Z(TEXT("SFX_Slash0082 [1].wav"), SOUND_EFFECT, 0.4f);
+
+
 		break;
 	case Client::CPlayer::CHRACTER_GUN_SLINGER:
 		vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP,TEXT("Player_Amanda_Balance_C_BulletBuck_Size_Up"),_float4(1.0f,0.8f,0.0f,0.6f) });
