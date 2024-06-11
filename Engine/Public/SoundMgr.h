@@ -2,6 +2,7 @@
 #include "Base.h"
 
 BEGIN(Engine)
+
 class CSoundMgr final : public CBase
 {
 private:
@@ -27,4 +28,5 @@ public:
     static CSoundMgr* Create();
     virtual void Free() override;
 };
+
 END

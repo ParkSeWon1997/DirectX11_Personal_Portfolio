@@ -60,6 +60,19 @@ public: /* For.Component_Manager */
 	HRESULT Add_Prototype(_uint iLevelIndex, const wstring& strPrototypeTag, CComponent* pPrototype);
 	CComponent* Clone_Component(_uint iLevelIndex, const wstring& strPrototypeTag, void* pArg = nullptr);
 
+
+public:
+	/* For.Sound_Manager */
+	void Play_Sound_Z(const TCHAR* pSoundKey, CHANNELID eID, _float fVolume);
+	void PlayBGM(const TCHAR* pSoundKey, float fVolume);
+	void Stop_Sound(CHANNELID eID);
+	void Stop_All_Sound();
+	void SetVolume(CHANNELID eID, _float fVolume);
+
+
+
+
+
 public: /* For.Renderer */
 	HRESULT Add_RenderObject(CRenderer::RENDERGROUP eRenderGroup, class CGameObject* pRenderObject);
 #ifdef _DEBUG
@@ -111,13 +124,6 @@ public:
 	HRESULT Render_RTDebug(const wstring& strMRTTag, class CShader* pShader, class CVIBuffer_Rect* pVIBuffer);
 #endif
 
-public:
-	/* For.Sound_Manager */
-	void Play_Sound_Z(const TCHAR* pSoundKey, CHANNELID eID,_float fVolume);
-	void PlayBGM(const TCHAR* pSoundKey, float fVolume);
-	void Stop_Sound( CHANNELID eID);
-	void Stop_All_Sound();
-	void SetVolume(CHANNELID eID, _float fVolume);
 
 
 

@@ -457,6 +457,7 @@ HRESULT CGameInstance::Render_RTDebug(const wstring& strMRTTag, CShader* pShader
 {
 	return m_pTarget_Manager->Render_Debug(strMRTTag, pShader, pVIBuffer);
 }
+#endif
 
 void CGameInstance::Play_Sound_Z(const TCHAR* pSoundKey, CHANNELID eID, _float fVolume)
 {
@@ -478,7 +479,7 @@ void CGameInstance::SetVolume(CHANNELID eID, _float fVolume)
 {
 	m_pSoundMgr->SetChannelVolume(eID, fVolume);
 }
-#endif
+
 void CGameInstance::Release_Engine()
 {	
 	CGameInstance::GetInstance()->Free();
