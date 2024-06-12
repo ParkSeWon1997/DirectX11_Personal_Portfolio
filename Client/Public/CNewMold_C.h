@@ -65,7 +65,7 @@ private:
 	CSequence* 						m_pRootNode = nullptr;
 	CNewMold_C_STATES				m_eCurState = STATES_IDLE;
 
-
+	_float						m_fHittime=0.f;
 	_float						m_fChangeTime = 0.f;
 	_float						m_fTime = 0.f;
 	_float                      m_fRandomRotateTimer = 0.f;

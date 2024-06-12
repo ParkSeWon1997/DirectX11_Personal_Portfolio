@@ -52,7 +52,7 @@ void CBoss_B_Bullet::Tick(_float fTimeDelta)
 	if (pPlayer == nullptr)
 		return;
 
-	cout << m_fHp << endl;
+	
 
 	_vector vPlayerPos = pPlayer->Get_PositionVector();
 
@@ -244,9 +244,21 @@ HRESULT CBoss_B_Bullet::Render()
 
 void CBoss_B_Bullet::Falling(_float fTimeDelta)
 {
+
+	vector<CParticle_Mesh::PARTICLE_DESC> vecDesc = {};
 	if (this->Get_Position().y <= 0.0f)
 	{
-		m_Isfloor = true;
+		if (!m_Isfloor)
+		{
+			m_Isfloor = true;
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Slam009 [1].wav"), SOUND_EFFECT, 0.6f);
+
+
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Object_Dead_Dead_Spread"),_float4(0.2f,0.2f,0.2f,0.7f),false,true });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Object_Dead_Dead_2_Spread"),_float4(0.8f,0.8f,0.8f,0.3f),false,true });
+
+			CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f));
+		}
 	}
 
 	if(!m_Isfloor)

@@ -47,6 +47,7 @@ public:
 	
 	void SetAnimState(CPlayer::STATE eState) { m_eCurState = eState; }
 	void SetAttackType(CPlayer::SWORD_MASTER_TYPE eType) { m_eSwordMasterType = eType; }
+	void SetGunSlingerType(CPlayer::GUN_SLINGER_TYPE eType) { m_eGunSlingerType = eType; }
 	void SetCharacterType(CPlayer::CHRACTER_TYPE eType) { m_eCharacterType = eType; }
 	void SetAnimSpeed(_float fSpeed) { m_AnimSpeed = fSpeed; }
 	void SetWeapon(class CWeapon* pWeapon) { m_pWeapon = pWeapon; }
@@ -70,6 +71,7 @@ private:
 	class CWeapon*					m_pWeapon = nullptr;
 	CPlayer::STATE					m_eCurState = CPlayer::STATE::STATE_END;
 	CPlayer::SWORD_MASTER_TYPE		m_eSwordMasterType = CPlayer::SWORD_MASTER_TYPE::SWORD_END;
+	CPlayer::GUN_SLINGER_TYPE       m_eGunSlingerType = CPlayer::GUN_SLINGER_TYPE::GUN_END;
 	CPlayer::CHRACTER_TYPE			m_eCharacterType = CPlayer::CHRACTER_TYPE::CHRACTER_END;
 	
 

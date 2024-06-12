@@ -5,6 +5,7 @@
 #include"GameInstance.h"
 #include "Player.h"
 
+#include<chrono>
 #include <set>
 BEGIN(Client)
 class CTotalSingleton final: public CBase
@@ -57,34 +58,55 @@ public:
 	_bool GetUiOpen() { return m_bIsUiOpen; }
 
 
-
-
-
-
-
-
-
-
+public:
+	/*for.Time*/
+	void StartTime() {
+		m_StartTime = chrono::high_resolution_clock::now();
+		m_bIsTimerPaused = false;
+	}
+	void EndTime() {
+		if (!m_bIsTimerPaused)
+		{
+			m_EndTime = chrono::high_resolution_clock::now();
+		}
+	}
+	chrono::duration<double> GetElapsedTime() { return chrono::duration_cast<chrono::duration<double>>(m_EndTime - m_StartTime); }
+	void UpdateElapsedTime();
+	void PauseTimer();
+	void ResumeTimer();
+	void ResetTimer();
+	_bool IsTimerPaused() const { return m_bIsTimerPaused; }
+	int GetHours() { return m_Hours; }
+	int GetMinutes() { return m_Minutes; }
+	int GetSeconds() { return m_Seconds; }
 private:
 	class CGameInstance* m_pGameInstance = nullptr;
-
 private:
 	/*for.Potal */
-	_bool m_bIsPotalOn = false;
-
+	_bool						m_bIsPotalOn = false;
 private:
 	/*for.Level */
-	set<LEVEL> m_VisitLevel;
-	
+	set<LEVEL>					m_VisitLevel;
 private:
 	/*for.Player */
-	CPlayer::Player_Abililty m_PlayerAbility;
-	int                 m_fCoin = 0.f;
-
-	_float              m_fAnimSpeed = 1.f;
+	CPlayer::Player_Abililty	m_PlayerAbility;
+	int							m_fCoin = 0.f;
+	_float						m_fAnimSpeed = 1.f;
 private:
 	/*for.Ui_open*/
-	_bool m_bIsUiOpen = false;
+	_bool						m_bIsUiOpen = false;
+			
+private:
+	/*for.Time*/
+	chrono::high_resolution_clock::time_point m_StartTime;
+	chrono::high_resolution_clock::time_point m_EndTime;
+	chrono::high_resolution_clock::time_point m_PauseTime;
+	int m_Hours = 0;
+	int m_Minutes = 0;
+	int m_Seconds = 0;
+	_bool m_bIsTimerPaused= false;
+
+
 public:
 	
 	virtual void Free() override;

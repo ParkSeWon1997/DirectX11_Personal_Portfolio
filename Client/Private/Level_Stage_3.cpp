@@ -69,14 +69,113 @@ HRESULT CLevel_Stage_3::Initialize()
 	if (FAILED(Ready_Layer_1_Segment(TEXT("Layer_1_Segment"))))
 		return E_FAIL;
 
+
+
+
+
 	m_pGameInstance->Stop_All_Sound();
 	m_pGameInstance->PlayBGM(TEXT("BGM_Boss002 [1].wav"), 0.7f);
 
+
+	CTotalSingleton::GetInstance()->ResetTimer();
 	return S_OK;
 }
 
 void CLevel_Stage_3::Tick(_float fTimeDelta)
 {
+	if (!CTotalSingleton::GetInstance()->IsTimerPaused())
+	{
+		CTotalSingleton::GetInstance()->EndTime();
+		CTotalSingleton::GetInstance()->UpdateElapsedTime();
+	}
+	int hours = CTotalSingleton::GetInstance()->GetHours();
+	int minutes = CTotalSingleton::GetInstance()->GetMinutes();
+	int seconds = CTotalSingleton::GetInstance()->GetSeconds();
+	cout << "Hours: " << hours << " Minutes: " << minutes << " Seconds: " << seconds << endl;
+
+
+	static _bool   bisMosterClear = false;
+	_uint iLayerSize = m_pGameInstance->Get_LayerSize(LEVEL_STAGE_3, TEXT("Layer_2_Monster"));
+	vector<CParticle_Mesh::PARTICLE_DESC> vecDesc = {};
+
+
+	CGameObject::GAMEOBJECT_DESC Rankdesc;
+
+
+
+	if (iLayerSize == 0)
+	{
+		CTotalSingleton::GetInstance()->PauseTimer();
+
+
+
+
+
+		if (bisMosterClear == false)
+		{
+
+
+			/*CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_Object(LEVEL_STAGE_3, TEXT("Layer_2_Player")));
+			if (pPlayer == nullptr)
+				return;
+			pPlayer->Set_CameraCutScene(true);
+			pPlayer->Set_CameraTargetPos(XMVectorSet(2000.f, 10.0f, 1980.f, 1.0f));*/
+
+
+
+
+
+
+
+
+			if (minutes <= 3)
+			{
+				Rankdesc.strModelName = TEXT("Interactor_RankBonus_Boss_S");
+
+			}
+			else if (minutes <= 4)
+			{
+				Rankdesc.strModelName = TEXT("Interactor_RankBonus_Boss_A");
+
+			}
+			else if (minutes <= 5)
+			{
+				Rankdesc.strModelName = TEXT("Interactor_RankBonus_Boss_B");
+
+			}
+			else if (minutes <= 6)
+			{
+				Rankdesc.strModelName = TEXT("Interactor_RankBonus_Boss_C");
+
+			}
+			else
+			{
+				Rankdesc.strModelName = TEXT("Interactor_RankBonus_Boss_D");
+
+			}
+
+
+
+
+			Rankdesc.vPosition = _float4(0.1f, 5.f, 28.f, 1.0f);
+			Rankdesc.vScale = _float3(1.f, 1.f, 1.f);
+			Rankdesc.vRotation = _float3(0.f, 1.f, 0.f);
+			Rankdesc.vRotationAngle = 0.f;
+
+
+			if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_3, TEXT("Layer_Environment"), TEXT("Prototype_Rank"), &Rankdesc)))
+				return;
+
+
+
+			bisMosterClear = true;
+		
+		}
+	}
+	else
+	{
+		bisMosterClear = false;
+	}
 
 
 #ifdef _DEBUG
@@ -330,6 +429,16 @@ HRESULT CLevel_Stage_3::Ready_Boss_UI(const wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_3, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
 		return E_FAIL;
 
+	desc.strModelName = TEXT("HPBar_Boss_Halftone");
+	desc.fSizeX = 1600 * 0.5f;
+	desc.fSizeY = 39.f * 0.5f;
+	desc.fX = (g_iWinSizeX * 0.5f);
+	//desc.fX = (g_iWinSizeX * 0.5f);
+	desc.fY = (desc.fSizeY * 2.f)+(desc.fSizeY);
+	desc.iPassIndex = 4;
+	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_3, strLayerTag, TEXT("Prototype_GameObject_UI"), &desc)))
+		return E_FAIL;
+
 
 
 
@@ -396,7 +505,7 @@ HRESULT CLevel_Stage_3::Ready_Layer_0_Stage(const wstring& strLayerTag)
 {
 
 	CStage::CStage_DESC desc;
-	//desc.strModelName = TEXT("StageGround_A_57_New_A");
+	
 	//desc.strModelName = TEXT("StageGroundAssemble_C_SM_A_66");
 	desc.strModelName = TEXT("StageGroundAssemble_A_SM_C_66");
 	desc.vPosition = _float4(0.f, 0.f, sqrtf(2) * 17.f, 1.0f);
@@ -406,6 +515,7 @@ HRESULT CLevel_Stage_3::Ready_Layer_0_Stage(const wstring& strLayerTag)
 
 
 	desc.strModelName = TEXT("StageGroundAssemble_A_GS_C_66");
+	//desc.strModelName = TEXT("StageGroundAssemble_C_GS_A_66");
 	desc.vPosition = _float4(0.f, 0.f, sqrtf(2) * 17.f, 1.0f);
 	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_3, strLayerTag, TEXT("Prototype_GameObject_CStage_SM"), &desc)))
 		return E_FAIL;
@@ -429,9 +539,7 @@ HRESULT CLevel_Stage_3::Ready_Layer_2_Player(const wstring& strLayerTag)
 
 HRESULT CLevel_Stage_3::Ready_Layer_CutScene(const wstring& strLayerTag)
 {
-	//if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_3, strLayerTag, TEXT("Prototype_GameObject_CutScene"))))
-	//	return E_FAIL;
-
+	
 	return S_OK;
 }
 
@@ -463,7 +571,7 @@ HRESULT CLevel_Stage_3::Ready_Layer_2_Monster(const wstring & strLayerTag)
 	HandDesc.ePart = CHandBoss::PARTS_HAND_R;
 	if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_3, strLayerTag, TEXT("Prototype_GameObject_Hand_Boss"), &HandDesc)))
 		return E_FAIL;
-
+	
 	HandDesc.strModelName = TEXT("Boss_C_Left_Hand");
 	HandDesc.vPosition = _float4(0.0f, 0.f, 20.f, 1.0f);
 	HandDesc.ePart = CHandBoss::PARTS_HAND_L;

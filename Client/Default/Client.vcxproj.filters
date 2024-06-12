@@ -241,6 +241,12 @@
     <Filter Include="02.GameObjects\02.LandObject\03. Monster%28for_NonAnim%29\Environment_Object\Item\ItemBox">
       <UniqueIdentifier>{9bd859aa-ab4f-4702-af10-5fa7322965c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\Bullet">
+      <UniqueIdentifier>{8a9c050e-cea2-4810-95fc-159c97e94e18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\Bullet\Gravity">
+      <UniqueIdentifier>{3a0a8948-ad98-4018-af26-0da283b3e27c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -472,6 +478,9 @@
     <ClInclude Include="..\Public\Item.h">
       <Filter>02.GameObjects\02.LandObject\03. Monster%28for_NonAnim%29\Environment_Object\Item</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CGravityBullet.h">
+      <Filter>02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\Bullet\Gravity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -693,6 +702,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Item.cpp">
       <Filter>02.GameObjects\02.LandObject\03. Monster%28for_NonAnim%29\Environment_Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CGravityBullet.cpp">
+      <Filter>02.GameObjects\02.LandObject\02.Monster%28for_Anim%29\Bullet\Gravity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -40,7 +40,15 @@ public:
 		m_pTransformCom->Rotation(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), XMConvertToRadians(fAngle));
 	}
 
+
+
+	void Set_CutScene(_bool bCutScene) {
+		m_bCutScene = bCutScene;
+	}
 private:
+	_bool       m_bCutScene = false;
+
+
 	_float		m_fSensor = { 0.0f };
 	_float      m_fShakeTime = 0.0f;
 	_float      m_fShakeMaxTime = 0.3f;

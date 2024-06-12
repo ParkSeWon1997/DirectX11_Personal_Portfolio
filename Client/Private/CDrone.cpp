@@ -177,6 +177,10 @@ void CDrone::Make_Particle(_float fTimeDelta)
 		m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &CSwordThowDesc);
 		m_fMakeParticleTime = 0.0f;
 
+
+
+		m_pGameInstance->Play_Sound_Z(TEXT("SFX_Rifle017 [1].wav"), SOUND_EFFECT, 0.4f);
+
 		break;
 	case Client::CPlayer::CHRACTER_END:
 		break;

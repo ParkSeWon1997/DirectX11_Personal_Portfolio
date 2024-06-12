@@ -39,6 +39,9 @@
 #include "C:\Git\New_Personal_Portfolio\Framework\Client\private\CFsm_Anim.cpp"
 
 
+#include "C:\Git\New_Personal_Portfolio\Framework\Client\Private\CGravityBullet.cpp"
+
+
 #include "C:\Git\New_Personal_Portfolio\Framework\Client\private\CHandBoss.cpp"
 
 

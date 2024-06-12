@@ -26,14 +26,16 @@ public:
 	virtual void Tick(_float fTimeDelta) override;
 	virtual void Late_Tick(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
-	
+	virtual HRESULT Render_LightDepth() override;
 
 private:
 	CShader*						m_pShaderCom = { nullptr };
 	CModel*							m_pModelCom = { nullptr };
 	CCollider*						m_pColliderCom = { nullptr };
 
-
+	_bool 						 m_bIsFloor = false;
+	_bool                       m_bIsHit = false;
+	_float                     m_fHitTime = 0.0f;
 	_float							m_fUpAcc = 0.0f;
 	_float							m_fSpeed = 50.0f;
 	_float                          m_fTargetDownPos_Y = 0.0f;

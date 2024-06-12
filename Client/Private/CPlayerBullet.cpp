@@ -285,7 +285,7 @@ void CPlayerBullet::ComeBack(_float fTimeDelta)
 	_vector vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 	
 	m_fLookAcc += fTimeDelta * m_fSpeed;
-	cout << m_fLookAcc << endl;
+	
 
 	_float fLook= sin(XMConvertToRadians(m_fLookAcc));
 	
@@ -373,13 +373,13 @@ void CPlayerBullet::Draven_Bullet(_float fTimeDelta)
 			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_X_NONE_DISOLVE,TEXT("Player_Reverse_X_swordThrowing_Rotate_X_Loop"),_float4(0.1f,0.2f,1.0f,0.3f),false ,true,*this });
 			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_ROTATE_X_NONE_DISOLVE,TEXT("Player_Reverse_X_slashShockwave_Rotate_X_Loop"),_float4(0.1f,0.2f,1.0f,0.3f),false ,true,*this });
 			CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f), -m_pTransformCom->Get_State(CTransform::STATE_LOOK), 0.5f);
-		
 		}
 		else
 		{
 			m_bIsDead = true;
 		}
 
+		m_bIsCollision = false;
 	}
 	else 
 	{

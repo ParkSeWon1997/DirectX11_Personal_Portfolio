@@ -125,7 +125,7 @@ HRESULT CPlayerBullet_Mine::Render()
 		CSwordThowDesc.fDamage= 10.f;
 		m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &CSwordThowDesc);
 
-
+		m_pGameInstance->Play_Sound_Z(TEXT("SFX_Explosion [1].wav"), SOUND_EFFECT, 0.5f);
 		m_pGameInstance->Delete_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), this);
 
 	}

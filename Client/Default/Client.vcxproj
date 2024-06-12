@@ -186,6 +186,7 @@
     <ClInclude Include="..\Public\CDecorationParts.h" />
     <ClInclude Include="..\public\CDrone.h" />
     <ClInclude Include="..\public\CFsm_Anim.h" />
+    <ClInclude Include="..\Public\CGravityBullet.h" />
     <ClInclude Include="..\public\CHandBoss.h" />
     <ClInclude Include="..\public\CHandBullet.h" />
     <ClInclude Include="..\Public\Changer.h" />
@@ -265,6 +266,7 @@
     <ClCompile Include="..\Private\CDecorationParts.cpp" />
     <ClCompile Include="..\private\CDrone.cpp" />
     <ClCompile Include="..\private\CFsm_Anim.cpp" />
+    <ClCompile Include="..\Private\CGravityBullet.cpp" />
     <ClCompile Include="..\private\CHandBoss.cpp" />
     <ClCompile Include="..\private\CHandBullet.cpp" />
     <ClCompile Include="..\Private\Changer.cpp" />

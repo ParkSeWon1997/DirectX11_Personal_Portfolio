@@ -89,6 +89,49 @@ HRESULT UI::Render()
 	m_pGameInstance->Render_Font(TEXT("Font_Default"), m_szCoin, _float2(10.f, 5.f), XMVectorSet(1.f, 0.647f, 0.f, 1.f),0.0f,1.0f);
 	
 
+
+	int hours = CTotalSingleton::GetInstance()->GetHours();
+	int minutes = CTotalSingleton::GetInstance()->GetMinutes();
+	int seconds = CTotalSingleton::GetInstance()->GetSeconds();
+
+	TCHAR szTime[MAX_PATH];
+	wsprintf(szTime, TEXT("TIME %02d:%02d:%02d"), hours, minutes, seconds);
+
+	m_pGameInstance->Render_Font(TEXT("Font_Default"), szTime, _float2(1000.f, 15.f), XMVectorSet(0.f, 0.f, 0.f, 1.f), 0.0f, 1.05f);
+	m_pGameInstance->Render_Font(TEXT("Font_Default"), szTime, _float2(1005.f, 17.5f), XMVectorSet(1.f, 0.647f, 0.f, 1.f), 0.0f, 1.0f);
+
+
+
+
+	TCHAR szStage[MAX_PATH];
+	_int iStage = 0;
+	if (CLoader::m_eNextLevel == LEVEL_GAMEPLAY)
+	{
+		wsprintf(szStage, TEXT("STAGE 1"));
+	}
+	else if(CLoader::m_eNextLevel ==LEVEL_STAGE_1)
+	{
+		wsprintf(szStage, TEXT("BOSS_B"));
+	}
+	else if (CLoader::m_eNextLevel == LEVEL_STAGE_2)
+	{
+		wsprintf(szStage, TEXT("STAGE 2"));
+	}
+	else if (CLoader::m_eNextLevel == LEVEL_STAGE_3)
+	{
+		wsprintf(szStage, TEXT("BOSS_C"));
+	}
+	else if (CLoader::m_eNextLevel == LEVEL_CHANGE_STAGE)
+	{
+		wsprintf(szStage, TEXT("SHOP"));
+	}
+
+	
+
+	m_pGameInstance->Render_Font(TEXT("Font_Default"), szStage, _float2(5.f, 20.f), XMVectorSet(0.f, 0.f, 0.f, 1.f), 0.0f, 1.05f);
+	m_pGameInstance->Render_Font(TEXT("Font_Default"), szStage, _float2(10.f, 22.5f), XMVectorSet(1.f, 0.647f, 0.f, 1.f), 0.0f, 1.0f);
+
+
 	if (m_bIsDead)
 	{
 		m_pGameInstance->Delete_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Ui"), this);

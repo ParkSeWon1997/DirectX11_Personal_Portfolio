@@ -68,7 +68,8 @@ HRESULT CLevel_Stage_Change::Initialize()
 
 	m_pGameInstance->Stop_All_Sound();
 	m_pGameInstance->PlayBGM(TEXT("BGM_Shop [1].wav"), 0.7f);
-
+	
+	CTotalSingleton::GetInstance()->ResetTimer();
 	return S_OK;
 }
 
@@ -120,7 +121,8 @@ void CLevel_Stage_Change::Tick(_float fTimeDelta)
 
 		//1차 보스 
 		LEVEL eLevel = LEVEL_STAGE_1;
-		//LEVEL eLevel = LEVEL_STAGE_3;
+		
+		
 		if (CTotalSingleton::GetInstance()->GetVisitLevel(eLevel))
 		{
 			//2차 필드

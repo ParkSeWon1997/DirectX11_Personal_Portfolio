@@ -213,7 +213,27 @@ NodeStates CBoss_B::DoMove(_float fTimeDelta)
 		float distance = (float)sqrt(pow(bossPos.x - vPlayerPos.x, 2) + pow(bossPos.y - vPlayerPos.y, 2) + pow(bossPos.z - vPlayerPos.z, 2));
 		m_pTransformCom->LookAt(m_pPlayer->Get_PositionVector());
 		m_pTransformCom->Go_Straight(fTimeDelta * 0.5f, m_pNavigationCom);
-		if (distance <= 10.0f)
+		double fCurPos = m_pModelCom->Get_CurrentPosition();
+
+		
+
+		
+			if (fCurPos >= 0.32 && fCurPos <= 0.34)
+			{
+				m_pPlayer->Set_CameraShake(true, 0.1f);
+				m_pGameInstance->Play_Sound_Z(TEXT("SFX_Ult_Ready [1].wav"), SOUND_EFFECT, 0.6f);
+			}
+			if (fCurPos >= 0.88 && fCurPos <= 0.90)
+			{
+				m_pPlayer->Set_CameraShake(true, 0.1f);
+				m_pGameInstance->Play_Sound_Z(TEXT("SFX_Ult_Ready [1].wav"), SOUND_EFFECT, 0.6f);
+			}
+
+
+
+	
+
+		if (distance <= 5.0f)
 		{
  			m_eCurState = GetRandomState();
 
@@ -238,8 +258,15 @@ NodeStates CBoss_B::DoPowerfulAttack1(_float fTimeDelta)
 		_vector vPlayerPos = m_pPlayer->Get_PositionVector();
 
 		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CBoss_B_STATES::STATES_ATTACK_B, false));
-
 		double fCurPos = m_pModelCom->Get_CurrentPosition();
+
+		if (fCurPos >= 0.90 && fCurPos <= 0.91)
+		{
+
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Slam [1].wav"), SOUND_EFFECT, 0.6f);
+		}
+
+
 		if (fCurPos >= 0.93 && fCurPos <= 0.95)
 		{
 
@@ -304,6 +331,8 @@ NodeStates CBoss_B::DoPowerfulAttack2(_float fTimeDelta)
 
 		if (bIsJump)
 		{
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Award [1].wav"), SOUND_EFFECT, 0.7f);
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Smashed_Shield [1].wav"), SOUND_EFFECT, 0.6f);
 			m_bIsJumpAttack = false;
 		}
 		
@@ -419,6 +448,9 @@ NodeStates CBoss_B::DoJumpAttack(_float fTimeDelta)
 
 		if (bIsJump)
 		{
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Award [1].wav"), SOUND_EFFECT, 0.7f);
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Smashed_Shield [1].wav"), SOUND_EFFECT, 0.6f);
+
 			m_bIsJumpAttack = false;
 		}
 
@@ -449,6 +481,16 @@ NodeStates CBoss_B::DoRightHandAttack(_float fTimeDelta)
 	{
 		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CBoss_B_STATES::STATES_ATTACK_A, false));
 
+		double fCurPos = m_pModelCom->Get_CurrentPosition();
+		if (fCurPos >= 0.85 && fCurPos <= 0.86)
+		{
+			m_pPlayer->Set_CameraShake(true, 0.07f);
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Slam [1].wav"), SOUND_EFFECT, 0.6f);
+		}
+
+		
+
+
 		if (m_pModelCom->Get_AnimFinished())
 		{
 
@@ -476,10 +518,15 @@ NodeStates CBoss_B::DoLeftHandAttack(_float fTimeDelta)
 	if (m_eCurState == CBoss_B_STATES::STATES_ATTACK_B)
 	{
 		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CBoss_B_STATES::STATES_ATTACK_B, false));
-
-
-
 		double fCurPos = m_pModelCom->Get_CurrentPosition();
+
+		if (fCurPos >= 0.90 && fCurPos <= 0.91)
+		{
+
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Slam [1].wav"), SOUND_EFFECT, 0.6f);
+		}
+
+
 		if (fCurPos >= 0.93 && fCurPos <= 0.95)
 		{
 
@@ -527,6 +574,16 @@ NodeStates CBoss_B::DoPullUpAttack(_float fTimeDelta)
 		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CBoss_B_STATES::STATES_ATTACK_C, false));
 		_vector vPlayerPos = m_pPlayer->Get_PositionVector();
 		double fCurPos = m_pModelCom->Get_CurrentPosition();
+		if (fCurPos >= 0.90 && fCurPos <= 0.91)
+		{
+			m_pPlayer->Set_CameraShake(true, 0.07f);
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Slam [1].wav"), SOUND_EFFECT, 0.6f);
+		}
+
+
+
+
+
 		if (fCurPos >= 1.55 && fCurPos <= 1.56)
 		{
 			_matrix mLeftBoneMatrix = m_HandMatrix[LEFT_HAND_9] * m_pTransformCom->Get_WorldMatrix();
@@ -561,7 +618,7 @@ NodeStates CBoss_B::DoPullUpAttack(_float fTimeDelta)
 			BulletDesc.BulletState = &CBullet::Spread;  //만약 자식 클래스에서 재정의를 했다면 그 함수를 호출함
 			m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Bullet"), TEXT("Prototype_GameObject_HandBullet"), &BulletDesc);
 
-
+			
 		}
 
 		if (m_pModelCom->Get_AnimFinished())
@@ -589,9 +646,22 @@ NodeStates CBoss_B::DoIsAlive(_float fTimeDelta)
 
 	if (m_eCurState == CBoss_B_STATES::STATES_SMASH)
 	{
+		m_fAnimSpeed= 0.5f;
 		CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_2_Player")));
 		pPlayer->Set_CameraShake(true, 0.2f);
 		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CBoss_B_STATES::STATES_SMASH, false));
+		double fCurPos = m_pModelCom->Get_CurrentPosition();
+		if (fCurPos >= 0.55 && fCurPos <= 0.555)
+		{
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Smashed_Boss001 [1].wav"), SOUND_EFFECT, 0.8f);
+
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Object_Boss_Dead_Dead_2_Spread"),_float4(0.2f,0.2f,0.2f,0.7f),false,true });
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Object_Boss_Dead_Dead_Spread"),_float4(0.8f,0.8f,0.8f,0.3f),false,true });
+
+			CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f));
+		}
+
+
 		if (m_pModelCom->Get_AnimFinished())
 		{
 			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Monster_Dead_spark.C_Spread"),_float4(0.8f, 0.9f, 1.0f, 0.3f) });
@@ -600,7 +670,7 @@ NodeStates CBoss_B::DoIsAlive(_float fTimeDelta)
 			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Monster_Dead_ElectColumn_Pop"),_float4(0.678f,0.847f,0.902f,0.3f) });
 			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Monster_Dead_ElectColumn.001_Pop"),_float4(0.6f, 0.4f, 0.8f, 0.3f) });
 			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP,TEXT("Monster_Dead_ElectColumnHit_Size_Up"),_float4(0.6f, 0.4f, 0.8f, 0.3f) });
-
+			
 
 			CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f), -m_pTransformCom->Get_State(CTransform::STATE_LOOK));
 
@@ -721,6 +791,8 @@ void CBoss_B::CreateEffect_By_Motion(_float fTimeDelta)
 
 	if (m_pModelCom->Get_AnimationIndex() == CBoss_B_STATES::STATES_ATTACK_A)
 	{
+	
+
 		if (fCurPos >= 0.95 && fCurPos <= 0.97)
 		{
 			vector<CParticle_Mesh::PARTICLE_DESC> vecDesc = {
@@ -850,6 +922,7 @@ void CBoss_B::CreateEffect_By_Motion(_float fTimeDelta)
 			{
 				CGameObject* pSegment = m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_1_Segment"), i);
 				pSegment->Set_Rotation(XMConvertToRadians(fRandAngle));
+				
 			}
 
 

@@ -13,7 +13,9 @@
 
 #include"Player.h"
 #include"Particle_Mesh.h"
+#include"CGravityBullet.h"
 #include"CHandBullet.h"
+
 #include"CBullet.h"
 
 #include"Segment.h"
@@ -126,13 +128,25 @@ void CHandBoss::Priority_Tick(_float fTimeDelta)
 
 void CHandBoss::Tick(_float fTimeDelta)
 {
-	UI* pUi = dynamic_cast<UI*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_Boss_Ui"), 0));
-	if (pUi)
-	{
-		pUi->Set_MaxHp(m_fHpMax);
-		pUi->Set_Hp(m_fHp);
-	}
 
+	if (m_strModelName == TEXT("Boss_C_Left_Hand"))
+	{
+		UI* pUi = dynamic_cast<UI*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_Boss_Ui"), 0));
+		if (pUi)
+		{
+			pUi->Set_MaxHp(m_fHpMax);
+			pUi->Set_Hp(m_fHp);
+		}
+	}
+	if (m_strModelName == TEXT("Boss_C_Right_Hand"))
+	{
+		UI* pUi = dynamic_cast<UI*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_Boss_Ui"), 1));
+		if (pUi)
+		{
+			pUi->Set_MaxHp(m_fHpMax);
+			pUi->Set_Hp(m_fHp);
+		}
+	}
 
 
 
@@ -153,7 +167,7 @@ void CHandBoss::Tick(_float fTimeDelta)
 	m_HandPalmMatrix.r[1] = XMVector3Normalize(m_HandPalmMatrix.r[1]);
 	m_HandPalmMatrix.r[2] = XMVector3Normalize(m_HandPalmMatrix.r[2]);
 
-	cout << m_fHp << endl;
+	
 
 
 	m_pRootNode->Evaluate(fTimeDelta);
@@ -440,6 +454,11 @@ NodeStates CHandBoss::DoTakeDown(_float fTimeDelta)
 		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CHandBoss_STATES::STATES_ATTACK_B_1, false));
 		if (m_pModelCom->Get_AnimFinished())
 		{
+
+			m_pPlayer->Set_CameraShake(true, 0.05f);
+			
+
+
 			_vector vPlayerPos = m_pPlayer->Get_PositionVector();
 			_matrix mBoneWorldMatrix = m_HandPalmMatrix * m_pTransformCom->Get_WorldMatrix();
 
@@ -568,8 +587,25 @@ NodeStates CHandBoss::DoAttack_A_1(_float fTimeDelta)
 	if (m_eCurState == CHandBoss_STATES::STATES_ATTACK_A_1)
 	{
 		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CHandBoss_STATES::STATES_ATTACK_A_1, false));
+
+		double dNowFramePos = m_pModelCom->Get_CurrentPosition();
+		if (dNowFramePos >= 0.18 && dNowFramePos <= 0.19)
+		{
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Slam001 [1].wav"), SOUND_EFFECT, 0.4f);
+		}
+
+
+
+
+
 		if (m_pModelCom->Get_AnimFinished())
 		{
+
+
+
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Slam [1].wav"), SOUND_EFFECT, 0.6f);
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Award [1].wav"), SOUND_EFFECT, 0.7f);
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Smashed_Shield [1].wav"), SOUND_EFFECT, 0.6f);
 			_uint iFadeLayerSize = m_pGameInstance->Get_LayerSize(CLoader::m_eNextLevel, TEXT("Layer_Fade_In_Out"));
 
 			for (_uint i = 0; i < iFadeLayerSize; ++i)
@@ -730,6 +766,7 @@ NodeStates CHandBoss::DoAttack_C_1(_float fTimeDelta)
 		{
 			if (m_iBulletCount == 0)
 			{
+				m_pGameInstance->Play_Sound_Z(TEXT("SFX_Falling003 [1].wav"), SOUND_EFFECT, 0.3f);
 				//m_pTransformCom.
 				CBullet::CBullet_DESC  BulletDesc{};
 				BulletDesc.strModelName = TEXT("BossAttack_C");
@@ -748,6 +785,7 @@ NodeStates CHandBoss::DoAttack_C_1(_float fTimeDelta)
 		{
 			if (m_iBulletCount == 1)
 			{
+				m_pGameInstance->Play_Sound_Z(TEXT("SFX_Falling003 [1].wav"), SOUND_EFFECT, 0.3f);
 				CBullet::CBullet_DESC  BulletDesc{};
 				BulletDesc.strModelName = TEXT("BossAttack_C");
 				BulletDesc.fSpeedPerSec = 40.f;
@@ -765,6 +803,7 @@ NodeStates CHandBoss::DoAttack_C_1(_float fTimeDelta)
 		{
 			if (m_iBulletCount == 2)
 			{
+				m_pGameInstance->Play_Sound_Z(TEXT("SFX_Falling003 [1].wav"), SOUND_EFFECT, 0.3f);
 				CBullet::CBullet_DESC  BulletDesc{};
 				BulletDesc.strModelName = TEXT("BossAttack_C");
 				BulletDesc.fSpeedPerSec = 40.f;
@@ -956,28 +995,14 @@ NodeStates CHandBoss::DoAttack_D_2(_float fTimeDelta)
 
 NodeStates CHandBoss::DoAttack_E_0(_float fTimeDelta)
 {
-
+	
 
 	if (m_eCurState == CHandBoss_STATES::STATES_ATTACK_E_0)
 	{
 
 		if (m_pModelCom->Get_AnimFinished())
 		{
-			CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_2_Player")));
-
-			_vector vPlayerPos = pPlayer->Get_PositionVector();
-
-
-			CParticle_Mesh::PARTICLE_DESC desc;
-			XMStoreFloat4(&desc.vStartPos, vPlayerPos);
-
-			desc.strModelName = TEXT("Boss_Effect_Timestop_Sphere_Pop");
-			desc.eParticleType = CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_HALF_ALHPA;
-			m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Particle"), &desc);
-
-			desc.strModelName = TEXT("Boss_Effect_Timestop_Pop");
-			desc.eParticleType = CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_HALF_ALHPA;
-			m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Particle"), &desc);
+			
 
 
 
@@ -998,21 +1023,58 @@ NodeStates CHandBoss::DoAttack_E_0(_float fTimeDelta)
 
 NodeStates CHandBoss::DoAttack_E_1(_float fTimeDelta)
 {
+	CGravityBullet::CGravityBULLET_DESC GravityBulletDesc{};
+
+	vector<CParticle_Mesh::PARTICLE_DESC> vecDesc = {};
+	_vector vPlayerPos = m_pPlayer->Get_PositionVector();
+	
+
 	if (m_eCurState == CHandBoss_STATES::STATES_ATTACK_E_1)
 	{
 		m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(CHandBoss_STATES::STATES_ATTACK_E_1, false));
+
+		double fCurPos = m_pModelCom->Get_CurrentPosition();
+
+		if (fCurPos >= 0.37 && fCurPos <= 0.39)
+		{
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Time [1].wav"), SOUND_EFFECT, 0.8f);
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Boss_Effect_Timestop_Sphere_Pop"),_float4(0.0f, 0.0f, 0.0f, 0.3f)});
+			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_POP,TEXT("Boss_Effect_Timestop_Pop"),_float4(0.0f, 0.0f, 0.0f, 0.4f)});
+			
+
+			CParticle_Mesh::Make_Particle(vecDesc, vPlayerPos, -m_pTransformCom->Get_State(CTransform::STATE_LOOK));
+
+
+
+			GravityBulletDesc.eColliderType = CCollider::TYPE_SPHERE;
+			GravityBulletDesc.fRadius = 5.f;
+			GravityBulletDesc.vCenter = _float3(0.f, 0.f, 0.f);
+			
+			GravityBulletDesc.vRotation = _float3(0.f, 0.f, 0.f);
+			GravityBulletDesc.vPosition =_float4(m_pPlayer->Get_Position().x, m_pPlayer->Get_Position().y, m_pPlayer->Get_Position().z, 1.0f);
+			GravityBulletDesc.fLifeTime = 0.8f;
+			GravityBulletDesc.BulletState = &CBullet::Pop;
+			GravityBulletDesc.fDamage = 0.f;
+			m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_GravityBullet"), TEXT("Prototype_GameObject_Gravity_Bullet"), &GravityBulletDesc);
+		}
+
+	/*	CParticle_Mesh::PARTICLE_DESC desc;
+		desc.vStartPos = _float4(0.f, 0.f, 0.f, 1.0f);
+
+		desc.strModelName = TEXT("Boss_Effect_Timestop_Sphere_Pop");
+		desc.eParticleType = CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_HALF_ALHPA;
+		m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Particle"), &desc);
+
+		desc.strModelName = TEXT("Boss_Effect_Timestop_Pop");
+		desc.eParticleType = CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_HALF_ALHPA;
+		m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Particle"), &desc);*/
+
+
+
+
 		if (m_pModelCom->Get_AnimFinished())
 		{
-			CParticle_Mesh::PARTICLE_DESC desc;
-			desc.vStartPos = _float4(0.f, 0.f, 0.f, 1.0f);
-			
-			desc.strModelName = TEXT("Boss_Effect_Timestop_Sphere_Pop");
-			desc.eParticleType = CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_HALF_ALHPA;
-			m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Particle"), &desc);
-			
-			desc.strModelName = TEXT("Boss_Effect_Timestop_Pop");
-			desc.eParticleType = CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_HALF_ALHPA;
-			m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Effect"), TEXT("Prototype_GameObject_Particle"), &desc);
+	
 			SetRandomData();
 			m_eCurState = CHandBoss_STATES::STATES_IDLE;
 			fChangeTime = 0.f;
@@ -1119,7 +1181,7 @@ CHandBoss::CHandBoss_STATES CHandBoss::GetRandomAttack()
 		CHandBoss_STATES::STATES_ATTACK_B_0,
 		CHandBoss_STATES::STATES_ATTACK_C_0,
 		CHandBoss_STATES::STATES_ATTACK_D_0,
-		//CHandBoss_STATES::STATES_ATTACK_E_0
+		CHandBoss_STATES::STATES_ATTACK_E_0
 		
 	};
 

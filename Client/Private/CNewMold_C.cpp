@@ -91,7 +91,7 @@ void CNewMold_C::Tick(_float fTimeDelta)
 	m_HandMatrix.r[2] = XMVector3Normalize(m_HandMatrix.r[2]);
 
 	m_pRootNode->Evaluate(fTimeDelta);
-
+	m_fHittime += fTimeDelta;
 
 	if (m_fHp <= 0.0f)
 		m_eCurState = CNewMold_C_STATES::STATES_SMASH;
@@ -101,17 +101,17 @@ void CNewMold_C::Tick(_float fTimeDelta)
 	_bool Isfloor = false;
 	if (m_bIsHit)
 	{
-		m_pTransformCom->Go_Jump(fTimeDelta, 3.0f, 1.0f, Isfloor);
+		//m_pTransformCom->Go_Jump(fTimeDelta, 3.0f, 1.0f, Isfloor);
 		m_pTransformCom->LookAt(m_pPlayer->Get_PositionVector());
 		m_pTransformCom->Go_Backward(fTimeDelta, m_pNavigationCom);
 		m_eCurState = CNewMold_C_STATES::STATES_HURT;
 
 	}
-	if (Isfloor)
+	if (m_fHittime >= 0.5f)
 	{
 		m_bIsHit = false;
+		m_fHittime = 0.0f;
 	}
-
 
 
 	__super::Tick(fTimeDelta);

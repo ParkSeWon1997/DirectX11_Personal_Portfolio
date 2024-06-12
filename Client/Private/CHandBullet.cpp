@@ -60,7 +60,7 @@ void CHandBullet::Priority_Tick(_float fTimeDelta)
 
 void CHandBullet::Tick(_float fTimeDelta)
 {
-	CPlayer* pPlayer = static_cast<CPlayer*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_2_Player")));
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_2_Player")));
 	if (pPlayer == nullptr)
 		return;
 
@@ -87,7 +87,13 @@ void CHandBullet::Late_Tick(_float fTimeDelta)
 HRESULT CHandBullet::Render()
 {
 	if (m_bIsDead)
-	{
+	{   
+		CPlayer* pPlayer = static_cast<CPlayer*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_2_Player")));
+		if (pPlayer == nullptr)
+			return E_FAIL;
+		pPlayer->Set_CameraShake(true, 0.02f);
+
+
 		_vector vPosBeforeDie = this->Get_PositionVector();
 		m_pGameInstance->Delete_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Bullet"), this);
 		vector<CParticle_Mesh::PARTICLE_DESC> vecDesc = {
@@ -99,6 +105,9 @@ HRESULT CHandBullet::Render()
 		};
 
 		CParticle_Mesh::Make_Particle(vecDesc, vPosBeforeDie);
+
+
+		m_pGameInstance->Play_Sound_Z(TEXT("SFX_Slam [1].wav"), SOUND_EFFECT, 0.2f);
 	}
 
 

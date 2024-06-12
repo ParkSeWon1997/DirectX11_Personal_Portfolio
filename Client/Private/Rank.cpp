@@ -10,6 +10,9 @@
 #include"Particle_Mesh.h"
 #include"Level_Loading.h"
 
+#include"CBullet.h"
+
+#include"Item.h"
 CRank::CRank(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CGameObject{ pDevice, pContext }
 {
@@ -61,8 +64,40 @@ void CRank::Priority_Tick(_float fTimeDelta)
 
 void CRank::Tick(_float fTimeDelta)
 {		
-	
+	static _bool IsCreateParticle = false;
 
+
+	m_fHitTime += fTimeDelta;
+	if (m_fHitTime > 0.3f)
+	{
+		m_bIsHit = false;
+		m_fHitTime = 0.f;
+	}
+
+
+	if(!m_bIsFloor)
+		m_pTransformCom->Go_Jump(fTimeDelta*10.f, m_fTargetDownPos_Y, 5.0f, m_bIsFloor);
+
+	if (m_bIsFloor)
+	{
+		if (!IsCreateParticle)
+		{
+
+		vector<CParticle_Mesh::PARTICLE_DESC> vecDesc = {};
+		vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Object_Dead_Dead_Spread"),_float4(1.0f,1.0f,1.0f,0.5f),false,true });
+		vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Object_Dead_Dead_2_Spread"),_float4(1.0f,1.0f,1.0f,0.5f),false,true });
+
+		CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f));
+		IsCreateParticle = true;
+		}
+	}
+		
+
+
+	if (m_fHp <= 0)
+	{
+		m_bIsDead = true;
+	}
 
 }
 	
@@ -83,21 +118,48 @@ void CRank::Late_Tick(_float fTimeDelta)
 	CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_2_Player")));
 	if (nullptr == pPlayer)
 		return ;
+
+
+
 	if (pPlayer->Intersect(CPlayer::PART_WEAPON, TEXT("Com_Collider"), m_pColliderCom))
 	{
+		if (pPlayer->IsAttacking() && !pPlayer->GetIsCollision())
+		{
+			_float fDamage = pPlayer->GetDamage();
+			pPlayer->SetIsCollision(true);
+			m_fHp -= 10.0f;
+			
 
-
+		}
 	}
 
+
+
+	_uint iLayerSize = m_pGameInstance->Get_LayerSize(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"));
+
+	for (_uint i = 0; i < iLayerSize; ++i)
+	{
+		CBullet* pBullet = dynamic_cast<CBullet*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), i));
+		if (pBullet != nullptr)
+		{
+			if (!pBullet->Get_IsCollision() && pBullet->Intersect(TEXT("Com_Collider"), m_pColliderCom))
+			{
+				_float fDamage = pBullet->Get_Damage();
+				pBullet->Set_IsCollision(true);
+				m_fHp -= 10.0f;
+			}
+		}
+	}
+
+
 	m_pGameInstance->Add_RenderObject(CRenderer::RENDER_NONBLEND, this);
+	
 	
 
 #ifdef _DEBUG
 	
 		if (m_pColliderCom != nullptr)
 			m_pGameInstance->Add_DebugComponent(m_pColliderCom);
-	
-
 #endif
 }
 
@@ -114,16 +176,172 @@ HRESULT CRank::Render()
 		if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;		
 	
+
 		m_pShaderCom->Begin(0);
-	
+
 		m_pModelCom->Render(i);
 	}
-	
+
+
+	vector<CParticle_Mesh::PARTICLE_DESC> vecDesc = {};
+
+	if (m_bIsDead)
+	{
+
+		m_pGameInstance->Delete_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Environment"), this);
+		
+
+
+		m_pGameInstance->Play_Sound_Z(TEXT("SFX_Hit002 [1].wav"), SOUND_EFFECT, 0.5f);
+		CItem::CItem_DESC ItemDesc = {};
+		if (m_strModelName == TEXT("Interactor_RankBonus_Game_S")|| m_strModelName == TEXT("Interactor_RankBonus_Boss_S"))
+		{
+			for (int i = 0; i < 20; i++)
+			{
+				_float fRandX = RandomNum<_float>(-5.f, 5.f) + this->Get_Position().x;
+				_float fRandZ = RandomNum<_float>(-5.f, 5.f) + this->Get_Position().z;
+
+				ItemDesc.strModelName = TEXT("Item_HP");
+				ItemDesc.vPosition = _float4(this->Get_Position().x, this->Get_Position().y + 1.f, this->Get_Position().z, 1.0f);
+				ItemDesc.vScale = _float3(1.f, 1.f, 1.f);
+				ItemDesc.vRotation = _float3(0.f, 1.f, 0.f);
+				ItemDesc.vRotationAngle = 45.f;
+				ItemDesc.vTargetPos = XMVectorSet(fRandX, 1.f, fRandZ, 1.0f);
+				if (FAILED(m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Environment"), TEXT("Prototype_Item"), &ItemDesc)))
+					return E_FAIL;
+			}
+			for (int i = 0; i < 20; i++)
+			{
+				_float fRandX = RandomNum<_float>(-5.f, 5.f) + this->Get_Position().x;
+				_float fRandZ = RandomNum<_float>(-5.f, 5.f) + this->Get_Position().z;
+
+				ItemDesc.strModelName = TEXT("Item_Coin_B");
+				ItemDesc.vPosition = _float4(this->Get_Position().x, this->Get_Position().y + 1.f, this->Get_Position().z, 1.0f);
+				ItemDesc.vScale = _float3(1.f, 1.f, 1.f);
+				ItemDesc.vRotation = _float3(0.f, 1.f, 0.f);
+				ItemDesc.vRotationAngle = 45.f;
+				ItemDesc.vTargetPos = XMVectorSet(fRandX, 1.f, fRandZ, 1.0f);
+				if (FAILED(m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Environment"), TEXT("Prototype_Item"), &ItemDesc)))
+					return E_FAIL;
+			}
+
+		}
+
+		if (m_strModelName == TEXT("Interactor_RankBonus_Game_A") || m_strModelName == TEXT("Interactor_RankBonus_Boss_A"))
+		{
+
+			for (int i = 0; i < 10; i++)
+			{
+				_float fRandX = RandomNum<_float>(-5.f, 5.f) + this->Get_Position().x;
+				_float fRandZ = RandomNum<_float>(-5.f, 5.f) + this->Get_Position().z;
+
+				ItemDesc.strModelName = TEXT("Item_HP");
+				ItemDesc.vPosition = _float4(this->Get_Position().x, this->Get_Position().y + 1.f, this->Get_Position().z, 1.0f);
+				ItemDesc.vScale = _float3(1.f, 1.f, 1.f);
+				ItemDesc.vRotation = _float3(0.f, 1.f, 0.f);
+				ItemDesc.vRotationAngle = 45.f;
+				ItemDesc.vTargetPos = XMVectorSet(fRandX, 1.f, fRandZ, 1.0f);
+				if (FAILED(m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Environment"), TEXT("Prototype_Item"), &ItemDesc)))
+					return E_FAIL;
+			}
+
+			for (int i = 0; i < 10; i++)
+			{
+				_float fRandX = RandomNum<_float>(-5.f, 5.f) + this->Get_Position().x;
+				_float fRandZ = RandomNum<_float>(-5.f, 5.f) + this->Get_Position().z;
+
+				ItemDesc.strModelName = TEXT("Item_Coin_B");
+				ItemDesc.vPosition = _float4(this->Get_Position().x, this->Get_Position().y + 1.f, this->Get_Position().z, 1.0f);
+				ItemDesc.vScale = _float3(1.f, 1.f, 1.f);
+				ItemDesc.vRotation = _float3(0.f, 1.f, 0.f);
+				ItemDesc.vRotationAngle = 45.f;
+				ItemDesc.vTargetPos = XMVectorSet(fRandX, 1.f, fRandZ, 1.0f);
+				if (FAILED(m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Environment"), TEXT("Prototype_Item"), &ItemDesc)))
+					return E_FAIL;
+			}
+		}
+		if (m_strModelName == TEXT("Interactor_RankBonus_Game_B") || m_strModelName == TEXT("Interactor_RankBonus_Boss_B"))
+		{
+			for (int i = 0; i < 5; i++)
+			{
+				_float fRandX = RandomNum<_float>(-5.f, 5.f) + this->Get_Position().x;
+				_float fRandZ = RandomNum<_float>(-5.f, 5.f) + this->Get_Position().z;
+
+				ItemDesc.strModelName = TEXT("Item_HP");
+				ItemDesc.vPosition = _float4(this->Get_Position().x, this->Get_Position().y + 1.f, this->Get_Position().z, 1.0f);
+				ItemDesc.vScale = _float3(1.f, 1.f, 1.f);
+				ItemDesc.vRotation = _float3(0.f, 1.f, 0.f);
+				ItemDesc.vRotationAngle = 45.f;
+				ItemDesc.vTargetPos = XMVectorSet(fRandX, 1.f, fRandZ, 1.0f);
+				if (FAILED(m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Environment"), TEXT("Prototype_Item"), &ItemDesc)))
+					return E_FAIL;
+			}
+
+			for (int i = 0; i < 5; i++)
+			{
+				_float fRandX = RandomNum<_float>(-5.f, 5.f) + this->Get_Position().x;
+				_float fRandZ = RandomNum<_float>(-5.f, 5.f) + this->Get_Position().z;
+
+				ItemDesc.strModelName = TEXT("Item_Coin_B");
+				ItemDesc.vPosition = _float4(this->Get_Position().x, this->Get_Position().y + 1.f, this->Get_Position().z, 1.0f);
+				ItemDesc.vScale = _float3(1.f, 1.f, 1.f);
+				ItemDesc.vRotation = _float3(0.f, 1.f, 0.f);
+				ItemDesc.vRotationAngle = 45.f;
+				ItemDesc.vTargetPos = XMVectorSet(fRandX, 1.f, fRandZ, 1.0f);
+				if (FAILED(m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_Environment"), TEXT("Prototype_Item"), &ItemDesc)))
+					return E_FAIL;
+			}
+			
+		}
+
+
+		vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Object_Dead_Dead_Spread"),_float4(1.0f,1.0f,1.0f,0.5f),false,true });
+		vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SPREAD,TEXT("Object_Dead_Dead_2_Spread"),_float4(1.0f,1.0f,1.0f,0.5f),false,true });
+
+
+
+
+		CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f));
+
+
+
+	}
 
 
 	return S_OK;
 }
 
+HRESULT CRank::Render_LightDepth()
+{
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", m_pTransformCom->Get_WorldFloat4x4())))
+		return E_FAIL;
+
+	_float4x4		ViewMatrix, ProjMatrix;
+
+	/* ±¤¿ø ±âÁØÀÇ ºä º¯È¯Çà·Ä. */
+	XMStoreFloat4x4(&ViewMatrix, XMMatrixLookAtLH(XMVectorSet(0.f, 10.f, -10.f, 1.f), XMVectorSet(0.f, 0.f, 0.f, 1.f), XMVectorSet(0.f, 1.f, 0.f, 0.f)));
+	XMStoreFloat4x4(&ProjMatrix, XMMatrixPerspectiveFovLH(XMConvertToRadians(120.0f), (_float)g_iWinSizeX / g_iWinSizeY, 0.1f, 1000.f));
+
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &ProjMatrix)))
+		return E_FAIL;
+
+	int	iNumMeshes = m_pModelCom->Get_NumMeshes();
+
+	for (int i = 0; i < iNumMeshes; i++)
+	{
+		if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_Texture", i, aiTextureType_DIFFUSE)))
+			return E_FAIL;
+
+
+		m_pShaderCom->Begin(2);
+
+		m_pModelCom->Render(i);
+	}
+
+	return S_OK;
+}
 
 
 
@@ -137,15 +355,16 @@ HRESULT CRank::Add_Components()
 		return E_FAIL;
 
 
+
 	/* For.Com_Shader */
 	if (FAILED(__super::Add_Component(CLoader::m_eNextLevel, TEXT("Prototype_Component_Shader_Stage"),
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
 		return E_FAIL;
 
 	/* For.Com_Shader */
-//	if (FAILED(__super::Add_Component(CLoader::m_eNextLevel, TEXT("Prototype_Component_Shader_VtxMesh"),
-//		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
-//		return E_FAIL;	
+	//if (FAILED(__super::Add_Component(CLoader::m_eNextLevel, TEXT("Prototype_Component_Shader_VtxMesh"),
+	//	TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
+	//	return E_FAIL;	
 
 	/* For.Com_Collider_OBB */
 	CBounding_OBB::BOUNDING_OBB_DESC		ColliderOBBDesc{};

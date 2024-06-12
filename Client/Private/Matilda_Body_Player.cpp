@@ -1195,6 +1195,12 @@ NodeStates Matilda_Body_Player::DoAttackUltimateBalance()
 			{
 				if (dNowFramePos >= 0.1 && dNowFramePos <= 0.115)
 				{
+					_uint iFadeLayerSize = m_pGameInstance->Get_LayerSize(CLoader::m_eNextLevel, TEXT("Layer_Fade_In_Out"));
+					for (_uint i = 0; i < iFadeLayerSize; ++i)
+					{
+						Fade_In_Out* pFadeInOut = static_cast<Fade_In_Out*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_Fade_In_Out"), i));
+						pFadeInOut->Start_FadeIn();
+					}
 					m_pGameInstance->Play_Sound_Z(TEXT("SFX_Actor_Dash002 [1].wav"), SOUND_EFFECT, 0.6f);
 					m_pGameInstance->Play_Sound_Z(TEXT("SFX_Actor_Pop [1].wav"), SOUND_EFFECT, 0.7f);
 					m_pGameInstance->Play_Sound_Z(TEXT("SFX_Slash007 [1].wav"), SOUND_EFFECT, 0.8f);
@@ -1456,7 +1462,17 @@ NodeStates Matilda_Body_Player::DoAttackUltimateReverse()
 
 				if (m_pModelCom->Get_AnimFinished())
 				{
-					dynamic_cast<CPlayer*>(m_pPlayer)->Set_CameraTargetPos(XMVectorSet(0.0f, 10.0f, -10.0f, 0.0f));
+
+					if (CLoader::m_eNextLevel == LEVEL_STAGE_1)
+					{
+						dynamic_cast<CPlayer*>(m_pPlayer)->Set_CameraTargetPos(XMVectorSet(0.0f, 15.0f, -10.0f, 0.0f));
+					}
+					else if (CLoader::m_eNextLevel == LEVEL_STAGE_3)
+					{
+						dynamic_cast<CPlayer*>(m_pPlayer)->Set_CameraTargetPos(XMVectorSet(0.0f, 20.0f, -3.0f, 0.0f));
+					}
+					else
+						dynamic_cast<CPlayer*>(m_pPlayer)->Set_CameraTargetPos(XMVectorSet(0.0f, 10.0f, -10.0f, 0.0f));
 					
 					m_eCurState = CPlayer::STATE_ATTACK_DEFAULT_END;
 					dynamic_cast<CPlayer*>(m_pPlayer)->SetState(m_eCurState);

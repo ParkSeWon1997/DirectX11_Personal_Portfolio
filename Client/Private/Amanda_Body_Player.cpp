@@ -24,6 +24,8 @@
 #include"Particle_Mesh.h"
 #include"Monster.h"
 
+#include"CTotalSingleton.h"
+
 Amanda_Body_Player::Amanda_Body_Player(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CPartObject{ pDevice, pContext }
 {
@@ -770,7 +772,6 @@ NodeStates Amanda_Body_Player::DoBackDash()
 				case Client::CPlayer::GUN_BALANCE:
 					m_eCurState = CPlayer::STATE_BEFORE_ATTACK_MOTION;
 					dynamic_cast<CPlayer*>(m_pPlayer)->SetState(m_eCurState);
-
 					break;
 				case Client::CPlayer::GUN_TECHNNIC:
 					m_eCurState = CPlayer::STATE_BEFORE_ATTACK_MOTION;
@@ -1061,6 +1062,7 @@ NodeStates Amanda_Body_Player::DoAttackThrow()
 
 
 
+
 	return NodeStates();
 }
 
@@ -1152,7 +1154,7 @@ NodeStates Amanda_Body_Player::DoAttackUltimateBalance()
 				m_pGameInstance->Play_Sound_Z(TEXT("SFX_Rifle005 [1].wav"), SOUND_EFFECT, 0.6f);
 
 			}
-
+			
 
 
 
@@ -1369,7 +1371,7 @@ NodeStates Amanda_Body_Player::DoAttack_Shot()
 	{
 		m_iAnimIndex = Player_Amanda_AnimationType::Amanda_ANIMATION_SHOT;
 		m_bLoop = false;
-		m_AnimSpeed = 1.0f;
+		m_AnimSpeed = CTotalSingleton::GetInstance()->GetAnimSpeed();
 		//m_pModelCom->Set_AnimationIndex(m_iAnimIndex);
 		double dNowFramePos = m_pModelCom->Get_CurrentPosition();
 		dynamic_cast<CPlayer*>(m_pPlayer)->SetNextAttack(false);
@@ -1377,14 +1379,14 @@ NodeStates Amanda_Body_Player::DoAttack_Shot()
 		{
 			PlayerBulletdesc.strModelName = TEXT("swordThrowing");
 			PlayerBulletdesc.eColliderType = CCollider::TYPE_OBB;
-			PlayerBulletdesc.vExtents = _float3(1.1f, 1.1f, 20.1f);
+			PlayerBulletdesc.vExtents = _float3(0.5f, 0.5f, 20.1f);
 			PlayerBulletdesc.vCenter= _float3(0.f, PlayerBulletdesc.vExtents.y, PlayerBulletdesc.vExtents.z);
 			PlayerBulletdesc.vRotation= _float3(0.f, 0.f, 0.f);
 			PlayerBulletdesc.vPosition = _float4(vPlayerPos.x, vPlayerPos.y + 1.0f, vPlayerPos.z, 1.0f);
 			PlayerBulletdesc.vDir = vPlayerLook;
 			PlayerBulletdesc.fLifeTime = 0.1f;
 			PlayerBulletdesc.BulletState = &CBullet::Pop;
-			PlayerBulletdesc.fDamage = 5.0f;
+			PlayerBulletdesc.fDamage = 1.f;
 			m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &PlayerBulletdesc);
 
 			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP,TEXT("Player_Amanda_Default_Attack_Beam_Size_Up"),_float4(0.8f,0.8f,0.8f,0.5f) });
@@ -1406,6 +1408,8 @@ NodeStates Amanda_Body_Player::DoAttack_Shot()
 
 
 	}
+	else
+		return NodeStates::FAILURE;
 
 
 }
@@ -1422,7 +1426,7 @@ NodeStates Amanda_Body_Player::DoAttack_Shot_Critical()
 		m_iAnimIndex = Player_Amanda_AnimationType::Amanda_ANIMATION_SHOT_CRITICAL;
 		m_bLoop = false;
 		//m_bLoop = false;
-		m_AnimSpeed = 1.0f;
+		m_AnimSpeed = CTotalSingleton::GetInstance()->GetAnimSpeed();
 		dynamic_cast<CPlayer*>(m_pPlayer)->SetNextAttack(false);
 		double dNowFramePos = m_pModelCom->Get_CurrentPosition();
 		if (dNowFramePos >= 0.04 && dNowFramePos <= 0.06)
@@ -1430,14 +1434,14 @@ NodeStates Amanda_Body_Player::DoAttack_Shot_Critical()
 
 			PlayerBulletdesc.strModelName = TEXT("swordThrowing");
 			PlayerBulletdesc.eColliderType = CCollider::TYPE_OBB;
-			PlayerBulletdesc.vExtents = _float3(1.1f, 1.1f, 20.1f);
+			PlayerBulletdesc.vExtents = _float3(0.5f, 0.5f, 20.1f);
 			PlayerBulletdesc.vCenter = _float3(0.f, PlayerBulletdesc.vExtents.y, PlayerBulletdesc.vExtents.z);
 			PlayerBulletdesc.vRotation = _float3(0.f, 0.f, 0.f);
 			PlayerBulletdesc.vPosition = _float4(vPlayerPos.x, vPlayerPos.y + 1.0f, vPlayerPos.z, 1.0f);
 			PlayerBulletdesc.vDir = vPlayerLook;
 			PlayerBulletdesc.fLifeTime = 0.1f;
 			PlayerBulletdesc.BulletState = &CBullet::Pop;
-			PlayerBulletdesc.fDamage=7.0f;
+			PlayerBulletdesc.fDamage=2.0f;
 			m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &PlayerBulletdesc);
 
 			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP,TEXT("Player_Amanda_Default_Attack_Beam_Size_Up"),_float4(1.0f,0.8f,0.8f,0.7f) });
@@ -1464,6 +1468,8 @@ NodeStates Amanda_Body_Player::DoAttack_Shot_Critical()
 		else
 			return NodeStates::RUNNING;
 	}
+	else
+		return NodeStates::FAILURE;
 
 
 
@@ -1615,6 +1621,7 @@ NodeStates Amanda_Body_Player::DoAttack_Dash_Slide_Shot()
 			
 
 			CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(vPlayerPos.x, vPlayerPos.y + 1.0f, vPlayerPos.z, 1.0f), vPlayerLook);
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Rifle003 [1].wav"), SOUND_EFFECT, 0.4f);
 			
 		}
 		if (fCurPos >= 0.21 && fCurPos < 0.24)
@@ -1626,6 +1633,7 @@ NodeStates Amanda_Body_Player::DoAttack_Dash_Slide_Shot()
 
 
 			CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(vPlayerPos.x, vPlayerPos.y + 1.0f, vPlayerPos.z, 1.0f), vPlayerLook);
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Rifle003 [1].wav"), SOUND_EFFECT, 0.4f);
 		}
 		if (fCurPos >= 0.40 && fCurPos < 0.42)
 		{
@@ -1636,6 +1644,7 @@ NodeStates Amanda_Body_Player::DoAttack_Dash_Slide_Shot()
 
 
 			CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(vPlayerPos.x, vPlayerPos.y + 1.0f, vPlayerPos.z, 1.0f), vPlayerLook);
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Rifle003 [1].wav"), SOUND_EFFECT, 0.4f);
 		}
 
 
@@ -1671,10 +1680,9 @@ NodeStates Amanda_Body_Player::DoAttack_Shot_Crouch()
 		m_bLoop = false;
 		m_AnimSpeed = 1.0f;
 
-
 		if (dNowFramePos >= 0.02 && dNowFramePos <= 0.04)
 		{
-			
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Rifle0041 [1].wav"), SOUND_EFFECT, 0.5f);
 
 
 			_uint iFadeLayerSize = m_pGameInstance->Get_LayerSize(CLoader::m_eNextLevel, TEXT("Layer_Fade_In_Out"));
@@ -1727,6 +1735,9 @@ NodeStates Amanda_Body_Player::DoAttack_Shot_Crouch()
 
 		if (m_pModelCom->Get_AnimFinished())
 		{
+
+
+			
 			m_eCurState = CPlayer::STATE_BACKSTEP;
 			dynamic_cast<CPlayer*>(m_pPlayer)->SetState(m_eCurState);
 			dynamic_cast<CPlayer*>(m_pPlayer)->SetJump(true);
@@ -1736,6 +1747,8 @@ NodeStates Amanda_Body_Player::DoAttack_Shot_Crouch()
 		else
 			return NodeStates::RUNNING;
 	}
+	else
+		return NodeStates::FAILURE;
 
 
 	
@@ -1757,6 +1770,12 @@ NodeStates Amanda_Body_Player::DoAttack_Shot_Upper()
 		m_AnimSpeed = 1.0f;
 		dynamic_cast<CPlayer*>(m_pPlayer)->SetAttackEndTime(false);
 		double dNowFramePos = m_pModelCom->Get_CurrentPosition();
+		if (dNowFramePos >= 0.06 && dNowFramePos <= 0.08)
+		{
+			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Rifle013 [1].wav"), SOUND_EFFECT, 0.7f);
+
+		}
+
 		if (dNowFramePos >= 0.08 && dNowFramePos <= 0.10)
 		{
 
@@ -1796,6 +1815,16 @@ NodeStates Amanda_Body_Player::DoAttack_Shot_Ghost_Crouch()
 		m_iAnimIndex = Player_Amanda_AnimationType::Amanda_ANIMATION_SHOT_CROUCH;
 		m_bLoop = false;
 		m_AnimSpeed = 1.0f;
+		double dNowFramePos = m_pModelCom->Get_CurrentPosition();
+		if (dNowFramePos >= 0.08 && dNowFramePos <= 0.10)
+		{
+
+
+		}
+
+
+
+
 		dynamic_cast<CPlayer*>(m_pPlayer)->SetAttackEndTime(false);
 		if (m_pModelCom->Get_AnimationIndex() == Player_Amanda_AnimationType::Amanda_ANIMATION_SHOT_CROUCH_READY)
 		{

@@ -45,6 +45,10 @@ void CPlayerCamera::Tick(_float fTimeDelta)
 {
 
 	
+
+
+	if (!m_bCutScene)
+	{
 		_matrix pPlayerMatrix = XMLoadFloat4x4(m_pParentMatrix);
 		_vector vPlayerPos = pPlayerMatrix.r[CTransform::STATE_POSITION];
 
@@ -77,8 +81,49 @@ void CPlayerCamera::Tick(_float fTimeDelta)
 		}
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, (vCameraPos));
-		
+	}
+	else
+	{/*
+		if (m_pGameInstance->Get_DIKeyState(DIK_A) & 0x80)
+			m_pTransformCom->Go_Left(fTimeDelta);
+		if (GetKeyState('D') & 0x8000)
+			m_pTransformCom->Go_Right(fTimeDelta);
+		if (GetKeyState('W') & 0x8000)
+			m_pTransformCom->Go_Straight(fTimeDelta);
+		if (GetKeyState('S') & 0x8000)
+			m_pTransformCom->Go_Backward(fTimeDelta);
 
+		_long		MouseMove = { 0 };
+		if (GetAsyncKeyState(VK_TAB) & 0x8000)
+		{
+			if (bNoClick == false)
+			{
+				bNoClick = true;
+			}
+			else
+				bNoClick = false;
+		}
+
+		if (bNoClick)
+		{
+			if (MouseMove = m_pGameInstance->Get_DIMouseMove(DIMS_X))
+			{
+				m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * m_fSensor * MouseMove);
+			}
+
+			if (MouseMove = m_pGameInstance->Get_DIMouseMove(DIMS_Y))
+			{
+				m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), fTimeDelta * m_fSensor * MouseMove);
+			}
+		}*/
+
+
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, (m_vTargetPos));
+
+	}
+	_vector vCameraPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	vCameraPos;
 	//m_fFovy= XMConvertToRadians(90.f);
 
 	__super::Tick(fTimeDelta);

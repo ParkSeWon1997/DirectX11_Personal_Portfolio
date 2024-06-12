@@ -63,19 +63,96 @@ HRESULT CLevel_Stage_1::Initialize()
 
 	m_pGameInstance->Stop_All_Sound();
 	m_pGameInstance->PlayBGM(TEXT("BGM_Boss003 [1].wav"), 0.7f);
+
+
+	CTotalSingleton::GetInstance()->ResetTimer();
 	return S_OK;
 }
 
 void CLevel_Stage_1::Tick(_float fTimeDelta)
 {
 
+	if (!CTotalSingleton::GetInstance()->IsTimerPaused())
+	{
+		CTotalSingleton::GetInstance()->EndTime();
+		CTotalSingleton::GetInstance()->UpdateElapsedTime();
+	}
+	int hours = CTotalSingleton::GetInstance()->GetHours();
+	int minutes = CTotalSingleton::GetInstance()->GetMinutes();
+	int seconds = CTotalSingleton::GetInstance()->GetSeconds();
+	cout << "Hours: " << hours << " Minutes: " << minutes << " Seconds: " << seconds << endl;
+
+
 	static _bool   bisMosterClear = false;
 	_uint iLayerSize = m_pGameInstance->Get_LayerSize(LEVEL_STAGE_1, TEXT("Layer_2_Monster"));
 	vector<CParticle_Mesh::PARTICLE_DESC> vecDesc = {};
+
+
+	CGameObject::GAMEOBJECT_DESC Rankdesc;
+
+
+
 	if (iLayerSize == 0)
 	{
+		CTotalSingleton::GetInstance()->PauseTimer();
+
+
+
+
+
 		if (bisMosterClear == false)
 		{
+
+			if (minutes <= 3)
+			{
+				Rankdesc.strModelName = TEXT("Interactor_RankBonus_Boss_S");
+
+			}
+			else if (minutes <= 4)
+			{
+				Rankdesc.strModelName = TEXT("Interactor_RankBonus_Boss_A");
+
+			}
+			else if (minutes <= 5)
+			{
+				Rankdesc.strModelName = TEXT("Interactor_RankBonus_Boss_B");
+
+			}
+			else if (minutes <= 6)
+			{
+				Rankdesc.strModelName = TEXT("Interactor_RankBonus_Boss_C");
+
+			}
+			else
+			{
+				Rankdesc.strModelName = TEXT("Interactor_RankBonus_Boss_D");
+
+			}
+
+
+
+
+			Rankdesc.vPosition = _float4(0.1f, 5.f, 28.f, 1.0f);
+			Rankdesc.vScale = _float3(1.f, 1.f, 1.f);
+			Rankdesc.vRotation = _float3(0.f, 1.f, 0.f);
+			Rankdesc.vRotationAngle = 0.f;
+
+
+			if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_1, TEXT("Layer_Environment"), TEXT("Prototype_Rank"), &Rankdesc)))
+				return;
+
+
+
+
+
+
+
+
+
+
+
+
+
 			m_pGameInstance->Play_Sound_Z(TEXT("SFX_Portal_On001 [1].wav"), SOUND_EFFECT, 0.5f);
 			
 			bisMosterClear = true;

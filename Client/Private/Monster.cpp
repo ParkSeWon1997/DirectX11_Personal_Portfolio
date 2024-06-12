@@ -63,7 +63,7 @@ void CMonster::Tick(_float fTimeDelta)
 
 
 
-	m_pModelCom->Play_Animation(fTimeDelta);
+	m_pModelCom->Play_Animation(fTimeDelta* m_fAnimSpeed);
 
 	for (size_t i = 0; i < COLLIDER_END; i++)
 	{
@@ -126,8 +126,8 @@ void CMonster::Late_Tick(_float fTimeDelta)
 						CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f));
 
 						m_fHp -= fDamage;
-					}
 						m_bIsHit = true;
+					}
 				}
 			}
 			for (_uint i = 0; i < iLayerSize; ++i)
@@ -135,7 +135,7 @@ void CMonster::Late_Tick(_float fTimeDelta)
 				CBullet* pBullet = dynamic_cast<CBullet*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), i));
 				if (pBullet != nullptr)
 				{
-					if (!pBullet->Get_IsCollision() && pBullet->Intersect(TEXT("Com_Collider"), m_pColliderCom[COLLIDER_OBB]))
+					if (pBullet->Intersect(TEXT("Com_Collider"), m_pColliderCom[COLLIDER_OBB])&& !pBullet->Get_IsCollision())
 					{
 						_float fDamage= pBullet->Get_Damage();
 						pBullet->Set_IsCollision(true);
@@ -150,13 +150,9 @@ void CMonster::Late_Tick(_float fTimeDelta)
 
 							CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f));
 
-
-
-
-
 							m_fHp -= fDamage;
+							this->m_bIsHit = true;
 						}
-						m_bIsHit = true;
 					}
 				}
 			}
@@ -273,7 +269,7 @@ HRESULT CMonster::Render()
 		CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f));
 	}
 	
-
+	return S_OK;
 }
 
 HRESULT CMonster::Add_Components()

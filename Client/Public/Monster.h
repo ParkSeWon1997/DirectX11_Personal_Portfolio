@@ -57,6 +57,7 @@ protected:
 	_bool							m_bIsDetact = false;
 	_float							m_fHp = 0.f;
 	_float							m_fHpMax = 0.f;
+	_float                          m_fAnimSpeed = 1.f;
 
 	CPlayer*						m_pPlayer = nullptr;
 

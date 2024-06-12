@@ -61,26 +61,118 @@ HRESULT CLevel_Stage_2::Initialize()
 	if (FAILED(Ready_Layer_1_Segment(TEXT("Layer_1_Segment"))))
 		return E_FAIL;
 
+	m_pGameInstance->Stop_All_Sound();
+	m_pGameInstance->PlayBGM(TEXT("BGM_SnowyDesert [1].wav"), 0.7f);
+
+	CTotalSingleton::GetInstance()->ResetTimer();
 	return S_OK;
 }
 
 void CLevel_Stage_2::Tick(_float fTimeDelta)
 {
 
+	if (!CTotalSingleton::GetInstance()->IsTimerPaused())
+	{
+		CTotalSingleton::GetInstance()->EndTime();
+		CTotalSingleton::GetInstance()->UpdateElapsedTime();
+	}
+	int hours = CTotalSingleton::GetInstance()->GetHours();
+	int minutes = CTotalSingleton::GetInstance()->GetMinutes();
+	int seconds = CTotalSingleton::GetInstance()->GetSeconds();
+	cout << "Hours: " << hours << " Minutes: " << minutes << " Seconds: " << seconds << endl;
+
+
+
+
+
+
+
 	static _bool   bisMosterClear = false;
 	_uint iLayerSize = m_pGameInstance->Get_LayerSize(LEVEL_STAGE_2, TEXT("Layer_2_Monster"));
 
 
-
-
-
-
-
 	vector<CParticle_Mesh::PARTICLE_DESC> vecDesc = {};
+	CGameObject::GAMEOBJECT_DESC Rankdesc;
+
+
+
 	if (iLayerSize == 0)
 	{
+
+		CTotalSingleton::GetInstance()->PauseTimer();
+
+
 		if (bisMosterClear == false)
 		{
+
+			if (minutes >= 1)
+			{
+				Rankdesc.strModelName = TEXT("Interactor_RankBonus_Game_D");
+
+			}
+
+			else if (seconds <= 20)
+			{
+				Rankdesc.strModelName = TEXT("Interactor_RankBonus_Game_S");
+
+			}
+			else if (seconds <= 30)
+			{
+				Rankdesc.strModelName = TEXT("Interactor_RankBonus_Game_A");
+
+			}
+			else if (seconds <= 40)
+			{
+				Rankdesc.strModelName = TEXT("Interactor_RankBonus_Game_B");
+
+			}
+			else if (seconds <= 50)
+			{
+				Rankdesc.strModelName = TEXT("Interactor_RankBonus_Game_C");
+
+			}
+			else
+			{
+				Rankdesc.strModelName = TEXT("Interactor_RankBonus_Game_D");
+
+			}
+
+			Rankdesc.vPosition = _float4(0.1f, 5.f, 28.f, 1.0f);
+			Rankdesc.vScale = _float3(1.f, 1.f, 1.f);
+			Rankdesc.vRotation = _float3(0.f, 1.f, 0.f);
+			Rankdesc.vRotationAngle = 0.f;
+
+
+			if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_2, TEXT("Layer_Environment"), TEXT("Prototype_Rank"), &Rankdesc)))
+				return;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 			bisMosterClear = true;
 			CEnvironmentObj::CEnvironmentObj_DESC desc;
 			desc.strModelName = TEXT("Ventilator");
@@ -497,7 +589,7 @@ HRESULT CLevel_Stage_2::Ready_Layer_2_Monster(const wstring & strLayerTag)
 		desc.strModelName = TEXT("NewMoldTest");
 		desc.vPosition = _float4(fRandomX(Gen), 0.f, fRandomZ(Gen), 1.0f);
 		desc.strDeconModelTag = TEXT("NewMold_Deco_Segment");
-		desc.fHp = 50.f;
+		desc.fHp = 30.f;
 		if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_2, strLayerTag, TEXT("Prototype_GameObject_NewMold"), &desc)))
 			return E_FAIL;
 	}
@@ -505,7 +597,7 @@ HRESULT CLevel_Stage_2::Ready_Layer_2_Monster(const wstring & strLayerTag)
 	{
 		desc.strModelName = TEXT("NewMoldMobile_C");
 		desc.vPosition = _float4(fRandomX(Gen), 0.f, fRandomZ(Gen), 1.0f);
-		desc.fHp = 50.f;
+		desc.fHp = 30.f;
 		if (FAILED(m_pGameInstance->Add_CloneObject(LEVEL_STAGE_2, strLayerTag, TEXT("Prototype_GameObject_NewMold_C"), &desc)))
 			return E_FAIL;
 	}

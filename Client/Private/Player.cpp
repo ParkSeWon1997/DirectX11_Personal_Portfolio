@@ -71,21 +71,21 @@ HRESULT CPlayer::Initialize(void* pArg)
 		m_Ability.fHp = 50.f;
 		m_Ability.fMaxHp = 100.f;
 		m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_Z] = 0.0f;
-		m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X] = 0.0f;		//4
-		m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_C] = 0.0f;		//5
-		m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X_C] = 00.0f;	//30
+		m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X] = 4.0f;		//4
+		m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_C] = 5.0f;		//5
+		m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X_C] = 20.0f;	//30
 		m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_Z_SPACE] = 7.0f;
 
 		m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_Z] = 0.0f;
-		m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X] = 0.0f;		//4
-		m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_C] = 0.0f;		//5
-		m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X_C] = 00.0f;	//30
+		m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X] = 4.0f;		//4
+		m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_C] = 5.0f;		//5
+		m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X_C] = 20.0f;	//30
 		m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_Z_SPACE] = 7.0f;
 
 
 
-		m_Ability.eSwordMasterType = SWORD_REVERSE;
-		m_Ability.eGunSlingerType = GUN_BALANCE;
+		m_Ability.eSwordMasterType = SWORD_BALANCE;
+		m_Ability.eGunSlingerType = GUN_POWER;
 
 		m_Ability.bIsFirstData = true;
 		CTotalSingleton::GetInstance()->SetPlayerAbility(m_Ability);
@@ -146,7 +146,7 @@ void CPlayer::Tick(_float fTimeDelta)
 				pUi_Skill->Set_SkillCoolTime(m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_C],5.0f ,m_Ability.bAmandaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_C]);
 				break;
 			case 2:
-				pUi_Skill->Set_SkillCoolTime(m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X_C],30.f ,m_Ability.bAmandaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_X_C]);
+				pUi_Skill->Set_SkillCoolTime(m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X_C],20.f ,m_Ability.bAmandaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_X_C]);
 				break;
 			default:
 				break;
@@ -169,13 +169,11 @@ void CPlayer::Tick(_float fTimeDelta)
 				pUi_Skill->Set_SkillCoolTime(m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_C],5.0f, m_Ability.bMatildaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_C]);
 				break;
 			case 5:
-				pUi_Skill->Set_SkillCoolTime(m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X_C],30.f, m_Ability.bMatildaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_X_C]);
+				pUi_Skill->Set_SkillCoolTime(m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X_C],20.f, m_Ability.bMatildaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_X_C]);
 				break;
 			default:
 				break;
 			}
-
-
 
 			pUi_Skill->Set_SkillNum(m_Ability.eSwordMasterType);
 		}
@@ -321,6 +319,7 @@ void CPlayer::Tick(_float fTimeDelta)
 		{
 			dynamic_cast<Matilda_Body_Player*>(pPartObject)->SetAnimState(m_eCurState);
 			dynamic_cast<Matilda_Body_Player*>(pPartObject)->SetAttackType(m_eSwordMasterType);
+			//dynamic_cast<Matilda_Body_Player*>(pPartObject)->SetGunSlingerType(m_eGunSlingerType);
 			dynamic_cast<Matilda_Body_Player*>(pPartObject)->SetCharacterType(m_eCharacterType);
 
 		}
@@ -328,9 +327,10 @@ void CPlayer::Tick(_float fTimeDelta)
 		{
 
 			
-				dynamic_cast<Amanda_Body_Player*>(pPartObject)->SetAnimState(m_eCurState);
-				dynamic_cast<Amanda_Body_Player*>(pPartObject)->SetAttackType(m_eSwordMasterType);
-				dynamic_cast<Amanda_Body_Player*>(pPartObject)->SetCharacterType(m_eCharacterType);
+			dynamic_cast<Amanda_Body_Player*>(pPartObject)->SetAnimState(m_eCurState);
+			dynamic_cast<Amanda_Body_Player*>(pPartObject)->SetAttackType(m_eSwordMasterType);
+			//dynamic_cast<Amanda_Body_Player*>(pPartObject)->SetGunSlingerType(m_eGunSlingerType);
+			dynamic_cast<Amanda_Body_Player*>(pPartObject)->SetCharacterType(m_eCharacterType);
 		}
 
 		pPartObject->Tick(fTimeDelta);
@@ -367,7 +367,10 @@ void CPlayer::Tick(_float fTimeDelta)
 			// 지정된 위치에 없는 경우에만 플레이어 위치 변경
 			if (fMonsetPos.x >= -24.0f && fMonsetPos.x <= 24.0f && fMonsetPos.z >= 0.0f && fMonsetPos.z <= 48.0f)
 			{
-				m_pTransformCom->Go_Teleport(vMonsterPos, m_pNavigationCom);
+				
+
+
+				m_pTransformCom->Go_Teleport(XMVectorSet(fMonsetPos.x,0.0f, fMonsetPos.z,1.0f), m_pNavigationCom);
 			}
 
 			vecDesc.push_back({ CParticle_Mesh::PARTICLE_TYPE::PARTICLE_TYPE_SIZE_UP_Z,TEXT("Player_Power_XC_Matilda_Trace_Size_Up_Z"),_float4(0.1f,0.2f,1.0f,0.3f)});
@@ -446,12 +449,41 @@ void CPlayer::Late_Tick(_float fTimeDelta)
 			if (!pBullet->Get_IsCollision() && pBullet->Intersect(TEXT("Com_Collider"), pPartObjCollider))
 			{
 				_float fDamage = pBullet->Get_Damage();
-				m_Ability.fHp -= fDamage;
-			
+				CTotalSingleton::GetInstance()->SetPlayerAbillty_AddHp(-fDamage);
 				pBullet->Set_IsCollision(true);
 			}
 		}
 	}
+
+
+
+
+
+	_uint iGtavityBulletLayerSize = m_pGameInstance->Get_LayerSize(CLoader::m_eNextLevel, TEXT("Layer_GravityBullet"));
+
+	for(_uint i=0;i<iGtavityBulletLayerSize;++i)
+	{
+		CBullet* pBullet = dynamic_cast<CBullet*>(m_pGameInstance->Get_Object(CLoader::m_eNextLevel, TEXT("Layer_GravityBullet"), i));
+		if (pBullet != nullptr)
+		{
+			if (pBullet->Intersect(TEXT("Com_Collider"), pPartObjCollider))
+			{
+				m_pTransformCom->Set_Speed(4.0f);
+			}
+			else
+			{
+				m_pTransformCom->Set_Speed(7.0f);
+			}
+			
+		}
+	}
+	if (iGtavityBulletLayerSize == 0)
+	{
+		m_pTransformCom->Set_Speed(7.0f);
+	}
+
+
+
 	
 
 	
@@ -633,6 +665,12 @@ void CPlayer::Set_CameraRotation(_float fAngle)
 
 }
 
+void CPlayer::Set_CameraCutScene(_bool bIsCutScene)
+{
+
+	dynamic_cast<CPlayerCamera*>(m_PartObjects[PART_CAMERA])->Set_CutScene(bIsCutScene);
+}
+
 void CPlayer::Move(_float fTimeDelta)
 {
 	_vector vUp = m_pTransformCom->Get_State(CTransform::STATE::STATE_UP);
@@ -711,7 +749,6 @@ void CPlayer::Move(_float fTimeDelta)
 			if (KEY_TAP(DIK_SPACE))
 			{
 				m_Ability.iDashCount--;
-				cout << m_Ability.iDashCount << endl;
 				m_eCurState = STATE_DASH;
 
 
@@ -736,9 +773,13 @@ void CPlayer::SetStatePressZ(_float fTimeDelta)
 			{
 				if (m_bIsMonsterHave)
 				{
+					if ((CLoader::m_eNextLevel == LEVEL_STAGE_3) == false)
+					{
+						_vector vCloseTargetPos2D = XMVectorSet(XMVectorGetX(m_vCloseTargetPos), 0.0f, XMVectorGetZ(m_vCloseTargetPos), 1.0f);
+						_vector vLook = vCloseTargetPos2D - m_pTransformCom->Get_State(CTransform::STATE::STATE_POSITION);
 
-					_vector vCloseTargetPos2D = XMVectorSet(XMVectorGetX(m_vCloseTargetPos), 0.0f, XMVectorGetZ(m_vCloseTargetPos), 1.0f);
-					m_pTransformCom->LookAt(vCloseTargetPos2D);
+						m_pTransformCom->Set_Look(vLook);
+					}
 				}
 				//m_pTransformCom->Set_Look(m_vCloseTargetDir);
 				m_pGameInstance->Play_Sound_Z(TEXT("SFX_Slash001 [1].wav"), SOUND_EFFECT, 0.5f);
@@ -746,41 +787,44 @@ void CPlayer::SetStatePressZ(_float fTimeDelta)
 				m_Ability.iComboCount++;
 			}
 		}	
-
 		else if (m_Ability.iComboCount == 1)
 		{
 			if (m_bNextAttack)
 			{
 				if (m_bIsMonsterHave)
 				{
-					_vector vCloseTargetPos2D = XMVectorSet(XMVectorGetX(m_vCloseTargetPos), 0.0f, XMVectorGetZ(m_vCloseTargetPos), 1.0f);
-					m_pTransformCom->LookAt(vCloseTargetPos2D);
+					if ((CLoader::m_eNextLevel == LEVEL_STAGE_3) == false)
+					{
+						_vector vCloseTargetPos2D = XMVectorSet(XMVectorGetX(m_vCloseTargetPos), 0.0f, XMVectorGetZ(m_vCloseTargetPos), 1.0f);
+						_vector vLook = vCloseTargetPos2D - m_pTransformCom->Get_State(CTransform::STATE::STATE_POSITION);
+
+						m_pTransformCom->Set_Look(vLook);
+					}
 				}
 				m_pGameInstance->Play_Sound_Z(TEXT("SFX_Slash002 [1].wav"), SOUND_EFFECT, 0.5f);
 				m_eCurState = STATE_COMBO_ATTACK_RIGHT;
 				m_Ability.iComboCount = 0;
 			}
 		}
-	
-
-
 		break;
 	case Client::CPlayer::CHRACTER_GUN_SLINGER:
-
 		if (m_Ability.iComboCount == 0)
 		{
-			
 			if (m_bIsFire)
 			{
-			
 				m_bIsFire = false;
 			}
 			if (m_bNextAttack)
 			{
 				if (m_bIsMonsterHave)
 				{
-					_vector vCloseTargetPos2D = XMVectorSet(XMVectorGetX(m_vCloseTargetPos), 0.0f, XMVectorGetZ(m_vCloseTargetPos), 1.0f);
-					m_pTransformCom->LookAt(vCloseTargetPos2D);
+					if ((CLoader::m_eNextLevel == LEVEL_STAGE_3)==false)
+					{
+						_vector vCloseTargetPos2D = XMVectorSet(XMVectorGetX(m_vCloseTargetPos), 0.0f, XMVectorGetZ(m_vCloseTargetPos), 1.0f);
+						_vector vLook = vCloseTargetPos2D - m_pTransformCom->Get_State(CTransform::STATE::STATE_POSITION);
+
+						m_pTransformCom->Set_Look(vLook);
+					}
 				}
 				m_pGameInstance->Play_Sound_Z(TEXT("SFX_Rifle001 [1].wav"), SOUND_EFFECT, 0.5f);
 					m_eCurState = STATE_ATTACK_SHOT;
@@ -790,14 +834,18 @@ void CPlayer::SetStatePressZ(_float fTimeDelta)
 		}
 		else if (m_Ability.iComboCount == 1)
 		{
-		
 				if (m_bNextAttack)
 				{
 					
 					if (m_bIsMonsterHave)
 					{
-						_vector vCloseTargetPos2D = XMVectorSet(XMVectorGetX(m_vCloseTargetPos), 0.0f, XMVectorGetZ(m_vCloseTargetPos), 1.0f);
-						m_pTransformCom->LookAt(vCloseTargetPos2D);
+						if ((CLoader::m_eNextLevel == LEVEL_STAGE_3) == false)
+						{
+							_vector vCloseTargetPos2D = XMVectorSet(XMVectorGetX(m_vCloseTargetPos), 0.0f, XMVectorGetZ(m_vCloseTargetPos), 1.0f);
+							_vector vLook = vCloseTargetPos2D - m_pTransformCom->Get_State(CTransform::STATE::STATE_POSITION);
+
+							m_pTransformCom->Set_Look(vLook);
+						}
 					}
 					m_pGameInstance->Play_Sound_Z(TEXT("SFX_Rifle002 [1].wav"), SOUND_EFFECT, 0.5f);
 					m_eCurState = STATE_ATTACK_SHOT_CRITICAL;
@@ -805,7 +853,6 @@ void CPlayer::SetStatePressZ(_float fTimeDelta)
 				}
 		}
 
-		
 		break;
 	case Client::CPlayer::CHRACTER_END:
 		break;
@@ -976,7 +1023,7 @@ void CPlayer::SetStatePressX(_float fTimeDelta)
 							CMineDesc.eCharacterType = m_eCharacterType;
 							CMineDesc.fDamage= 20.f;
 							m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet_Mine"), &CMineDesc);
-
+							m_pGameInstance->Play_Sound_Z(TEXT("SFX_Whoosh [1].wav"), SOUND_EFFECT, 0.4f);
 						}
 
 
@@ -1026,6 +1073,10 @@ void CPlayer::SetStatePressX(_float fTimeDelta)
 
 
 						}
+
+
+						m_pGameInstance->Play_Sound_Z(TEXT("SFX_Rifle015 [1].wav"), SOUND_EFFECT, 0.4f);
+
 
 						m_bIsJump = true;
 						m_eCurState = STATE_BACKSTEP;
@@ -1082,10 +1133,6 @@ void CPlayer::SetStatePressC(_float fTimeDelta)
 
 						CParticle_Mesh::Make_Particle(vecDesc, XMVectorSet(this->Get_Position().x, this->Get_Position().y, this->Get_Position().z, 1.0f), -vPlayerLook);
 
-
-						
-
-
 						break;
 					case Client::CPlayer::SWORD_POWER:
 						if (m_bIsMonsterHave)
@@ -1135,6 +1182,10 @@ void CPlayer::SetStatePressC(_float fTimeDelta)
 						CSwordThowDesc.fLifeTime = 1.f;
 						CSwordThowDesc.fDamage = 10.f;
 						m_pGameInstance->Add_CloneObject(CLoader::m_eNextLevel, TEXT("Layer_2_Player_Bullet"), TEXT("Prototype_GameObject_PlayerBullet"), &CSwordThowDesc);
+
+
+						m_pGameInstance->Play_Sound_Z(TEXT("SFX_Explosion003 [1].wav"), SOUND_EFFECT, 0.4f);
+
 						m_eCurState = STATE_ATTACK_DASH_BUCK;
 						m_bIsJump = true;
 						break;
@@ -1156,9 +1207,6 @@ void CPlayer::SetStatePressC(_float fTimeDelta)
 		default:
 			break;
 		}
-		
-
-
 		
 
 	}
@@ -1214,13 +1262,20 @@ void CPlayer::SetStatePress_X_C(_float fTimeDelta)
 					case Client::CPlayer::GUN_BALANCE:
 						if (m_bIsMonsterHave)
 						{
-							_vector vCloseTargetPos2D = XMVectorSet(XMVectorGetX(m_vCloseTargetPos), 0.0f, XMVectorGetZ(m_vCloseTargetPos), 1.0f);
-							m_pTransformCom->LookAt(vCloseTargetPos2D);
+							if (!CLoader::m_eNextLevel == LEVEL_STAGE_3)
+							{
+								_vector vCloseTargetPos2D = XMVectorSet(XMVectorGetX(m_vCloseTargetPos), 0.0f, XMVectorGetZ(m_vCloseTargetPos), 1.0f);
+								_vector vLook = vCloseTargetPos2D - m_pTransformCom->Get_State(CTransform::STATE::STATE_POSITION);
+
+								m_pTransformCom->Set_Look(vLook);
+							}
 						}
 						m_eCurState = STATE_ATTACK_ULTIMATE_BALANCE;
 						break;
 					case Client::CPlayer::GUN_TECHNNIC:
 						MakeDrone(3, 5.0f, TEXT("CubeDroneBullet"));
+						m_pGameInstance->Play_Sound_Z(TEXT("SFX_Dodge [1].wav"), SOUND_EFFECT, 0.7f);
+						m_pGameInstance->Play_Sound_Z(TEXT("SFX_Drone [1].wav"), SOUND_EFFECT, 0.7f);
 						m_eCurState = STATE_ATTACK_ULTIMATE_TECHNIC;
 						break;
 					case Client::CPlayer::GUN_POWER:
@@ -1469,7 +1524,7 @@ void CPlayer::CheckCoolTime(_float fTimeDelta)
 		if (m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X] <= 0.0f)
 		{
 			m_Ability.bMatildaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_X] = false;
-			m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X] = 0.0f;	//4
+			m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X] = 4.0f;	//4
 		}
 		else
 		{
@@ -1482,7 +1537,7 @@ void CPlayer::CheckCoolTime(_float fTimeDelta)
 		if (m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_C] <= 0.0f)
 		{
 			m_Ability.bMatildaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_C] = false;
-			m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_C] = 0.0f;//5
+			m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_C] = 5.0f;//5
 		}
 		else
 		{
@@ -1495,7 +1550,7 @@ void CPlayer::CheckCoolTime(_float fTimeDelta)
 		if (m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X_C] <= 0.0f)
 		{
 			m_Ability.bMatildaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_X_C] = false;
-			m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X_C] = 0.0f;	//30
+			m_Ability.fMatildaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X_C] = 20.0f;	//20
 		}
 		else
 		{
@@ -1514,7 +1569,7 @@ void CPlayer::CheckCoolTime(_float fTimeDelta)
 		if (m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X] <= 0.0f)
 		{
 			m_Ability.bAmandaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_X] = false;
-			m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X] = 0.0f;	//4
+			m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X] = 4.0f;	//4
 		}
 		else
 		{
@@ -1527,7 +1582,7 @@ void CPlayer::CheckCoolTime(_float fTimeDelta)
 		if (m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_C] <= 0.0f)
 		{
 			m_Ability.bAmandaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_C] = false;
-			m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_C] = 0.0f;	//5
+			m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_C] = 5.0f;	//5
 		}
 		else
 		{
@@ -1540,7 +1595,7 @@ void CPlayer::CheckCoolTime(_float fTimeDelta)
 		if (m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X_C] <= 0.0f)
 		{
 			m_Ability.bAmandaSkillCoolTimeOn[Player_Abililty::COOL_TIME_SKILL_X_C] = false;
-			m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X_C] = 00.0f;	//30
+			m_Ability.fAmandaSkillCoolTime[Player_Abililty::COOL_TIME_SKILL_X_C] = 20.0f;	//30
 		}
 		else
 		{
@@ -1550,24 +1605,12 @@ void CPlayer::CheckCoolTime(_float fTimeDelta)
 	}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 void CPlayer::CloseTargetPos(_float fTimeDelta)
 {
 	CGameObject* pCloseObject = nullptr;
-	float fClosestDistance = FLT_MAX;
+	float fClosestDistance = 20.f;
 	_vector vPlayerPos = this->Get_PositionVector();
 
 

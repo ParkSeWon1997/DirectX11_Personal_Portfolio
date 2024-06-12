@@ -277,7 +277,7 @@ PS_OUT PS_MAIN_DEFERRED_RESULT(PS_IN In)
 	
     float fLightOldDepth = vLightDepthDesc.x * 1000.f;
 	
-    if (fLightOldDepth + 0.1f < vLightPos.w)
+    if (fLightOldDepth + 0.8f < vLightPos.w)
         Out.vColor = vector(Out.vColor.rgb * 0.5f, 1.f);
 
 	return Out;

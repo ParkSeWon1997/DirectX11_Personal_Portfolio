@@ -165,7 +165,7 @@ public:
 	void Set_CameraShake(_bool bIsCutScene,_float fShakeTime);
 	void Set_CameraTargetPos(_vector vTargetPos);
 	void Set_CameraRotation(_float fAngle);
-
+	void Set_CameraCutScene(_bool bIsCutScene);
 
 
 private:

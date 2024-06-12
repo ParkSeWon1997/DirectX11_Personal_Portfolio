@@ -59,6 +59,7 @@ protected:
 
 private:
 	_tchar					m_szCoin[MAX_PATH] = TEXT("");
+	_tchar					m_szTime[MAX_PATH] = TEXT("");
 private:
 	virtual HRESULT Add_Components();
 	virtual HRESULT Bind_ShaderResources();

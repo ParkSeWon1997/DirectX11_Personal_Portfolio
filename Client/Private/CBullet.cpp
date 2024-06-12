@@ -58,6 +58,9 @@ void CBullet::Tick(_float fTimeDelta)
 
 	if(m_pModelCom!=nullptr)
 		m_pModelCom->Play_Animation(fTimeDelta);
+
+	if(m_pColliderCom!=nullptr)
+		m_pColliderCom->Tick(m_pTransformCom->Get_WorldMatrix());
 }
 
 void CBullet::Late_Tick(_float fTimeDelta)

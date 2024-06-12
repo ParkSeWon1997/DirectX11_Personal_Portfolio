@@ -30,6 +30,7 @@
 #include"CHandBoss.h"
 #include"CBoneCollider.h"
 #include"CHandBullet.h"
+#include"CGravityBullet.h"
 #include"CMold_CBullet.h"
 #include"CBoss_B_Bullet.h"
 #include"CNoneTexBullet.h"
@@ -428,6 +429,13 @@ HRESULT CLoader::Loading_For_LogoLevel()
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CMold_Bullet"),
 		CMold_CBullet::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Gravity_Bullet"),
+		CGravityBullet::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+
+
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CSegment"),
 		CSegment::Create(m_pDevice, m_pContext))))
@@ -1367,8 +1375,8 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 		return E_FAIL;
 
 	/*Objects_CutScene*/
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Sequence_M_130525"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Sequence_M_130525/Sequence_M.fbx"))))
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Sequence_F"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Sequence_F/Sequence_F.fbx"))))
 		return E_FAIL;
 
 
@@ -2055,12 +2063,15 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Object_Dead_Dead_2_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Dead/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Object_Dead_Dead_2_Spread"))))))
 		return E_FAIL;
-
-
 #pragma endregion
 
+#pragma region Boss_Dead
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Object_Boss_Dead_Dead_2_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Dead/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Object_Boss_Dead_Dead_2_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Object_Boss_Dead_Dead_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Dead/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Object_Boss_Dead_Dead_Spread"))))))
+		return E_FAIL;
 
-
+#pragma endregion
 
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("UpgradeMachine_Sizeup"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/TimeStop.fbx", Make_ParticleDesc(TEXT("UpgradeMachine_Sizeup"))))))
@@ -2923,8 +2934,8 @@ HRESULT CLoader::Loading_For_Stage_1()
 
 
 	/*Objects_CutScene*/
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Sequence_M_130525"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Sequence_M_130525/Sequence_M.fbx"))))
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Sequence_F"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Sequence_F/Sequence_F.fbx"))))
 		return E_FAIL;
 
 
@@ -3638,7 +3649,13 @@ HRESULT CLoader::Loading_For_Stage_1()
 
 #pragma endregion
 
+#pragma region Boss_Dead
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Object_Boss_Dead_Dead_2_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Dead/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Object_Boss_Dead_Dead_2_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_1, TEXT("Object_Boss_Dead_Dead_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Dead/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Object_Boss_Dead_Dead_Spread"))))))
+		return E_FAIL;
 
+#pragma endregion
 
 
 
@@ -4534,8 +4551,8 @@ HRESULT CLoader::Loading_For_Stage_2()
 		return E_FAIL;
 
 	/*Objects_CutScene*/
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_2, TEXT("Sequence_M_130525"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Sequence_M_130525/Sequence_M.fbx"))))
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_2, TEXT("Sequence_F"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Sequence_F/Sequence_F.fbx"))))
 		return E_FAIL;
 
 
@@ -5249,6 +5266,13 @@ HRESULT CLoader::Loading_For_Stage_2()
 
 #pragma endregion
 
+#pragma region Boss_Dead
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_2, TEXT("Object_Boss_Dead_Dead_2_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Dead/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Object_Boss_Dead_Dead_2_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_2, TEXT("Object_Boss_Dead_Dead_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Dead/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Object_Boss_Dead_Dead_Spread"))))))
+		return E_FAIL;
+
+#pragma endregion
 
 
 
@@ -6140,8 +6164,8 @@ HRESULT CLoader::Loading_For_Stage_3()
 		return E_FAIL;
 
 	/*Objects_CutScene*/
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_3, TEXT("Sequence_M_130525"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Sequence_M_130525/Sequence_M.fbx"))))
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_3, TEXT("Sequence_F"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Sequence_F/Sequence_F.fbx"))))
 		return E_FAIL;
 
 
@@ -6854,6 +6878,14 @@ HRESULT CLoader::Loading_For_Stage_3()
 #pragma endregion
 
 
+#pragma region Boss_Dead
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_3, TEXT("Object_Boss_Dead_Dead_2_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Dead/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Object_Boss_Dead_Dead_2_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STAGE_3, TEXT("Object_Boss_Dead_Dead_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Dead/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Object_Boss_Dead_Dead_Spread"))))))
+		return E_FAIL;
+
+#pragma endregion
+
 
 
 
@@ -7438,8 +7470,8 @@ HRESULT CLoader::Loading_For_Change_Stage()
 		return E_FAIL;
 
 	/*Objects_CutScene*/
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Sequence_M_130525"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Sequence_M_130525/Sequence_M.fbx"))))
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Sequence_F"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Models/Sequence_F/Sequence_F.fbx"))))
 		return E_FAIL;
 
 
@@ -8116,6 +8148,13 @@ HRESULT CLoader::Loading_For_Change_Stage()
 
 #pragma endregion
 
+#pragma region Boss_Dead
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Object_Boss_Dead_Dead_2_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Dead/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Object_Boss_Dead_Dead_2_Spread"))))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_CHANGE_STAGE, TEXT("Object_Boss_Dead_Dead_Spread"), CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Object/Particle/Effect/Dead/LowpolySphere16.fbx", Make_ParticleDesc(TEXT("Object_Boss_Dead_Dead_Spread"))))))
+		return E_FAIL;
+
+#pragma endregion
 
 
 

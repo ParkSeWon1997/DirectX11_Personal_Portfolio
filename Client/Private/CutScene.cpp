@@ -34,7 +34,7 @@ HRESULT CutScene::Initialize(void * pArg)
 
 	if (pArg != nullptr)
 	{	
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(10.f,0.0f,10.f,1.0f));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(2000.f,0.0f,2000.f,1.0f));
 	}
 	//m_pParentMatrix = m_pTransformCom->Get_WorldFloat4x4();
 
@@ -49,8 +49,11 @@ void CutScene::Priority_Tick(_float fTimeDelta)
 
 void CutScene::Tick(_float fTimeDelta)
 {
+	static _int i = 0;
 
 
+
+	m_pModelCom->Set_AnimationIndex(CModel::ANIMATION_DESC(1, true));
 
 	m_pModelCom->Play_Animation(fTimeDelta);
 
@@ -92,7 +95,7 @@ HRESULT CutScene::Add_Components()
 {
 	
 	/* For.Com_Model */
-	if (FAILED(__super::Add_Component(CLoader::m_eNextLevel, TEXT("Sequence_M_130525"),
+	if (FAILED(__super::Add_Component(CLoader::m_eNextLevel, TEXT("Sequence_F"),
 		TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
 		return E_FAIL;
 

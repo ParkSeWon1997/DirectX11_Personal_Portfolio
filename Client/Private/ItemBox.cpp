@@ -67,7 +67,7 @@ void CItemBox::Priority_Tick(_float fTimeDelta)
 void CItemBox::Tick(_float fTimeDelta)
 {		
 	m_fHitTime+=fTimeDelta;
-	if (m_fHitTime > 0.8f)
+	if (m_fHitTime > 0.5f)
 	{
 		m_bIsHit=false;
 		m_fHitTime=0.f;
@@ -104,10 +104,7 @@ void CItemBox::Late_Tick(_float fTimeDelta)
 		{
 			_float fDamage = pPlayer->GetDamage();
 			pPlayer->SetIsCollision(true);
-			if (m_fHp > 0.f)
-			{
-				m_fHp -= fDamage;
-			}
+			m_fHp -= 10.f;
 			m_bIsHit = true;
 		
 		}
@@ -129,7 +126,7 @@ void CItemBox::Late_Tick(_float fTimeDelta)
 				if (m_fHp > 0.f)
 				{
 
-					m_fHp -= fDamage;
+					m_fHp -= 10.f;
 				}
 				m_bIsHit = true;
 			}
